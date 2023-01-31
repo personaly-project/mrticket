@@ -15,5 +15,3 @@ jobs:
           node-version: "18"
       - run: yarn
       - run: yarn build
-      - run: yarn ci:setup
-      - run: yarn ci

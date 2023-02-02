@@ -1,6 +1,6 @@
 import prisma from "./prisma";
-import { Venue } from "@prisma/client";
-import { INewVenueSrcData, ISearchQ } from "@/lib/types";
+import { Ticket, Venue } from "@prisma/client";
+import { INewTicketSrcData, INewVenueSrcData, ISearchQ } from "@/lib/types";
 
 const sampleVenue: Venue = {
     address: "sampleVenueAddress",
@@ -64,9 +64,20 @@ const getVenuesSearch = async (q: ISearchQ<string>): Promise<Venue[]> => {
     throw new Error(`${q.target} is not a valid property`)
 }
 
+const updateTicket = async (update: INewTicketSrcData, ticketId: string): Promise<Ticket> => {
+    const updated = await prisma.ticket.update({
+        where: {
+            id: ticketId
+        },
+        data: update
+    })
+    return updated
+}
+
 export const venuesApi = {
     createVenue,
     getVenue,
     getVenuesOnCity,
-    getVenuesSearch
+    getVenuesSearch,
+    updateTicket
 }

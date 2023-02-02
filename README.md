@@ -1,3 +1,26 @@
+## Figma files
+
+Eisenhower Matrix
+
+https://www.figma.com/file/4HIjhdxzAtUPTkaZ7WTeCF/Ticketweb?node-id=1%3A269&t=t6l1OfAza779Pprn-0
+
+
+Wireframe/Design Draft
+
+https://www.figma.com/file/WjQQVvxNg1xoh8f4uOWnDY/Mister-Ticket?node-id=0%3A1&t=4TJ7pRWwKyeT60oZ-0
+
+## Excelidraw
+
+Data Model/Api Route/Purchase Flow
+
+https://excalidraw.com/#room=76fdbe0ea70e205138f8,XUJnC2x6FeVHqnsg0DWzgA
+
+
+##
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

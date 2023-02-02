@@ -1,6 +1,7 @@
 import { Event as PEvent } from "@prisma/client";
 import prisma from "./prisma";
-import { ISearchQ, INewEventSrcData } from "@/lib/types";
+import { ISearchQ, INewEventSrcData, IEvent } from "@/lib/types";
+import { venuesApi } from "./venues";
 
 const sampleEvent: PEvent = {
     date: new Date(Date.now()),
@@ -14,41 +15,19 @@ const sampleEvent: PEvent = {
 }
 
 const getEvent = async (eventId: string): Promise<PEvent> => {
-
     const event = await prisma.event.findUniqueOrThrow({
         where: {
             id: eventId
         },
         include: {
-            venue: {
-                select: {
-                    city: true,
-                    country: true,
-                    timezone: true,
-                    state: true,
-                    name: true,
-                    placeType: true,
-                    id: true,
-                    venueSpecs: true
-                }
-            },
+            venue: true,
             tickets: {
-                select: {
-                    buyerEmail: true,
-                    depositOn: true,
-                    id: true,
-                    eventId: true,
-                    imgs: true,
-                    price: true,
-                    title: true
-                },
                 where: {
                     sold: false
                 }
             }
         }
     })
-
     return event
 }
 
@@ -78,9 +57,15 @@ const createEvent = async (src: INewEventSrcData): Promise<PEvent> => {
     return newEvent
 }
 
+const getEventsOnCity = async (city: string, country: string): Promise<IEvent[]> => {
+    const venuesOnCity = await venuesApi.getVenuesOnCity(city, country)
+    return venuesOnCity.reduce((acc: IEvent[], current) => { return [...acc, ...current.events] }, [])
+}
+
 
 export const eventsApi = {
     getEvent,
     getEventsSearch,
-    createEvent
+    createEvent,
+    getEventsOnCity
 }

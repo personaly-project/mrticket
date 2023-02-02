@@ -1,0 +1,969 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Mr Ticket",
+    "description": "Tickets resale platform ",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "mai@mail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.1"
+  },
+  "tags": [
+    {
+      "name": "user",
+      "description": "User related"
+    },
+    {
+      "name": "auth",
+      "description": "authenicated user"
+    },
+    {
+      "name": "ticket",
+      "description": "ticket related"
+    }
+  ],
+  "paths": {
+    "/api/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Users login",
+        "description": "logs in an user based in password and email",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "bad credentials"
+          }
+        }
+      }
+    },
+    "/api/signup": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "User signup",
+        "description": "Register user into the app",
+        "operationId": "signup",
+        "requestBody": {
+          "description": "user data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      }
+    },
+    "/api/user/{userId}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "Get authenticated user",
+        "description": "Register user into the app",
+        "operationId": "get_authenticated_user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the authenticated user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "405": {
+            "description": "Not allowed"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "update user info",
+        "operationId": "update_authenticated_user_info",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the authenticated user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "user data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserInfoReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User info updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "405": {
+            "description": "Not allowed"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "delete user",
+        "description": "Register user into the app",
+        "operationId": "delete_authenticated_user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the authenticated user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User registered"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "405": {
+            "description": "Not allowed"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      }
+    },
+    "/api/user/{userId}/preferences": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "summary": "update authenticated user preferences",
+        "operationId": "update_authenticated_user_preferences",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the authenticated user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "user data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPreference"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User info updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPreference"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "405": {
+            "description": "Not allowed"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      }
+    },
+    "/api/user/{userId}/tickets": {
+      "get": {
+        "tags": [
+          "ticket",
+          "user",
+          "auth"
+        ],
+        "summary": "get authenticated user's tickets",
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "operationId": "get_authenticated_user_tickets",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the authenticated user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User info updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthUserTicketsResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "405": {
+            "description": "Not allowed"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ticket",
+          "user",
+          "auth"
+        ],
+        "summary": "user upload and sets a new ticket for sale",
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "operationId": "create_new_ticket",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the authenticated user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "authenticated user list a new ticket for sale",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNewTicketReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User info updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ticket"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "405": {
+            "description": "Not allowed"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      }
+    },
+    "/api/user/{userId}/tickets/{ticketId}": {
+      "get": {
+        "tags": [
+          "ticket",
+          "user",
+          "auth"
+        ],
+        "summary": "get authenticated user's tickets",
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "operationId": "get_authenticated_user_ticket",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the authenticated user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ticketId",
+            "in": "path",
+            "description": "ID of the ticket",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User info updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ticket"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "405": {
+            "description": "Not allowed"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ticket",
+          "user",
+          "auth"
+        ],
+        "summary": "updates an authenticated user ticket",
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "operationId": "update_ticket",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the authenticated user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ticketId",
+            "in": "path",
+            "description": "ID of the ticket",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "authenticated user list a new ticket for sale",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNewTicketReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User info updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ticket"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "405": {
+            "description": "Not allowed"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      }
+    },
+    "/api/user/{userId}/tickets/recommended": {
+      "get": {
+        "tags": [
+          "ticket",
+          "user",
+          "auth"
+        ],
+        "summary": "get authenticated user's tickets",
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "operationId": "get_authenticated_user_recommended_tickets",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the authenticated user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User info updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthUserTicketsResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "405": {
+            "description": "Not allowed"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      }
+    },
+    "/api/tickets/recommended": {
+      "get": {
+        "tags": [
+          "ticket"
+        ],
+        "summary": "get recommended set of tickets",
+        "operationId": "get_recommended_tickets",
+        "responses": {
+          "200": {
+            "description": "default recommended tickets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ticket"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      }
+    },
+    "/api/tickets/{ticketId}": {
+      "post": {
+        "tags": [
+          "user",
+          "auth",
+          "ticket"
+        ],
+        "summary": "buy the ticket",
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "operationId": "buy_ticket",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "description": "ticket to buy unique id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "buyer payment information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User info updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ticket"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "internal error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Ticket": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "unique ticket id"
+          },
+          "sold": {
+            "type": "boolean",
+            "example": false
+          },
+          "sellerId": {
+            "type": "string",
+            "example": "unique user id of the owner"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32",
+            "example": 100
+          },
+          "ticket": {
+            "type": "string",
+            "example": "download url of the ticket"
+          },
+          "imgs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "url to img1",
+              "url to img2"
+            ]
+          },
+          "event": {
+            "$ref": "#/components/schemas/Event"
+          },
+          "buyerId": {
+            "type": "string",
+            "example": "unique id of the buyer of a sold ticket (only for mvp)"
+          }
+        }
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "eventType": {
+            "type": "string",
+            "example": "Stand up | Concert | Show"
+          },
+          "startHour": {
+            "type": "string",
+            "example": "22:00pm"
+          },
+          "date": {
+            "type": "string",
+            "example": "22-10-2023"
+          },
+          "title": {
+            "type": "string",
+            "example": "The super mega ultra thing global 2024"
+          },
+          "performers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Guest 1",
+              "Group",
+              "Guest 2"
+            ]
+          },
+          "venue": {
+            "$ref": "#/components/schemas/Venue"
+          },
+          "eventSpecs": {
+            "type": "string",
+            "example": "you can't come in crocs to this thing cause it makes the artist nervous"
+          },
+          "performanceType": {
+            "type": "string",
+            "example": "Stand up | Concert | Show"
+          }
+        }
+      },
+      "Venue": {
+        "type": "object",
+        "properties": {
+          "placeType": {
+            "type": "string",
+            "example": "theater | open air | museum | concert room | stadium"
+          },
+          "address": {
+            "type": "string",
+            "example": "somewhere"
+          },
+          "city": {
+            "type": "string",
+            "example": "Valencia"
+          },
+          "country": {
+            "type": "string",
+            "example": "Spain"
+          },
+          "state": {
+            "type": "string",
+            "example": "Valencia"
+          },
+          "timeZone": {
+            "type": "string",
+            "example": "time zone"
+          },
+          "name": {
+            "type": "string",
+            "example": "name of the place"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "User unique Id"
+          },
+          "profileInfo": {
+            "$ref": "#/components/schemas/UserData"
+          }
+        }
+      },
+      "UserData": {
+        "type": "object",
+        "required": [
+          "username",
+          "email",
+          "firstName",
+          "lastName"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "Lonely Juan"
+          },
+          "email": {
+            "type": "string",
+            "example": "user@mail.com"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Pepe"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Pepesson"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "+34 67890876"
+          },
+          "preferences": {
+            "$ref": "#/components/schemas/UserPreference"
+          }
+        }
+      },
+      "UserPreference": {
+        "type": "object",
+        "properties": {
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "jazz, classical"
+            ]
+          },
+          "eventTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Stand up, Concert, Show"
+            ]
+          },
+          "cities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Barcelona, Berlin"
+            ]
+          }
+        }
+      },
+      "LoginReq": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "userRawPassword"
+          }
+        }
+      },
+      "LoginResp": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "SignupReq": {
+        "type": "object",
+        "properties": {
+          "userData": {
+            "$ref": "#/components/schemas/UserData"
+          }
+        }
+      },
+      "SignupResp": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "UpdateUserInfoReq": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "Lonely Juan"
+          },
+          "email": {
+            "type": "string",
+            "example": "user@mail.com"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Pepe"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Pepesson"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "+34"
+          }
+        }
+      },
+      "AuthUserTicketsResp": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Ticket"
+        }
+      },
+      "CreateNewTicketReq": {
+        "type": "object",
+        "properties": {
+          "sellerId": {
+            "type": "string",
+            "example": "unique user id of the owner"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32",
+            "example": 100
+          },
+          "ticket": {
+            "type": "string",
+            "example": "download url of the ticket"
+          },
+          "imgs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "url to img1",
+              "url to img2"
+            ]
+          },
+          "event": {
+            "$ref": "#/components/schemas/Event"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

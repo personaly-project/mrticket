@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts",
+    "shannon": true
   },
   "scripts": {
     "dev": "next dev",

@@ -13,3 +13,14 @@ export interface INewEventSrcData {
     venueId: string;
 }
 
+export interface INewTicketSrcData {
+    title: string,
+    ticket: string,
+    sold: boolean,
+    depositOn: number,
+    price: number,
+    imgs: string[],
+    buyerEmail?: string,
+    eventId: string
+}
+

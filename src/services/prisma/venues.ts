@@ -1,6 +1,6 @@
 import prisma from "./prisma";
 import { Venue } from "@prisma/client";
-import { INewVenueSrcData } from "@/lib/types";
+import { INewVenueSrcData, ISearchQ } from "@/lib/types";
 
 const sampleVenue: Venue = {
     address: "sampleVenueAddress",
@@ -48,8 +48,25 @@ const getVenuesOnCity = async (country: string, city: string) => {
     return venues
 }
 
+const getVenuesSearch = async (q: ISearchQ<string>): Promise<Venue[]> => {
+    if (q.target === "id") throw new Error("this is the wrong method to make a get by id req, refer to getEvent")
+    if (q.target in sampleVenue) {
+        const venues = await prisma.venue.findMany({
+            where: {
+                [q.target]: q.value
+            },
+            include: {
+                events: true
+            }
+        })
+        return venues
+    }
+    throw new Error(`${q.target} is not a valid property`)
+}
+
 export const venuesApi = {
     createVenue,
     getVenue,
-    getVenuesOnCity
+    getVenuesOnCity,
+    getVenuesSearch
 }

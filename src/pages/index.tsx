@@ -1,7 +1,14 @@
-import Head from 'next/head'
-import { GetServerSideProps } from 'next'
+/** @format */
+
+import Head from "next/head";
+import { GetServerSideProps } from "next";
 
 export default function Home() {
+  interface IStripe {
+    sessionId: string;
+    publishableKey: string;
+  }
+
   return (
     <>
       <Head>
@@ -10,9 +17,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-
-      </main>
+      <main></main>
     </>
-  )
+  );
 }

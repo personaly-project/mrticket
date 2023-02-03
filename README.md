@@ -1,5 +1,8 @@
 > **_NOTE:_**  To use seed your local db, instal missing dependencies first with yarn, then do npx prisma migrate dev so the db tables would update to the current schema and prisma will auto run the seed script
 
+## Project Management - Linear
+https://linear.app/ticketsweb/team/TIC/all
+
 ## Figma files
 
 Eisenhower Matrix

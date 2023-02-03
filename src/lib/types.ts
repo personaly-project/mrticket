@@ -1,3 +1,14 @@
+export interface IEvent {
+    id: string;
+    eventType: string;
+    startHour: Date;
+    date: Date;
+    title: string;
+    performers: string[];
+    eventSpecs: string | null;
+    venueId: string;
+}
+
 export interface ISearchQ<T> {
     target: string
     value: T
@@ -13,3 +24,35 @@ export interface INewEventSrcData {
     venueId: string;
 }
 
+export interface INewTicketSrcData {
+    title: string,
+    ticket: string,
+    sold: boolean,
+    depositOn: number,
+    price: number,
+    imgs: string[],
+    buyerEmail?: string,
+    eventId: string
+}
+
+export interface INewVenueSrcData {
+    address: string,
+    city: string,
+    country: string,
+    id: string,
+    name: string,
+    placeType: string,
+    state: string,
+    timezone: string,
+    venueSpecs?: string
+}
+
+export interface ICity {
+    name: string,
+    events: IEvent[]
+}
+
+export interface ICountry {
+    name: string,
+    cities: ICity[]
+}

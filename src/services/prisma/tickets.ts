@@ -4,7 +4,7 @@ import { INewTicketSrcData, ISearchQ } from "@/lib/types";
 
 const sampleTicket: Ticket = {
     buyerEmail: null,
-    depositOn: 123456,
+    depositOn: "123456",
     eventId: "eventSampleId",
     id: "ticketSampleId",
     imgs: ["sampleImgUrl_1", "sampleImgUrl_2"],

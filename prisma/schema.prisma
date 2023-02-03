@@ -8,42 +8,40 @@ datasource db {
 }
 
 model Ticket {
-  id          String     @id @default(uuid())
-  title       String
-  ticket      String
-  sold        Boolean
-  depositOn   Int
-  price       Int
-  imgs        String[]
-  buyerEmail  String?
-  event       Event      @relation(fields: [eventId], references: [id])
-  eventId     String
+  id         String   @id @default(uuid())
+  title      String
+  ticket     String
+  sold       Boolean
+  depositOn  String
+  price      Int
+  imgs       String[]
+  buyerEmail String?
+  event      Event    @relation(fields: [eventId], references: [id])
+  eventId    String
 }
 
 model Event {
-  id          String    @id @default(uuid())
-  eventType   String
-  startHour   DateTime
-  date        DateTime
-  title       String
-  performers  String[]
-  eventSpecs  String?
-  tickets     Ticket[]
-  venue       Venue     @relation(fields: [venueId], references: [id])
-  venueId     String
+  id         String   @id @default(uuid())
+  eventType  String
+  startHour  DateTime
+  date       DateTime
+  title      String
+  performers String[]
+  eventSpecs String?
+  tickets    Ticket[]
+  venue      Venue    @relation(fields: [venueId], references: [id])
+  venueId    String
 }
 
 model Venue {
-  id          String    @id @default(uuid())
-  placeType   String
-  address     String
-  city        String
-  country     String
-  state       String
-  timezone    String
-  name        String
-  events      Event[]
-  venueSpecs  String?
+  id         String  @id @default(uuid())
+  placeType  String
+  address    String
+  city       String
+  country    String
+  state      String
+  timezone   String
+  name       String
+  events     Event[]
+  venueSpecs String?
 }
-
-

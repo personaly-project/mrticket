@@ -33,7 +33,8 @@ const getVenue = async (venueId: string): Promise<Venue> => {
     return venue
 }
 
-const getVenuesOnCity = async (country: string, city: string) => {
+const getVenuesOnCity = async (city: string, country: string) => {
+    console.log(city, country)
     const venues = await prisma.venue.findMany({
         where: {
             city: city,

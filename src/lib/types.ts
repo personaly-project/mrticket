@@ -20,7 +20,7 @@ export interface INewEventSrcData {
     date: Date;
     title: string;
     performers: string[];
-    eventSpecs: string | null;
+    eventSpecs?: string;
     venueId: string;
 }
 
@@ -28,7 +28,7 @@ export interface INewTicketSrcData {
     title: string,
     ticket: string,
     sold: boolean,
-    depositOn: number,
+    depositOn: string,
     price: number,
     imgs: string[],
     buyerEmail?: string,
@@ -39,7 +39,6 @@ export interface INewVenueSrcData {
     address: string,
     city: string,
     country: string,
-    id: string,
     name: string,
     placeType: string,
     state: string,

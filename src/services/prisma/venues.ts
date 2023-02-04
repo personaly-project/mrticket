@@ -75,10 +75,16 @@ const updateTicket = async (update: INewTicketSrcData, ticketId: string): Promis
     return updated
 }
 
+const getAllVenues = async (): Promise<Venue[]> => {
+    const venues = await prisma.venue.findMany({})
+    return venues
+}
+
 export const venuesApi = {
     createVenue,
     getVenue,
     getVenuesOnCity,
     getVenuesSearch,
-    updateTicket
+    updateTicket,
+    getAllVenues
 }

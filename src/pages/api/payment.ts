@@ -15,30 +15,28 @@ const stripe = new Stripe(
     apiVersion: "2022-11-15",
   }
 );
-
 type Data = {
-  clientSecret: string | null;
-  err?: string;
-};
-
-type Body = {
   amount: number;
 };
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<any>
 ) {
   try {
-    const { amount }: Body = req.body;
+    const { amount }: Data = req.body;
     console.log(amount);
-    const payementIntent = await stripe.paymentIntents.create({
+    const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: "usd",
       receipt_email: "test@test.com",
       payment_method_types: ["card"],
     });
+    if (!paymentIntent) {
+      res.status(500);
+    }
 
-    res.status(200).json({ clientSecret: payementIntent.client_secret });
+    res.status(200).json({ clientSecret: paymentIntent.client_secret });
   } catch (err) {
     res.status(500);
   }

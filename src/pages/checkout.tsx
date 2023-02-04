@@ -2,13 +2,8 @@
 
 import Head from "next/head";
 import { GetServerSideProps } from "next";
-import StripeCheckout from "@/components/stripeCheckout";
+import StripeCheckout from "../components/stripeCheckout";
 export default function Home() {
-  interface IStripe {
-    sessionId: string;
-    publishableKey: string;
-  }
-
   return (
     <>
       <Head>

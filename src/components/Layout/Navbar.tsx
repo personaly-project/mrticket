@@ -7,7 +7,7 @@ const Navbar = () => {
       <Link href={'/'} >
         Navbar
       </Link>
-      <Link href={'/listATicket'} >
+      <Link href={'/listTicket'} >
         <p>List a ticket</p>
       </Link>
     </div>

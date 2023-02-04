@@ -2,7 +2,7 @@
 
 import Head from "next/head";
 import { GetServerSideProps } from "next";
-
+import StripeCheckout from "@/services/stripe/stripeCheckout";
 export default function Home() {
   return (
     <>
@@ -12,7 +12,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main></main>
+      <main>
+        <StripeCheckout />
+      </main>
     </>
   );
 }

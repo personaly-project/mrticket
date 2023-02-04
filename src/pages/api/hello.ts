@@ -20,8 +20,9 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
+    console.log(req.body);
     const payementIntent = await stripe.paymentIntents.create({
-      amount: 1000,
+      amount: 400,
       currency: "usd",
       receipt_email: "test@test.com",
       payment_method_types: ["card"],

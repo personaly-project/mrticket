@@ -52,8 +52,15 @@ const CheckoutForm: React.FC = () => {
 
   useEffect(() => {
     const getPaymentData = async () => {
-      const data = await fetch("/api/hello", {
+      const value = 400;
+      const data = await fetch("/api/payment", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: value,
+        }),
       }).then((res) => res.json());
 
       console.log(data);
@@ -68,21 +75,15 @@ const CheckoutForm: React.FC = () => {
         data.clientSecret
       );
 
-      // .then((res) => {
-      //   console.log("res", res);
-      //   return res;
-      // });
+      console.log(currentPaymentIntent);
       setPaymentIntent(currentPaymentIntent.paymentIntent);
-      console.log("paymentIntent", paymentIntent);
     };
     getPaymentData();
   }, []);
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
@@ -121,7 +122,8 @@ const CheckoutForm: React.FC = () => {
     } else {
       // The payment has been processed!
       confirmCardPayment.paymentIntent.status;
-      console.log("yeeeahaa the money is gonna start flowing to your account");
+
+      return window.location.replace("/success");
     }
   };
 

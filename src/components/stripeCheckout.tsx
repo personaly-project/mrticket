@@ -92,7 +92,7 @@ const CheckoutForm: React.FC = () => {
       console.log("[error] CardElement is not yet retrieved");
       return;
     }
-
+    //stripe card element
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: cardElement,

@@ -16,15 +16,20 @@ const stripe = new Stripe(
   }
 );
 
+type Data = {
+  clientSecret: string | null;
+  err?: string;
+};
+
+type Body = {
+  amount: number;
+};
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<any>
+  res: NextApiResponse<Data>
 ) {
-  type Data = {
-    amount: number;
-  };
   try {
-    const { amount }: Data = req.body;
+    const { amount }: Body = req.body;
     console.log(amount);
     const payementIntent = await stripe.paymentIntents.create({
       amount: amount,
@@ -35,6 +40,6 @@ export default async function handler(
 
     res.status(200).json({ clientSecret: payementIntent.client_secret });
   } catch (err) {
-    res.status(500).json({ name: err });
+    res.status(500);
   }
 }

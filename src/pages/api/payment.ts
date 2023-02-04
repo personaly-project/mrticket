@@ -9,12 +9,6 @@ const stripeConfig = {
   secretKey: process.env.STRIPE_SECRET_KEY,
   publicKey: process.env.STRIPE_PUBLIC_KEY,
 };
-const stripe = new Stripe(
-  "sk_test_51MWlLsGBL31qIrQExIrjz7aRXJWxfirJB6ABrOzfsccq55HZ3SNYIlDYP66Jv0pLk7WXq1eJkqaKFUlf0VoRnd0600sG0s3rKS",
-  {
-    apiVersion: "2022-11-15",
-  }
-);
 type Data = {
   amount: number;
 };
@@ -24,6 +18,13 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   try {
+    const secretKey = process.env.STRIPETEST_SKEY;
+    if (typeof secretKey !== "string") {
+      throw new Error("Stripe secret key is not a string");
+    }
+    const stripe = new Stripe(secretKey, {
+      apiVersion: "2022-11-15",
+    });
     const { amount }: Data = req.body;
     console.log(amount);
     const paymentIntent = await stripe.paymentIntents.create({

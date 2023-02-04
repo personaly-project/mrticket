@@ -2,7 +2,7 @@
 
 import Head from "next/head";
 import { GetServerSideProps } from "next";
-import StripeCheckout from "../services/prisma/stripeCheckout";
+import StripeCheckout from "@/services/stripe/stripeCheckout";
 export default function Home() {
   return (
     <>

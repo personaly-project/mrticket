@@ -3,6 +3,7 @@ import Stripe from "stripe";
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
+import { type } from "os";
 const stripeConfig = {
   apiVersion: "2020-08-27",
   secretKey: process.env.STRIPE_SECRET_KEY,
@@ -17,12 +18,16 @@ const stripe = new Stripe(
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<any>
 ) {
+  type Data = {
+    amount: number;
+  };
   try {
-    console.log(req.body);
+    const { amount }: Data = req.body;
+    console.log(amount);
     const payementIntent = await stripe.paymentIntents.create({
-      amount: 400,
+      amount: amount,
       currency: "usd",
       receipt_email: "test@test.com",
       payment_method_types: ["card"],

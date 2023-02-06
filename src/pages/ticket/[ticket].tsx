@@ -4,6 +4,7 @@ import { venuesApi } from "@/services/prisma/venues"
 import { eventsApi } from "@/services/prisma/events"
 import { ticketsApi } from "@/services/prisma/tickets"
 import { GetServerSideProps } from 'next'
+import Link from 'next/link'
 
 interface IPageProps {
   ticketData: Ticket,
@@ -23,7 +24,9 @@ const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
       <li>Performers: {eventData.performers}  </li>
       <li> {ticketData.price} </li>
 
-
+      <Link href={'/checkout'} >
+        <p> Pay now </p>
+      </Link>
 
     </ul>
   </div>

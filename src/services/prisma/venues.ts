@@ -1,5 +1,5 @@
 import prisma from "./prisma";
-import { Ticket, Venue } from "@prisma/client";
+import { Ticket, Venue, Event as PEvent } from "@prisma/client";
 import { INewTicketSrcData, INewVenueSrcData, ISearchQ } from "@/lib/types";
 
 const sampleVenue: Venue = {
@@ -21,7 +21,9 @@ const createVenue = async (src: INewVenueSrcData): Promise<Venue> => {
     return venue
 }
 
-const getVenue = async (venueId: string): Promise<Venue> => {
+const getVenue = async (venueId: string): Promise<Venue & {
+    events: PEvent[]
+}> => {
     const venue = await prisma.venue.findUniqueOrThrow({
         where: {
             id: venueId
@@ -34,7 +36,6 @@ const getVenue = async (venueId: string): Promise<Venue> => {
 }
 
 const getVenuesOnCity = async (city: string, country: string) => {
-    console.log(city, country)
     const venues = await prisma.venue.findMany({
         where: {
             city: city,

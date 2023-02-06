@@ -11,9 +11,9 @@ interface IPageProps {
 const listATicketPage: FC<IPageProps> = ({ venues }) => {
 
     return (
-        <div>
+        <>
             <ListATicket venues={venues} />
-        </div>
+        </>
     )
 }
 

@@ -1,39 +1,40 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Venue } from '@prisma/client'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useSelector } from '@/lib/hooks'
-import CreateVenueForm from './CreateVenueForm'
-import VenuesList from './VenuesList'
+import { Event as PEvent } from '@prisma/client'
+import EventsList from './EventsList'
+import CreateEventFrom from './CreateEventFrom'
 
 interface IProps {
-    venuesSrc: Venue[],
-    onSubmitVenue: (venue: Venue) => void,
+    eventsPool: PEvent[],
+    onSubmitEvent: (event: PEvent) => void,
     reset: () => void
 }
 
-const VenueSelector: React.FC<IProps> = ({ venuesSrc, onSubmitVenue }) => {
+const EventSelector: React.FC<IProps> = ({ eventsPool, onSubmitEvent }) => {
 
-    const [venue, selectFromExisting, makeNew, toggleMakeNew] = useSelector(venuesSrc)
+    const [event, selectFromExisting, makeNew, toggleMakeNew] = useSelector(eventsPool)
     const [confirmed, setConfirmed] = useState<boolean>(false)
 
     useEffect(() => {
-        if (!venue) {
+        if (!event) {
             setConfirmed(false)
         }
-    }, [venue])
+    }, [event])
 
     const onExistingConfirmed = useCallback(() => {
-        if (venue) {
+        if (event) {
             setConfirmed(true)
-            onSubmitVenue(venue)
+            onSubmitEvent(event)
         }
-    }, [venue, onSubmitVenue])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [event])
 
     return (
         <div>
             {
-                venue ? (
+                event ? (
                     <>
-                        <h3> Selected: {venue.name} {confirmed ? "Confirmed" : null} </h3>
+                        <h3> Selected: {event.title} {confirmed ? "Confirmed" : null} </h3>
                         <div className='flex flex-row items-center justify-around' >
                             <button onClick={toggleMakeNew} className='m-4 p-4 bg-red-500 rounded-md shadow text-white' >
                                 Reset
@@ -52,9 +53,9 @@ const VenueSelector: React.FC<IProps> = ({ venuesSrc, onSubmitVenue }) => {
                         </button>
                         {
                             makeNew ? (
-                                <CreateVenueForm onSubmit={onSubmitVenue} />
+                                <CreateEventFrom />
                             ) : (
-                                <VenuesList venuesSrc={venuesSrc} onSelection={selectFromExisting} />
+                                <EventsList eventsPool={eventsPool} onSelection={selectFromExisting} />
                             )
                         }
                     </>
@@ -64,4 +65,4 @@ const VenueSelector: React.FC<IProps> = ({ venuesSrc, onSubmitVenue }) => {
     )
 }
 
-export default VenueSelector
+export default EventSelector

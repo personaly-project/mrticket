@@ -26,7 +26,7 @@ export default async function handler(
       apiVersion: "2022-11-15",
     });
     const { amount }: Data = req.body;
-    console.log(amount);
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: "usd",

@@ -43,7 +43,7 @@ export interface INewVenueSrcData {
     placeType: string,
     state: string,
     timezone: string,
-    venueSpecs?: string
+    venueSpecs: string | null
 }
 
 export interface ICity {

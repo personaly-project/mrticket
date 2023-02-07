@@ -17,9 +17,7 @@ import {
 
 import { useEffect, useState } from "react";
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_SECRET!
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_SECRET!);
 
 export default function StripeCheckout() {
   interface IStripe {
@@ -36,9 +34,11 @@ export default function StripeCheckout() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Elements stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
+        {stripePromise && (
+          <Elements stripe={stripePromise}>
+            <CheckoutForm />
+          </Elements>
+        )}
       </main>
     </>
   );
@@ -53,17 +53,18 @@ const CheckoutForm: React.FC = () => {
 
   useEffect(() => {
     const getPaymentData = async () => {
-      const value = 400;
+      window.location.search.slice(1);
+      const ticketValue = parseInt(window.location.search.slice(1));
+
       const data = await fetch("/api/payment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          amount: value,
+          amount: ticketValue,
         }),
       }).then((res) => res.json());
-
 
       const stripe = await stripePromise;
       setClientSecret(data.clientSecret);

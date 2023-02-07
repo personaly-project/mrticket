@@ -1,3 +1,5 @@
+//moved to root to refactor, refactor in __test__/services/eventsApi.test.ts
+
 /** @format */
 import { PrismaClient, Ticket } from "@prisma/client";
 import {
@@ -8,13 +10,13 @@ import {
   beforeAll,
   afterAll,
 } from "@jest/globals";
-import { INewTicketSrcData, ISearchQ } from "@/lib/types";
+import { INewTicketSrcData, ISearchQ, IEvent } from "@/lib/types";
 
 import { Server } from "http";
-import { venuesApi } from "../src/services/prisma/venues";
-import { eventsApi } from "../src/services/prisma/events";
+import { venuesApi } from "./src/services/prisma/venues";
+import { eventsApi } from "./src/services/prisma/events";
 import { AxiosInstance } from "axios";
-import { ticketsApi } from "../src/services/prisma/tickets";
+import { ticketsApi } from "./src/services/prisma/tickets";
 
 const prisma = new PrismaClient();
 let server: Server;
@@ -161,9 +163,8 @@ describe("API", () => {
         eventType: "testEventType",
         venueId: "04add0d7-8d6f-489a-8b4e-500992146db5",
         performers: [],
-        startHour: "12:00",
-        date: "2020-12-12",
-        description: "testDescription",
+        startHour: new Date(Date.now()),
+        date: new Date(Date.now()),
       });
       expect(newEvent).toHaveProperty("id");
       expect(newEvent).toHaveProperty("title");

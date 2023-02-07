@@ -33,8 +33,11 @@ const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
           justifyContent: "center",
 
           backgroundColor: "white",
-          padding: "20px",
-          borderRadius: "5px",
+          padding: "25px",
+          borderRadius: "10px",
+          fontKerning: "normal",
+          wordBreak: "break-word",
+          fontSize: "24px",
           boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
         }}
       >
@@ -65,6 +68,7 @@ const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
               color: "white",
               padding: "10px",
               borderRadius: "5px",
+              border: "none",
             }}
           >
             {" "}

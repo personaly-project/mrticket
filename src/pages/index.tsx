@@ -2,6 +2,7 @@
 
 import Head from "next/head";
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -12,7 +13,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main></main>
+      <main>
+        <Link href={`/ticket/05c4af58-389d-408b-a017-6725d4b97766`} >
+          see ticket
+        </Link>
+      </main>
     </>
   );
 }

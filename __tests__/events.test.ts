@@ -11,8 +11,8 @@ import {
 import { INewTicketSrcData, ISearchQ } from "@/lib/types";
 
 import { Server } from "http";
-import { venuesApi } from "@/services/prisma/venues";
-// import { eventsApi } from "@/services/prisma";
+import { venuesApi } from "../src/services/prisma/venues";
+import { eventsApi } from "../src/services/prisma/events";
 import { AxiosInstance } from "axios";
 import { ticketsApi } from "../src/services/prisma/tickets";
 
@@ -20,7 +20,7 @@ const prisma = new PrismaClient();
 let server: Server;
 let api: AxiosInstance;
 
-// test tickets
+// TICKET TESTS
 
 describe("API", () => {
   describe("tickets", () => {
@@ -96,6 +96,94 @@ describe("API", () => {
       expect(searchTickets[0].price).toBeLessThan(101);
       expect(searchTickets[0].sold).toEqual(false);
       expect(searchTickets.length).toBeGreaterThan(0);
+    });
+  });
+
+  // EVENTS TESTS
+  describe("venues", () => {
+    test("Make a request for the info of 1 venue", async () => {
+      const venue = await venuesApi.getVenue(
+        "04add0d7-8d6f-489a-8b4e-500992146db5"
+      );
+      expect(venue).toHaveProperty("id");
+      expect(venue).toHaveProperty("name");
+    });
+    test("List a new venue", async () => {
+      const newVenue = await venuesApi.createVenue({
+        placeType: "testPlaceType",
+        address: "testAddress",
+        city: "testCity",
+        country: "testCountry",
+        name: "testName",
+        timezone: "testTimezone",
+        state: "testState",
+        venueSpecs: null,
+      });
+      expect(newVenue).toHaveProperty("id");
+      expect(newVenue).toHaveProperty("name");
+      expect(newVenue).toHaveProperty("address");
+      expect(newVenue).toHaveProperty("city");
+      expect(newVenue).toHaveProperty("state");
+      expect(newVenue).toHaveProperty("country");
+      expect(newVenue.name.length).toBeGreaterThan(0);
+      expect(newVenue.address.length).toBeGreaterThan(0);
+      expect(newVenue.city.length).toBeGreaterThan(0);
+      expect(newVenue.state.length).toBeGreaterThan(0);
+      expect(newVenue.country.length).toBeGreaterThan(0);
+    });
+    test("Search venues", async () => {
+      const searchVenues = await venuesApi.getVenuesSearch({
+        target: "",
+        value: "",
+      });
+      expect(searchVenues).toBeInstanceOf(Array);
+      expect(searchVenues[0].name).toEqual("testName");
+      expect(searchVenues[0].address).toEqual("testAddress");
+      expect(searchVenues[0].city).toEqual("testCity");
+      expect(searchVenues[0].state).toEqual("testState");
+      expect(searchVenues[0].country).toEqual("testCountry");
+      expect(searchVenues.length).toBeGreaterThan(0);
+    });
+  });
+
+  // EVENTS TESTS
+  describe("events", () => {
+    test("Make a request for the info of 1 event", async () => {
+      const event = await eventsApi.getEvent(
+        "04add0d7-8d6f-489a-8b4e-500992146db5"
+      );
+      expect(event).toHaveProperty("id");
+      expect(event).toHaveProperty("name");
+    });
+    test("List a new event", async () => {
+      const newEvent = await eventsApi.createEvent({
+        title: "testEventTitle",
+        eventType: "testEventType",
+        venueId: "04add0d7-8d6f-489a-8b4e-500992146db5",
+        performers: [],
+        startHour: "12:00",
+        date: "2020-12-12",
+        description: "testDescription",
+      });
+      expect(newEvent).toHaveProperty("id");
+      expect(newEvent).toHaveProperty("title");
+      expect(newEvent).toHaveProperty("date");
+      expect(newEvent).toHaveProperty("venueId");
+      expect(newEvent.venueId.length).toBeGreaterThan(0);
+      expect(newEvent.date).toContain("-");
+      expect(newEvent.startHour).toContain(":");
+    });
+    test("Search events", async () => {
+      const searchEvents = await eventsApi.getEventsSearch({
+        target: "",
+        value: "",
+      });
+      expect(searchEvents).toBeInstanceOf(Array);
+      expect(searchEvents.length).toBeGreaterThan(0);
+    });
+    test("Get event by city", async () => {
+      const getEventByCity = await eventsApi.getEventsOnCity("Spain", "Madrid");
+      expect(getEventByCity).toBeInstanceOf(Array);
     });
   });
 });

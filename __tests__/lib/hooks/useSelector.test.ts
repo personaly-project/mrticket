@@ -50,7 +50,7 @@ describe('useSelector hook', () => {
             const [_, selectExisting] = result.current
 
             act(() => {
-                selectExisting(10)
+                selectExisting(samplePool.length + 1)
             })
 
             expect(result.current[0]).toEqual(samplePool[samplePool.length - 1])

@@ -3,7 +3,7 @@ import React from "react";
 interface IProps {
   title: string;
   value: any;
-  type: string;
+  type?: string;
   listener: (src: any) => void;
   placeholder?: string;
 }
@@ -29,7 +29,7 @@ const Input: React.FC<IProps> = ({
         required
         placeholder={placeholder}
         className="p-1 border rounded border-slate-300"
-        type={type}
+        type={type ? type : "text"}
         value={value}
         onChange={onChange}
       />

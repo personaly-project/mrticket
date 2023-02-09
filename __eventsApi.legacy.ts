@@ -165,6 +165,7 @@ describe("API", () => {
         performers: [],
         startHour: new Date(Date.now()),
         date: new Date(Date.now()),
+        eventSpecs: null,
       });
       expect(newEvent).toHaveProperty("id");
       expect(newEvent).toHaveProperty("title");

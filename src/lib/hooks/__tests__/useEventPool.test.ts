@@ -2,40 +2,38 @@ import { renderHook, act } from "@testing-library/react-hooks";
 import { IEvent } from "@/lib/types";
 import { Venue } from "@prisma/client";
 import { useEventPool } from "@/lib/hooks";
-import { server } from "./helpers/server"
+import { createServer } from "./helpers/server"
 import "whatwg-fetch"
+import { createGetHandler } from "./helpers/server-handlers";
+import { SetupServerApi } from "msw/lib/node";
+import { createRandomEvent, createRandomVenue } from "@/lib/utils";
 
 let sampleVenueWithNoEvents: Venue
 let sampleVenueWithEvents: Venue
+let server: SetupServerApi
 
-beforeAll(() => server.listen())
+const TARGET_ID_WITH_EVENTS = "withEvents"
+const TARGET_ID_WITH_NO_EVENTS = "withNoEvents"
 
-afterAll(() => server.close())
+
+beforeAll(() => {
+
+    sampleVenueWithNoEvents = { ...createRandomVenue(), id: "1" }
+
+    sampleVenueWithEvents = { ...createRandomVenue(), id: "2" }
+
+    const successHandler = createGetHandler(`/api/venues/${TARGET_ID_WITH_EVENTS}/events`, sampleVenueWithEvents)
+    const server = createServer([successHandler])
+    server.listen()
+})
+
+afterAll(() => {
+    if (server) server.close()
+})
 
 describe("useEventPool hook", () => {
     beforeEach(() => {
-        sampleVenueWithNoEvents = {
-            id: "sampleID",
-            address: "address",
-            city: "city",
-            country: "country",
-            state: "state",
-            timezone: "timezone",
-            placeType: "placeType",
-            name: "name",
-            venueSpecs: null
-        }
-        sampleVenueWithEvents = {
-            id: "15",
-            address: "937 Halie Stravenue",
-            city: "Sunrise Manor",
-            country: "French Southern Territories",
-            state: "Idaho",
-            timezone: "America/Caracas",
-            placeType: "nisi temporibus",
-            name: "corrupti sit accusantium",
-            venueSpecs: null
-        }
+
 
 
     })

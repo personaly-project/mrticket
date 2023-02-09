@@ -15,7 +15,7 @@ const customJestConfig = {
     '^@/lib/(.*)$': '<rootDir>/src/lib/$1',
     '^@/pages/(.*)$': '<rootDir>/src/pages/$1',
   },
-   modulePathIgnorePatterns: ['helpers/*'],
+  modulePathIgnorePatterns: ['__tests__/helpers/*'],
   testEnvironment: 'jest-environment-jsdom',
 
 }

@@ -1,22 +1,21 @@
-import { Event as PEvent, Venue } from "@prisma/client";
+import { Venue } from "@prisma/client";
 import { useState, useEffect } from "react";
+import { IEvent } from "../types";
 
-type EventPoolData = {
-    eventPool: PEvent[] | undefined;
-    error: undefined | any;
+interface IEventPoolData {
+    eventPool?: IEvent[] | undefined;
+    error?: undefined | any;
     loading: boolean;
 };
 
-export function useEventPool(venue: Venue | null): EventPoolData {
-    const [eventPoolData, setEventPoolData] = useState({
-        eventPool: undefined,
+export function useEventPool(venue: Venue | null): IEventPoolData {
+    const [eventPoolData, setEventPoolData] = useState<IEventPoolData>({
         loading: false,
-        error: undefined,
     });
 
     useEffect(() => {
         if (!venue) return;
-        setEventPoolData({ eventPool: undefined, loading: true, error: undefined });
+        setEventPoolData({ loading: true });
         fetch(`/api/venues/${venue.id}/events`, {
             method: "GET",
             headers: {
@@ -25,15 +24,25 @@ export function useEventPool(venue: Venue | null): EventPoolData {
         })
             .then((resp) => resp.json())
             .then((events) => {
-                setEventPoolData({
-                    eventPool: events.eventPool,
-                    loading: false,
-                    error: undefined,
-                });
+                if (events.error) {
+                    setEventPoolData({
+                        eventPool: [] as IEvent[],
+                        loading: false,
+                        error: events.error
+                    })
+                } else {
+                    setEventPoolData({
+                        eventPool: events.eventPool as IEvent[],
+                        loading: false,
+                        error: events.error,
+                    });
+                }
+
             })
-            .catch((err) =>
-                setEventPoolData({ eventPool: undefined, loading: false, error: err })
-            );
+            .catch((err) => {
+                console.log("in error")
+                setEventPoolData({ eventPool: [], loading: false, error: err })
+            });
     }, [venue]);
 
     return eventPoolData;

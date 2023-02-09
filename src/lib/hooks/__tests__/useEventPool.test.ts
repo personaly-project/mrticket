@@ -11,40 +11,82 @@ import { createRandomEvent, createRandomVenue } from "@/lib/utils";
 let sampleVenueWithNoEvents: Venue
 let sampleVenueWithEvents: Venue
 let server: SetupServerApi
+let error: string
 
-const TARGET_ID_WITH_EVENTS = "withEvents"
-const TARGET_ID_WITH_NO_EVENTS = "withNoEvents"
-
-
-beforeAll(() => {
-
-    sampleVenueWithNoEvents = { ...createRandomVenue(), id: "1" }
-
-    sampleVenueWithEvents = { ...createRandomVenue(), id: "2" }
-
-    const successHandler = createGetHandler(`/api/venues/${TARGET_ID_WITH_EVENTS}/events`, sampleVenueWithEvents)
-    const server = createServer([successHandler])
-    server.listen()
-})
-
-afterAll(() => {
-    if (server) server.close()
-})
+const generateEvents = (venueId: string, amount: number = 2): IEvent[] => {
+    const events: IEvent[] = []
+    for (let i = 0; i < amount; i++) {
+        events.push({
+            ...createRandomEvent(venueId),
+            id: "event-id-1"
+        })
+    }
+    return events
+}
 
 describe("useEventPool hook", () => {
+
     beforeEach(() => {
 
+        sampleVenueWithEvents = { ...createRandomVenue(), id: "venue" }
 
+        const successHandler = createGetHandler(`/api/venues/${sampleVenueWithEvents.id}/events`, {
+            eventPool: generateEvents(sampleVenueWithEvents.id),
 
+        })
+        server = createServer([successHandler])
+        server.listen()
     })
 
-    it("initialize the eventPool based on the venue passed", async () => {
-        const { result, waitForNextUpdate } = renderHook(() => useEventPool(sampleVenueWithEvents))
-        const [pool, loadingState] = result.current
-        console.log(pool)
-        expect(pool).toBeNull()
+    afterEach(() => {
+        if (server) server.close()
+    })
+
+    it("should default to undefined eventPool and error and loading to true while is fetching the eventPool for the venue", () => {
+        const { result, unmount } = renderHook(() => useEventPool(sampleVenueWithEvents))
+        const { error, eventPool, loading } = result.current
+        expect(error).toBeUndefined()
+        expect(eventPool).toBeUndefined()
+        expect(loading).toEqual(true)
+        unmount()
+    })
+
+    it("should get the eventPool for the given venue and set the loading flag to false", async () => {
+        const { result, waitForNextUpdate, unmount } = renderHook(() => useEventPool(sampleVenueWithEvents))
         await waitForNextUpdate()
-        expect(result.current[0]).toBeTruthy()
+        expect(result.current.eventPool).toBeDefined()
+        expect(result.current.eventPool).toHaveLength(2)
+        expect(result.current.loading).toEqual(false)
+        expect(result.current.error).toBeUndefined()
+        unmount()
+    })
+
+    describe("on request error", () => {
+        beforeEach(() => {
+            if (server) {
+                server.close()
+            }
+            error = "not found"
+            sampleVenueWithNoEvents = { ...createRandomVenue(), id: "venue" }
+            const failedHandler = createGetHandler(`/api/venues/${sampleVenueWithEvents.id}/events`, {
+                error
+            }, 404)
+            server = createServer([failedHandler])
+            server.listen()
+        })
+
+        afterEach(() => {
+            if (server) server.close()
+        })
+
+        it("should set the error obtained from the response and an empty array for the event pool", async () => {
+            const { result, waitForNextUpdate, unmount } = renderHook(() => useEventPool(sampleVenueWithNoEvents))
+            await waitForNextUpdate()
+            expect(result.current.eventPool).toBeDefined()
+            expect(result.current.eventPool).toHaveLength(0)
+            expect(result.current.loading).toEqual(false)
+            expect(result.current.error).toEqual(error)
+        })
     })
 })
 

@@ -1,4 +1,4 @@
-import { IEvent } from "./types"
+import { IEvent, INewEventSrcData } from "./types"
 import { faker } from "@faker-js/faker"
 
 export const eventTypes = ['show', 'stand-up', 'concert']
@@ -18,7 +18,7 @@ export const createRandomVenue = () => {
     }
 }
 
-export const createRandomEvent = (venueID: string): IEvent => {
+export const createRandomEvent = (venueID: string): INewEventSrcData => {
     return {
         date: faker.date.future(),
         eventSpecs: faker.lorem.sentences(3),
@@ -27,7 +27,6 @@ export const createRandomEvent = (venueID: string): IEvent => {
         startHour: faker.date.future(),
         title: faker.lorem.words(getGenNumber(5)),
         venueId: venueID,
-        id: "742"
     }
 }
 

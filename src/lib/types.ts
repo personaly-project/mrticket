@@ -22,7 +22,7 @@ export interface INewEventSrcData {
   date: Date;
   title: string;
   performers: string[];
-  eventSpecs?: string;
+  eventSpecs: string | null;
   venueId: string;
 }
 

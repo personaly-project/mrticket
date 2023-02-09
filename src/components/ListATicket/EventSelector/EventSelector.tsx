@@ -6,11 +6,12 @@ import CreateEventFrom from './CreateEventFrom'
 
 interface IProps {
     eventsPool: PEvent[],
-    onSubmitEvent: (event: PEvent) => void,
+    venueID: string,
+    onSubmitEvent: (event: PEvent, venueID: string) => void,
     reset: () => void
 }
 
-const EventSelector: React.FC<IProps> = ({ eventsPool, onSubmitEvent }) => {
+const EventSelector: React.FC<IProps> = ({ eventsPool, onSubmitEvent, venueID }) => {
 
     const [event, selectFromExisting, makeNew, toggleMakeNew] = useSelector(eventsPool)
     const [confirmed, setConfirmed] = useState<boolean>(false)
@@ -24,7 +25,7 @@ const EventSelector: React.FC<IProps> = ({ eventsPool, onSubmitEvent }) => {
     const onExistingConfirmed = useCallback(() => {
         if (event) {
             setConfirmed(true)
-            onSubmitEvent(event)
+            onSubmitEvent(event, venueID)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [event])
@@ -53,7 +54,7 @@ const EventSelector: React.FC<IProps> = ({ eventsPool, onSubmitEvent }) => {
                         </button>
                         {
                             makeNew ? (
-                                <CreateEventFrom />
+                                <CreateEventFrom onSubmit={onSubmitEvent} venueId={venueID} />
                             ) : (
                                 <EventsList eventsPool={eventsPool} onSelection={selectFromExisting} />
                             )

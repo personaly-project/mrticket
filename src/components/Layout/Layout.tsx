@@ -1,19 +1,17 @@
-import { FC, ReactNode } from 'react'
-import Navbar from './Navbar'
+import { FC, ReactNode } from "react"
+import Navbar from "./Navbar"
 
 interface IProps {
-    children: ReactNode
+  children: ReactNode
 }
 
 const Layout: FC<IProps> = ({ children }) => {
-    return (
-        <div className='p-8' >
-            <Navbar />
-            {
-                children
-            }
-        </div>
-    )
+  return (
+    <div className="min-h-screen">
+      <Navbar />
+      {children}
+    </div>
+  )
 }
 
 export default Layout

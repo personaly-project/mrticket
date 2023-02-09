@@ -1,4 +1,4 @@
-import { prismaMock as prisma } from "../../singleton";
+import { prismaMock as prisma } from "../../../../singleton";
 import { IEvent, INewEventSrcData } from "@/lib/types";
 
 const sampleEventSrc: INewEventSrcData = {

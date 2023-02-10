@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next'
 import { venuesApi } from '@/services/prisma'
 import { Venue } from '@prisma/client'
 import ListATicket from '@/components/ListATicket'
+import ProtectedRoute from '@/components/Auth/Protected'
 
 interface IPageProps {
     venues: Venue[]
@@ -11,9 +12,9 @@ interface IPageProps {
 const listATicketPage: FC<IPageProps> = ({ venues }) => {
 
     return (
-        <>
+        <ProtectedRoute>
             <ListATicket venues={venues} />
-        </>
+        </ProtectedRoute>
     )
 }
 

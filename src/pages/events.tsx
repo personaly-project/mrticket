@@ -13,4 +13,10 @@ interface IPageProps {
   venueData: Venue;
 }
 
-function getEvents() {}
+export default function EventsPage () {
+  <>
+      <main>
+        Events page
+      </main>
+    </>
+}

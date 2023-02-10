@@ -1,4 +1,4 @@
-import { IEvent, INewEventSrcData, INewTicketSrcData } from "./types"
+import { INewUserSrcData, INewEventSrcData, INewTicketSrcData } from "./types"
 import { faker } from "@faker-js/faker"
 
 export const eventTypes = ['show', 'stand-up', 'concert']
@@ -40,5 +40,17 @@ export const createRandomTicket = (eventID: string, sellerId: string): INewTicke
         title: faker.lorem.words(getGenNumber(5)),
         sellerId,
         buyerId: null
+    }
+}
+
+export const createRandomUser = (): INewUserSrcData => {
+    return {
+        avatarUrl: faker.internet.url(),
+        buyHistory: [],
+        email: faker.internet.email(),
+        username: faker.internet.userName(),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        psw: faker.internet.password(),
     }
 }

@@ -112,3 +112,7 @@ export interface IUserUpdate {
   avatarUrl: string,
 }
 
+export interface IApiResponse<T> {
+  data?: T,
+  error?: string
+}

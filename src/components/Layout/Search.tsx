@@ -1,6 +1,5 @@
 /** @format */
 import { useEffect, useState } from "react";
-import filterObject from "@/lib/filterObject";
 import React from "react";
 
 interface IProps {
@@ -14,7 +13,6 @@ export default function Search({ ticketSearch, setTicketSearch }: IProps) {
     setTicketSearch(e.target.value);
     // console.log keys from venues
     // get all the keys from an object
-    console.log(filterObject(venues.venue, venues.venue[0], ticketSearch));
   };
 
   useEffect(() => {

@@ -1,23 +1,25 @@
-import React from "react"
-import Link from "next/link"
-import { Fragment } from "react"
-import { Disclosure, Menu, Transition } from "@headlessui/react"
-import { Bars3Icon, StarIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import Image from "next/image"
-import bsStarFill from "../images/BsStarFill.png"
-import rubenHelmet from "../images/ruben helmet.png"
-import logoMustache from "../images/logoCircleYellow.png"
-import logoWordsPurple from "../images/logoWordsPurple.png"
-import logoTickets from "../images/logoTickets.png"
+/** @format */
+
+import React from "react";
+import Link from "next/link";
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import bsStarFill from "../images/BsStarFill.png";
+import rubenHelmet from "../images/ruben helmet.png";
+import logoMustache from "../images/logoCircleYellow.png";
+import logoWordsPurple from "../images/logoWordsPurple.png";
+import logoTickets from "../images/logoTickets.png";
 
 const navigation = [
   { name: "Events", href: "#", current: false },
   { name: "Cities", href: "#", current: false },
   { name: "Sell My Tickets", href: "#", current: true },
-]
+];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ")
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
@@ -168,7 +170,7 @@ export default function Navbar() {
         </>
       )}
     </Disclosure>
-  )
+  );
 }
 
 // const Navbar = () => {
@@ -183,3 +185,23 @@ export default function Navbar() {
 // }
 
 // export default Navbar
+/** @format */
+
+interface IProps {
+  ticketSearch: string;
+  setTicketSearch: (ticketSearch: string) => void;
+}
+
+const Navbar: FC<IProps> = ({ ticketSearch, setTicketSearch }) => {
+  return (
+    <div className="w-full flex flex-row items-center justify-between bg-slate-500 p-4 rounded shadow">
+      <Link href={"/"}>Navbar</Link>
+      <Search ticketSearch={ticketSearch} setTicketSearch={setTicketSearch} />
+      <Link href={"/listTicket"}>
+        <p>List a ticket</p>
+      </Link>
+    </div>
+  );
+};
+
+export default Navbar;

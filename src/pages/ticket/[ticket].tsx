@@ -31,7 +31,6 @@ const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-
           backgroundColor: "white",
           padding: "25px",
           borderRadius: "10px",

@@ -3,8 +3,10 @@
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
+  const [ticketSearch, setTicketSearch] = useState<string>("");
   return (
     <>
       <Head>
@@ -14,7 +16,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Link href={`/ticket/05c4af58-389d-408b-a017-6725d4b97766`} >
+        <Link href={`/ticket/05c4af58-389d-408b-a017-6725d4b97766`}>
           see ticket
         </Link>
       </main>

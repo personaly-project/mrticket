@@ -21,6 +21,15 @@ const createUser = async (src: INewUserSrcData): Promise<IUser> => {
     return user
 }
 
+const getUserByEmail = async (email: string): Promise<IUser> => {
+    const user = await prisma.user.findUniqueOrThrow({
+        where: {
+            email
+        }
+    })
+    return user
+}
+
 const updateUser = async (userId: string, update: IUserUpdate): Promise<IUser> => {
     const user = await prisma.user.update({
         where: {
@@ -34,5 +43,6 @@ const updateUser = async (userId: string, update: IUserUpdate): Promise<IUser> =
 export const usersApi = {
     getUser,
     createUser,
-    updateUser
+    updateUser,
+    getUserByEmail
 }

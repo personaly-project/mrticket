@@ -4,7 +4,10 @@ import prisma from "./prisma";
 import { INewTicketSrcData, ISearchQ, ITicket } from "@/lib/types";
 import { createRandomTicket } from "@/lib/utils";
 
-const sampleTicket: ITicket = { ...createRandomTicket("event-sample-id", "sample-user-id"), id: "sample-ticket-id" }
+const sampleTicket: ITicket = {
+  ...createRandomTicket("event-sample-id", "sample-user-id"),
+  id: "sample-ticket-id",
+};
 
 const getTicket = async (ticketId: string): Promise<ITicket> => {
   const ticket = await prisma.ticket.findUniqueOrThrow({
@@ -41,7 +44,7 @@ const onTicketSold = async (
     },
     data: {
       sold: true,
-      buyerId
+      buyerId,
     },
   });
   return await getTicket(ticketId);
@@ -69,15 +72,18 @@ const searchTickets = async (
   throw new Error(`${q.target} is not a valid property`);
 };
 
-const updateTicket = async (update: INewTicketSrcData, ticketId: string): Promise<ITicket> => {
+const updateTicket = async (
+  update: INewTicketSrcData,
+  ticketId: string
+): Promise<ITicket> => {
   const updated = await prisma.ticket.update({
     where: {
-      id: ticketId
+      id: ticketId,
     },
-    data: update
-  })
-  return updated
-}
+    data: update,
+  });
+  return updated;
+};
 
 export const ticketsApi = {
   getTicket,
@@ -87,4 +93,3 @@ export const ticketsApi = {
   searchTickets,
   updateTicket,
 };
-

@@ -1,5 +1,5 @@
 import prisma from "./prisma";
-import { IUser, INewUserSrcData, ITicket } from "@/lib/types";
+import { IUser, INewUserSrcData, ITicket, IUserUpdate } from "@/lib/types";
 
 
 const getUser = async (userId: string): Promise<IUser & { tickets: ITicket[] }> => {
@@ -21,7 +21,7 @@ const createUser = async (src: INewUserSrcData): Promise<IUser> => {
     return user
 }
 
-const updateUser = async (userId: string, update: INewUserSrcData): Promise<IUser> => {
+const updateUser = async (userId: string, update: IUserUpdate): Promise<IUser> => {
     const user = await prisma.user.update({
         where: {
             id: userId

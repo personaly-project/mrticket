@@ -103,3 +103,12 @@ export interface IVenue {
   venueSpecs: string | null
 }
 
+export interface IUserUpdate {
+  psw: string,
+  email: string,
+  username: string,
+  firstName: string,
+  lastName: string,
+  avatarUrl: string,
+}
+

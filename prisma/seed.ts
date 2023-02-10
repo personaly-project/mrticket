@@ -1,5 +1,6 @@
 import { PrismaClient, Venue, Event, Ticket } from "@prisma/client";
 import { faker } from "@faker-js/faker";
+import { INewEventSrcData, INewTicketSrcData, INewUserSrcData, INewVenueSrcData, IUser } from "@/lib/types";
 
 const eventTypes = ["show", "stand-up", "concert"];
 
@@ -7,7 +8,19 @@ const getGenNumber = (max: number) => faker.datatype.number({ min: 0, max });
 
 const prisma = new PrismaClient();
 
-const createRandomVenue = () => {
+const createRandomUser = (): INewUserSrcData => {
+  return {
+    avatarUrl: faker.internet.url(),
+    buyHistory: [],
+    email: faker.internet.email(),
+    username: faker.internet.userName(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    psw: faker.internet.password(),
+  }
+}
+
+const createRandomVenue = (): INewVenueSrcData => {
   return {
     address: faker.address.streetAddress(),
     city: faker.address.cityName(),
@@ -20,7 +33,7 @@ const createRandomVenue = () => {
   };
 };
 
-const createRandomEvent = (venueID: string) => {
+const createRandomEvent = (venueID: string): INewEventSrcData => {
   return {
     date: faker.date.future(),
     eventSpecs: "Event Specs: " + faker.lorem.sentences(3),
@@ -34,18 +47,18 @@ const createRandomEvent = (venueID: string) => {
   };
 };
 
-const createRandomTicket = (eventID: string) => {
+const createRandomTicket = (eventId: string, sellerId: string): INewTicketSrcData => {
   return {
-    buyerEmail: "Buyer Email: " + faker.internet.email(),
-    depositOn: "Credit Card: " + faker.finance.creditCardNumber(),
+    sellerId,
+    eventId,
+    sold: false,
     imgs: faker.helpers.uniqueArray(() => {
       return `img: ${faker.random.word()}`;
     }, getGenNumber(2)),
     price: parseInt(faker.finance.amount()),
-    sold: false,
-    eventId: eventID,
     ticket: "Ticket: " + faker.lorem.words(getGenNumber(5)),
-    title: "Title of Ticket: " + faker.lorem.words(getGenNumber(5)),
+    title: "Title of Ticket: " + faker.lorem.words(getGenNumber(4)),
+    buyerId: ""
   };
 };
 
@@ -53,8 +66,17 @@ async function main() {
   const venues: Venue[] = [];
   const events: Event[] = [];
   const tickets: Ticket[] = [];
+  const users: IUser[] = [];
+
+  for (let i = 0; i < 5; i++) {
+    const src = createRandomUser()
+    const user = await prisma.user.create({
+      data: src
+    })
+    users.push(user)
+  }
+
   for (let i = 0; i < 3; i++) {
-    console.log("creating venue ", i);
     const source = createRandomVenue();
     const venue = await prisma.venue.create({
       data: source,
@@ -62,7 +84,6 @@ async function main() {
     venues.push(venue);
 
     for (let j = 0; j < 3; j++) {
-      console.log("creating event ", j);
       const source = createRandomEvent(venue.id);
       const event = await prisma.event.create({
         data: source,
@@ -70,8 +91,7 @@ async function main() {
       events.push(event);
 
       for (let h = 0; h < 4; h++) {
-        console.log("creating ticket ", h);
-        const source = createRandomTicket(event.id);
+        const source = createRandomTicket(event.id, users[getGenNumber(4)].id);
         const ticket = await prisma.ticket.create({
           data: source,
         });

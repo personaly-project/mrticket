@@ -1,29 +1,17 @@
 import { prismaMock as prisma } from "../../../../singleton";
 import { IEvent, INewEventSrcData } from "@/lib/types";
+import { createRandomEvent } from "@/lib/utils";
+import { eventsApi } from "../events";
 
-const sampleEventSrc: INewEventSrcData = {
-    date: new Date(Date.now()),
-    eventType: "sample",
-    performers: ["guest", "main"],
-    startHour: new Date(Date.now()),
-    title: "sample title",
-    venueId: "venueSampleId",
-};
+const TEST_ID_VENUE = "sample-venue-id"
+const TEST_ID_EVENT = "venue-sample-id"
 
-const sampleEvent: IEvent = {
-    date: new Date(Date.now()),
-    eventType: "sample",
-    id: "1",
-    performers: ["guest", "main"],
-    startHour: new Date(Date.now()),
-    title: "sample title",
-    venueId: "venueSampleId",
-    eventSpecs: null,
-};
+const sampleEventSrc: INewEventSrcData = createRandomEvent(TEST_ID_VENUE)
+const sampleEvent: IEvent = { ...createRandomEvent(TEST_ID_VENUE), id: TEST_ID_EVENT }
 
-test('should create a new event', async () => {
-
-    prisma.event.create.mockResolvedValue(sampleEvent)
-
-    await expect(prisma.event.create({ data: sampleEventSrc })).resolves.toEqual(sampleEvent) //createEvent(sampleEventSrc)).resolves.toEqual(sampleEvent)
+describe("eventsApi", () => {
+    it("should create a new event", async () => {
+        prisma.event.create.mockResolvedValueOnce(sampleEvent)
+        await expect(eventsApi.createEvent(sampleEventSrc)).resolves.toEqual(sampleEvent) //createEvent(sampleEventSrc)).resolves.toEqual(sampleEvent)
+    })
 })

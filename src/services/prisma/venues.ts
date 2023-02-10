@@ -1,28 +1,19 @@
 import prisma from "./prisma";
-import { Ticket, Venue, Event as PEvent } from "@prisma/client";
-import { INewTicketSrcData, INewVenueSrcData, ISearchQ } from "@/lib/types";
+import { IEvent, IVenue } from "@/lib/types";
+import { INewVenueSrcData, ISearchQ } from "@/lib/types";
+import { createRandomVenue } from "@/lib/utils";
 
-const sampleVenue: Venue = {
-    address: "sampleVenueAddress",
-    city: "sampleCity",
-    country: "sampleCountry",
-    id: "sampleId",
-    name: "name",
-    placeType: "placeType",
-    state: "state",
-    timezone: "timezone",
-    venueSpecs: null
-}
+const sampleVenue: IVenue = { ...createRandomVenue(), id: "sample-id", events: [] }
 
-const createVenue = async (src: INewVenueSrcData): Promise<Venue> => {
+const createVenue = async (src: INewVenueSrcData): Promise<IVenue> => {
     const venue = await prisma.venue.create({
         data: src
     })
-    return venue
+    return venue as IVenue
 }
 
-const getVenue = async (venueId: string): Promise<Venue & {
-    events: PEvent[]
+const getVenue = async (venueId: string): Promise<IVenue & {
+    events: IEvent[]
 }> => {
     const venue = await prisma.venue.findUniqueOrThrow({
         where: {
@@ -32,10 +23,10 @@ const getVenue = async (venueId: string): Promise<Venue & {
             events: true
         }
     })
-    return venue
+    return venue as IVenue & { events: IEvent[] }
 }
 
-const getVenuesOnCity = async (city: string, country: string) => {
+const getVenuesOnCity = async (city: string, country: string): Promise<(IVenue & { events: IEvent[] })[]> => {
     const venues = await prisma.venue.findMany({
         where: {
             city: city,
@@ -47,10 +38,10 @@ const getVenuesOnCity = async (city: string, country: string) => {
             events: true
         }
     })
-    return venues
+    return venues as (IVenue & { events: IEvent[] })[]
 }
 
-const getVenuesSearch = async (q: ISearchQ<string>): Promise<Venue[]> => {
+const getVenuesSearch = async (q: ISearchQ<string>): Promise<(IVenue & { events: IEvent[] })[]> => {
     if (q.target === "id") throw new Error("this is the wrong method to make a get by id req, refer to getEvent")
     if (q.target in sampleVenue) {
         const venues = await prisma.venue.findMany({
@@ -61,22 +52,12 @@ const getVenuesSearch = async (q: ISearchQ<string>): Promise<Venue[]> => {
                 events: true
             }
         })
-        return venues
+        return venues as (IVenue & { events: IEvent[] })[]
     }
     throw new Error(`${q.target} is not a valid property`)
 }
 
-const updateTicket = async (update: INewTicketSrcData, ticketId: string): Promise<Ticket> => {
-    const updated = await prisma.ticket.update({
-        where: {
-            id: ticketId
-        },
-        data: update
-    })
-    return updated
-}
-
-const getAllVenues = async (): Promise<Venue[]> => {
+const getAllVenues = async (): Promise<IVenue[]> => {
     const venues = await prisma.venue.findMany({})
     return venues
 }
@@ -86,6 +67,5 @@ export const venuesApi = {
     getVenue,
     getVenuesOnCity,
     getVenuesSearch,
-    updateTicket,
     getAllVenues
 }

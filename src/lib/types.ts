@@ -70,13 +70,13 @@ export interface ICountry {
 
 export interface IUser {
   id: string,
-  psw: string,
   email: string,
   username: string,
   firstName: string,
   lastName: string,
   avatarUrl: string,
-  buyHistory: string[]
+  buyHistory: string[],
+  psw: string
 }
 
 export interface ITicket {

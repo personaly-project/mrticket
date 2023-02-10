@@ -7,8 +7,9 @@ import { useState } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [ticketSearch, setTicketSearch] = useState<string>("");
+
   return (
-    <Layout ticketSearch={ticketSearch} setticketSearch={setTicketSearch}>
+    <Layout ticketSearch={ticketSearch} setTicketSearch={setTicketSearch}>
       <Component {...pageProps} />
     </Layout>
   );

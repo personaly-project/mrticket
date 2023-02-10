@@ -2,19 +2,17 @@
 
 import { FC, ReactNode } from "react";
 import Navbar from "./Navbar";
-
 interface IProps {
+  children: ReactNode;
   ticketSearch: string;
-  setticketSearch: (ticketSearch: string) => void;
+  setTicketSearch: (ticketSearch: string) => void;
 }
 
-const Layout = ({ ticketSearch, setticketSearch }: IProps) => {
+export default function Layout({ ticketSearch, setTicketSearch }: IProps) {
   return (
     <div className="p-8">
-      <Navbar ticketSearch={ticketSearch} setTicketSearch={setticketSearch} />
+      <Navbar ticketSearch={ticketSearch} setTicketSearch={setTicketSearch} />
       {}
     </div>
   );
-};
-
-export default Layout;
+}

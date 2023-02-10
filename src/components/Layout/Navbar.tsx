@@ -11,6 +11,7 @@ import rubenHelmet from "../images/ruben helmet.png";
 import logoMustache from "../images/logoCircleYellow.png";
 import logoWordsPurple from "../images/logoWordsPurple.png";
 import logoTickets from "../images/logoTickets.png";
+import Search from "./Search";
 
 const navigation = [
   { name: "Events", href: "#", current: false },
@@ -22,7 +23,12 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar() {
+interface IProps {
+  ticketSearch: string;
+  setTicketSearch: (ticketSearch: string) => void;
+}
+
+export default function Navbar({ ticketSearch, setTicketSearch }: IProps) {
   return (
     <Disclosure as="nav" className="">
       {({ open }) => (
@@ -69,6 +75,11 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
+              <Search
+                ticketSearch={ticketSearch}
+                setTicketSearch={setTicketSearch}
+              />
+
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
                   type="button"
@@ -186,22 +197,3 @@ export default function Navbar() {
 
 // export default Navbar
 /** @format */
-
-interface IProps {
-  ticketSearch: string;
-  setTicketSearch: (ticketSearch: string) => void;
-}
-
-const Navbar: FC<IProps> = ({ ticketSearch, setTicketSearch }) => {
-  return (
-    <div className="w-full flex flex-row items-center justify-between bg-slate-500 p-4 rounded shadow">
-      <Link href={"/"}>Navbar</Link>
-      <Search ticketSearch={ticketSearch} setTicketSearch={setTicketSearch} />
-      <Link href={"/listTicket"}>
-        <p>List a ticket</p>
-      </Link>
-    </div>
-  );
-};
-
-export default Navbar;

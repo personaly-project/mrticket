@@ -1,24 +1,36 @@
 /** @format */
 import React from "react";
 
-const filterObject = (
-  Array: Array<object>,
-  objectExample: object,
+function filterObject<T>(
+  inputArray: Array<T>,
+  objectExample: T,
   searchQuery: string
-) => {
+) {
   if (searchQuery.length < 2) {
-    return Array;
+    return inputArray;
   }
-  let result: any[] = [];
+  let result: T[] = [];
+  if (
+    typeof objectExample !== "object" ||
+    typeof Array.isArray(objectExample)
+  ) {
+    return;
+  }
+
+  if (!objectExample) {
+    return;
+  }
+
   const keys: string[] = Object.keys(objectExample);
 
-  for (let i = 0; i < Array.length; i++) {
-    let objectToSearch: object = Array[i];
+  for (let i = 0; i < inputArray.length; i++) {
+    let objectToSearch: T = inputArray[i];
 
     // compare each key value to the objectSearch
     for (let j = 0; j < keys.length; j++) {
       let key: string = keys[j];
-      let value: string = objectToSearch[key];
+
+      let value: any = (objectToSearch as { [key: string]: any })[key];
 
       // if the value is a string
       if (typeof value === "string") {
@@ -30,6 +42,6 @@ const filterObject = (
     }
   }
   return result;
-};
+}
 
 export default filterObject;

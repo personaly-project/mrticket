@@ -30,11 +30,11 @@ export interface INewTicketSrcData {
   title: string;
   ticket: string;
   sold: boolean;
-  depositOn: string;
   price: number;
   imgs: string[];
-  buyerEmail?: string;
   eventId: string;
+  sellerId: string;
+  buyerId: string
 }
 
 export interface INewVenueSrcData {
@@ -48,6 +48,16 @@ export interface INewVenueSrcData {
   venueSpecs: string | null;
 }
 
+export interface INewUserSrcData {
+  psw: string,
+  email: string,
+  username: string,
+  firstName: string,
+  lastName: string,
+  avatarUrl: string,
+  buyHistory: []
+}
+
 export interface ICity {
   name: string;
   events: IEvent[];
@@ -56,4 +66,27 @@ export interface ICity {
 export interface ICountry {
   name: string;
   cities: ICity[];
+}
+
+export interface IUser {
+  id: string,
+  psw: string,
+  email: string,
+  username: string,
+  firstName: string,
+  lastName: string,
+  avatarUrl: string,
+  buyHistory: string[]
+}
+
+export interface ITicket {
+  id: string
+  title: string
+  ticket: string
+  sold: string
+  seller: string
+  sellerId: string
+  price: string
+  imgs: string[]
+  eventId: string
 }

@@ -7,17 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id         String   @id @default(uuid())
+  psw        String
+  email      String   @unique
+  username   String   @unique
+  firstName  String
+  lastName   String
+  avatarUrl  String
+  tickets    Ticket[]
+  buyHistory String[]
+}
+
 model Ticket {
   id         String   @id @default(uuid())
   title      String
   ticket     String
   sold       Boolean
-  depositOn  String
+  seller     User     @relation(fields: [sellerId], references: [id])
+  sellerId   String
   price      Int
   imgs       String[]
-  buyerEmail String?
   event      Event    @relation(fields: [eventId], references: [id])
   eventId    String
+  buyerId    String
 }
 
 model Event {

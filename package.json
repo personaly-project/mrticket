@@ -16,6 +16,8 @@
     "esModuleInterop": true
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.10",
+    "@heroicons/react": "^2.0.15",
     "@next/font": "13.1.6",
     "@prisma/client": "4.9.0",
     "@stripe/react-stripe-js": "^1.16.4",
@@ -27,6 +29,7 @@
     "babel-plugin-superjson-next": "^0.4.5",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
+    "headlessui": "^0.0.0",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",

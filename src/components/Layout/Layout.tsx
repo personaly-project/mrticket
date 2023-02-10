@@ -1,8 +1,8 @@
-import { FC, ReactNode } from "react"
-import Navbar from "./Navbar"
+import { FC, ReactNode } from "react";
+import Navbar from "./Navbar";
 
 interface IProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const Layout: FC<IProps> = ({ children }) => {
@@ -11,7 +11,7 @@ const Layout: FC<IProps> = ({ children }) => {
       <Navbar />
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

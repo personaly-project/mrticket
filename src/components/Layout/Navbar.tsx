@@ -1,23 +1,23 @@
-import React from "react"
-import Link from "next/link"
-import { Fragment } from "react"
-import { Disclosure, Menu, Transition } from "@headlessui/react"
-import { Bars3Icon, StarIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import Image from "next/image"
-import bsStarFill from "../images/BsStarFill.png"
-import rubenHelmet from "../images/ruben helmet.png"
-import logoMustache from "../images/logoCircleYellow.png"
-import logoWordsPurple from "../images/logoWordsPurple.png"
-import logoTickets from "../images/logoTickets.png"
+import React from "react";
+import Link from "next/link";
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import bsStarFill from "../images/BsStarFill.png";
+import rubenHelmet from "../images/ruben helmet.png";
+import logoMustache from "../images/logoCircleYellow.png";
+import logoWordsPurple from "../images/logoWordsPurple.png";
+import logoTickets from "../images/logoTickets.png";
 
 const navigation = [
   { name: "Events", href: "#", current: false },
   { name: "Cities", href: "#", current: false },
   { name: "Sell My Tickets", href: "#", current: true },
-]
+];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ")
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
@@ -25,7 +25,7 @@ export default function Navbar() {
     <Disclosure as="nav" className="">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-screen px-2 sm:px-6 lg:px-8 bg-white border-b-2 border-black">
+          <div className="w-full z-20 top-0 left-0 px-2 sm:px-6 lg:px-8 bg-white border-b border-[#bebebe] fixed shadow-md">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -38,9 +38,9 @@ export default function Navbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
-                  <div className="h-9 w-10 lg:block">
+              <div className="flex flex-1 justify-end sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center space-x-3">
+                  <div className="h-10 w-10 lg:block">
                     <Image src={logoMustache} alt="" />
                   </div>
                   <div className="h-9 w-14 lg:block">
@@ -56,7 +56,7 @@ export default function Navbar() {
                         className={classNames(
                           item.current
                             ? "bg-[#9187F4] text-white  hover:bg-[#FFC200] hover:text-black"
-                            : "text-purple-dark hover:bg-purple-light hover:text-white",
+                            : "text-black hover:bg-purple-light hover:text-white",
                           "px-3 py-2 rounded-3xl text-m font-medium "
                         )}
                         aria-current={item.current ? "page" : undefined}
@@ -168,7 +168,7 @@ export default function Navbar() {
         </>
       )}
     </Disclosure>
-  )
+  );
 }
 
 // const Navbar = () => {

@@ -34,7 +34,7 @@ export interface INewTicketSrcData {
   imgs: string[];
   eventId: string;
   sellerId: string;
-  buyerId: string
+  buyerId: string | null
 }
 
 export interface INewVenueSrcData {
@@ -83,10 +83,23 @@ export interface ITicket {
   id: string
   title: string
   ticket: string
-  sold: string
-  seller: string
+  sold: boolean
   sellerId: string
-  price: string
+  price: number
   imgs: string[]
   eventId: string
 }
+
+export interface IVenue {
+  id: string
+  placeType: string
+  address: string
+  city: string
+  country: string
+  state: string
+  timezone: string
+  name: string
+  events?: string[]
+  venueSpecs: string | null
+}
+

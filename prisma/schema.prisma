@@ -30,7 +30,7 @@ model Ticket {
   imgs       String[]
   event      Event    @relation(fields: [eventId], references: [id])
   eventId    String
-  buyerId    String
+  buyerId    String?
 }
 
 model Event {

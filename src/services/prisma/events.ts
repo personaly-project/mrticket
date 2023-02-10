@@ -1,22 +1,13 @@
 /** @format */
 
-import { Event as PEvent } from "@prisma/client";
 import prisma from "./prisma";
 import { ISearchQ, INewEventSrcData, IEvent } from "@/lib/types";
 import { venuesApi } from "./venues";
+import { createRandomEvent } from "@/lib/utils";
 
-const sampleEvent: PEvent = {
-  date: new Date(Date.now()),
-  eventType: "sample",
-  id: "sampleId",
-  performers: ["guest", "main"],
-  startHour: new Date(Date.now()),
-  title: "sample title",
-  venueId: "venueSampleId",
-  eventSpecs: null,
-};
+const sampleEvent: IEvent = { ...createRandomEvent("sample-venue-id"), id: "sample-event-id" }
 
-const getEvent = async (eventId: string): Promise<PEvent> => {
+const getEvent = async (eventId: string): Promise<IEvent> => {
   const event = await prisma.event.findUniqueOrThrow({
     where: {
       id: eventId,
@@ -35,7 +26,7 @@ const getEvent = async (eventId: string): Promise<PEvent> => {
 
 const getEventsSearch = async (
   q: ISearchQ<number | string | boolean | Date>
-): Promise<PEvent[]> => {
+): Promise<IEvent[]> => {
   if (q.target === "id")
     throw new Error(
       "this is the wrong method to make a get by id req, refer to getEvent"
@@ -56,7 +47,7 @@ const getEventsSearch = async (
   throw new Error(`${q.target} is not a valid property`);
 };
 
-const createEvent = async (src: INewEventSrcData): Promise<PEvent> => {
+const createEvent = async (src: INewEventSrcData): Promise<IEvent> => {
   const newEvent = prisma.event.create({
     data: src,
   });

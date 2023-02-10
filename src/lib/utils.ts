@@ -1,4 +1,4 @@
-import { IEvent, INewEventSrcData } from "./types"
+import { IEvent, INewEventSrcData, INewTicketSrcData } from "./types"
 import { faker } from "@faker-js/faker"
 
 export const eventTypes = ['show', 'stand-up', 'concert']
@@ -30,16 +30,15 @@ export const createRandomEvent = (venueID: string): INewEventSrcData => {
     }
 }
 
-export const createRandomTicket = (eventID: string) => {
+export const createRandomTicket = (eventID: string, sellerId: string): INewTicketSrcData => {
     return {
-        buyerEmail: faker.internet.email(),
-        depositOn: faker.finance.creditCardNumber(),
         imgs: faker.helpers.uniqueArray(faker.random.word, getGenNumber(2)),
         price: parseInt(faker.finance.amount()),
         sold: false,
         eventId: eventID,
         ticket: faker.lorem.words(getGenNumber(5)),
-        title: faker.lorem.words(getGenNumber(5))
-
+        title: faker.lorem.words(getGenNumber(5)),
+        sellerId,
+        buyerId: null
     }
 }

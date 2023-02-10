@@ -1,22 +1,12 @@
 /** @format */
 
-import { Ticket } from "@prisma/client";
 import prisma from "./prisma";
-import { INewTicketSrcData, ISearchQ } from "@/lib/types";
+import { INewTicketSrcData, ISearchQ, ITicket } from "@/lib/types";
+import { createRandomTicket } from "@/lib/utils";
 
-const sampleTicket: Ticket = {
-  buyerEmail: null,
-  depositOn: "123456",
-  eventId: "eventSampleId",
-  id: "ticketSampleId",
-  imgs: ["sampleImgUrl_1", "sampleImgUrl_2"],
-  price: 100,
-  sold: false,
-  ticket: "sampleTicketDownloadUrl",
-  title: "sampleTicketTitle",
-};
+const sampleTicket: ITicket = { ...createRandomTicket("event-sample-id", "sample-user-id"), id: "sample-ticket-id" }
 
-const getTicket = async (ticketId: string): Promise<Ticket> => {
+const getTicket = async (ticketId: string): Promise<ITicket> => {
   const ticket = await prisma.ticket.findUniqueOrThrow({
     where: {
       id: ticketId,
@@ -25,14 +15,14 @@ const getTicket = async (ticketId: string): Promise<Ticket> => {
   return ticket;
 };
 
-const createNewTicket = async (src: INewTicketSrcData): Promise<Ticket> => {
+const createNewTicket = async (src: INewTicketSrcData): Promise<ITicket> => {
   const ticket = await prisma.ticket.create({
     data: src,
   });
   return ticket;
 };
 
-const getTicketByEvent = async (eventId: string): Promise<Ticket[]> => {
+const getTicketByEvent = async (eventId: string): Promise<ITicket[]> => {
   const tickets = prisma.ticket.findMany({
     where: {
       eventId: eventId,
@@ -43,15 +33,15 @@ const getTicketByEvent = async (eventId: string): Promise<Ticket[]> => {
 
 const onTicketSold = async (
   ticketId: string,
-  buyerEmail: string
-): Promise<Ticket> => {
+  buyerId: string
+): Promise<ITicket> => {
   await prisma.ticket.update({
     where: {
       id: ticketId,
     },
     data: {
       sold: true,
-      buyerEmail: buyerEmail,
+      buyerId
     },
   });
   return await getTicket(ticketId);
@@ -59,7 +49,7 @@ const onTicketSold = async (
 
 const searchTickets = async (
   q: ISearchQ<string | Date | number | boolean>
-): Promise<Ticket[]> => {
+): Promise<ITicket[]> => {
   if (q.target === "id")
     throw new Error(
       "this is the wrong method to make a get by id req, refer to getEvent"
@@ -79,10 +69,22 @@ const searchTickets = async (
   throw new Error(`${q.target} is not a valid property`);
 };
 
+const updateTicket = async (update: INewTicketSrcData, ticketId: string): Promise<ITicket> => {
+  const updated = await prisma.ticket.update({
+    where: {
+      id: ticketId
+    },
+    data: update
+  })
+  return updated
+}
+
 export const ticketsApi = {
   getTicket,
   createNewTicket,
   getTicketByEvent,
   onTicketSold,
   searchTickets,
+  updateTicket,
 };
+

@@ -2,7 +2,7 @@ import { INewUserSrcData, IUser } from "@/lib/types"
 import { usersApi } from "../prisma"
 import { hashPsw, comparePswWithHash } from "./hasher"
 
-const sigIn = async (src: INewUserSrcData) => {
+const signUp = async (src: INewUserSrcData) => {
     const hash = await hashPsw(src.psw)
     src.psw = hash
     const user = await usersApi.createUser(src)
@@ -20,6 +20,6 @@ const login = async (email: string, psw: string): Promise<IUser> => {
 }
 
 export {
-    sigIn,
+    signUp,
     login
 }

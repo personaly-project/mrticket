@@ -49,12 +49,3 @@ const SignUp: FC<IProps> = ({ dispatchRegister }) => {
 }
 
 export default SignUp
-
-/* 
-  psw: string,
-  email: string,
-  username: string,
-  firstName: string,
-  lastName: string,
-  avatarUrl: string,
-*/

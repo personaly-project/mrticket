@@ -24,7 +24,7 @@ const createUser = async (src: INewUserSrcData): Promise<IUser> => {
 const getUserByEmail = async (email: string): Promise<IUser> => {
     const user = await prisma.user.findUniqueOrThrow({
         where: {
-            email
+            email: email
         }
     })
     return user

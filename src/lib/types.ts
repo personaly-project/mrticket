@@ -55,7 +55,6 @@ export interface INewUserSrcData {
   firstName: string,
   lastName: string,
   avatarUrl: string,
-  buyHistory: []
 }
 
 export interface ICity {

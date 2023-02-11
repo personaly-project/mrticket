@@ -25,7 +25,7 @@ interface IProps {
 }
 
 export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
-    const [user, setUser] = useState<IUser | undefined>({ ...createRandomUser(), id: "sampleId" })
+    const [user, setUser] = useState<IUser | undefined>()
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>()
 
@@ -44,6 +44,7 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
             setError(error)
         } else if (data) {
             //success
+            console.log(data)
             setUser(data)
         } else {
             //undefined error not carried trough the error field en the api response
@@ -79,7 +80,7 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
         setError(undefined)
         setIsLoading(false)
     }, [])
-
+    console.log("in auth", user)
     return (
         <authCtx.Provider value={{
             login,

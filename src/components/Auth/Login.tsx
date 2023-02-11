@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useState } from 'react'
 import Input from '../ui/Input'
 import emailValidator from "email-validator"
+import { useLogin } from '@/lib/hooks'
 
 interface IProps {
     dispatchLogin: (email: string, psw: string) => void
@@ -8,41 +9,20 @@ interface IProps {
 
 const Login: FC<IProps> = ({ dispatchLogin }) => {
 
-    const [email, setEmail] = useState<string>()
-    const [psw, setPsw] = useState<string>()
-    const [seePsw, setSeePsw] = useState<boolean>(false)
+    const {
+        psw,
+        email,
+        updatePsw,
+        updateEmail,
+        togglePswVisibility,
+        dispatchSignUp,
+        getPswVisibility,
+        getSubmitValidity,
 
-    const updateEmail = (update: string) => {
-        setEmail(update)
-    }
-
-    const updatePsw = (update: string) => {
-        setPsw(update)
-    }
-
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        if (email && psw) {
-            dispatchLogin(email, psw)
-        }
-    }
-
-    const togglePswVisibility = () => {
-        setSeePsw(prev => !prev)
-    }
-
-    const getPswVisibility = useCallback(() => {
-        if (seePsw) return "text"
-        return "password"
-    }, [seePsw])
-
-    const getSubmitValidity = useCallback((): boolean => {
-        if (email && emailValidator.validate(email) && psw && psw.length > 6) return true
-        return false
-    }, [email, psw])
+    } = useLogin(dispatchLogin)
 
     return (
-        <form className='rounded w-96 space-y-2' onSubmit={onSubmit} >
+        <form className='rounded w-96 space-y-2' onSubmit={dispatchSignUp} >
             <Input listener={updateEmail} value={email} title="Email" placeholder='Your email' type='email' required />
             <div className='mb-4 flex flex-col pb-4' >
                 <Input listener={updatePsw} value={psw} title="Password" placeholder='Your secret password' type={getPswVisibility()} required />

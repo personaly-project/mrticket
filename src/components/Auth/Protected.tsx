@@ -9,12 +9,19 @@ interface IProps {
 
 const ProtectedRoute: React.FC<IProps> = ({ children, disabled }) => {
 
-    const { user } = useContext(authCtx)
+    const { user, isLoading } = useContext(authCtx)
     const router = useRouter()
 
     if (!user && !disabled) {
         router.push('/login')
     }
+
+    useEffect(() => {
+        if (!isLoading && !user) {
+            router.push('/login')
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoading, user])
 
     return (
         <>

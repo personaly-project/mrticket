@@ -1,3 +1,4 @@
+import { createRandomUser } from "@/lib/utils";
 import { createContext, FC, ReactNode, useCallback, useState } from "react";
 import { IApiResponse, INewUserSrcData, IUser } from "../../types";
 
@@ -24,7 +25,7 @@ interface IProps {
 }
 
 export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
-    const [user, setUser] = useState<IUser>()
+    const [user, setUser] = useState<IUser | undefined>({ ...createRandomUser(), id: "sampleId" })
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>()
 

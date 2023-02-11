@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next'
 import { venuesApi } from '@/services/prisma'
 import { Venue } from '@prisma/client'
 import ListATicket from '@/components/ListATicket'
-import ProtectedRoute from '@/components/Auth/Protected'
+import { ProtectedRoute } from '@/components/Auth'
 
 interface IPageProps {
     venues: Venue[]

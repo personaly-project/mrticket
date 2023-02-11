@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["www.paypalobjects.com"]
+    domains: ["www.paypalobjects.com", "picsum.photos"]
   }
 }
 

@@ -4,7 +4,10 @@ import { hashPsw, comparePswWithHash } from "./hasher"
 
 const signUp = async (src: INewUserSrcData) => {
     const hash = await hashPsw(src.psw)
-    src.psw = hash
+    src = {
+        ...src,
+        psw: hash
+    }
     const user = await usersApi.createUser(src)
     return user
 }

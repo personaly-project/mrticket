@@ -14,6 +14,7 @@ module.exports = {
         dark: "#280060",
       },
       yellow: "#FFC200",
+      danger: "#DC2626"
     },
     // spacing: {
     //   tiny: "0.375rem",

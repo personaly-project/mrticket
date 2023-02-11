@@ -46,7 +46,6 @@ export const createRandomTicket = (eventID: string, sellerId: string): INewTicke
 export const createRandomUser = (): INewUserSrcData => {
     return {
         avatarUrl: faker.internet.url(),
-        buyHistory: [],
         email: faker.internet.email(),
         username: faker.internet.userName(),
         firstName: faker.name.firstName(),

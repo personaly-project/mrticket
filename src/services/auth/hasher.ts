@@ -1,6 +1,6 @@
 import { hash, compare } from "bcrypt"
 
-const ROUNDS = 20
+const ROUNDS = 5
 
 export const hashPsw = async (psw: string) => {
     const hashed = await hash(psw, ROUNDS)

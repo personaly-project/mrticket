@@ -55,7 +55,6 @@ export interface INewUserSrcData {
   firstName: string,
   lastName: string,
   avatarUrl: string,
-  buyHistory: []
 }
 
 export interface ICity {
@@ -112,3 +111,7 @@ export interface IUserUpdate {
   avatarUrl: string,
 }
 
+export interface IApiResponse<T> {
+  data?: T,
+  error?: string
+}

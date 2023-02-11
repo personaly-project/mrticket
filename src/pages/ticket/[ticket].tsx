@@ -84,14 +84,23 @@ const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // Fetch data from external API
-  const ticketData = await ticketsApi.getTicket(
-    context.params!.ticket as string
-  );
-  const eventData = await eventsApi.getEvent(ticketData.eventId);
-  const venueData = await venuesApi.getVenue(eventData.venueId);
+  try {
+    const ticketData = await ticketsApi.getTicket(
+      context.params!.ticket as string
+    );
+    const eventData = await eventsApi.getEvent(ticketData.eventId);
+    const venueData = await venuesApi.getVenue(eventData.venueId);
 
-  // Pass data to the page via props
-  return { props: { ticketData, eventData, venueData } };
+
+    // Pass data to the page via props
+    return { props: { ticketData, eventData, venueData } };
+  }
+  catch (err) {
+    return {
+      notFound: true,
+    }
+  }
+
 };
 
 export default TicketPage;

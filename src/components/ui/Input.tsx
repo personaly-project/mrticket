@@ -6,6 +6,7 @@ interface IProps {
   type?: string;
   listener: (src: any) => void;
   placeholder?: string;
+  required?: boolean
 }
 
 const Input: React.FC<IProps> = ({
@@ -14,6 +15,7 @@ const Input: React.FC<IProps> = ({
   type,
   placeholder,
   listener,
+  required
 }) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     listener(e.target.value);
@@ -26,7 +28,7 @@ const Input: React.FC<IProps> = ({
         {title}{" "}
       </label>
       <input
-        required
+        required={required}
         placeholder={placeholder}
         className="p-1 border rounded border-slate-300"
         type={type ? type : "text"}

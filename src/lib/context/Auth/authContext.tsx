@@ -1,5 +1,5 @@
-import { createRandomUser } from "@/lib/utils";
-import { createContext, FC, ReactNode, useCallback, useState } from "react";
+import { useRouter } from "next/router";
+import { createContext, ReactNode, useCallback, useState } from "react";
 import { IApiResponse, INewUserSrcData, IUser } from "../../types";
 
 interface IAuthContext {
@@ -28,8 +28,10 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
     const [user, setUser] = useState<IUser | undefined>()
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>()
+    const router = useRouter()
 
     const login = useCallback(async (email: string, psw: string) => {
+        setIsLoading(true)
         const resp = await fetch('/api/login', {
             method: "POST",
             headers: {
@@ -44,15 +46,17 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
             setError(error)
         } else if (data) {
             //success
-            console.log(data)
             setUser(data)
+            router.push('/')
         } else {
             //undefined error not carried trough the error field en the api response
             setError("unknown error")
         }
-    }, [])
+        setIsLoading(false)
+    }, [router])
 
     const signUp = useCallback(async (src: INewUserSrcData) => {
+        setIsLoading(true)
         const resp = await fetch('/api/signUp', {
             method: "POST",
             headers: {
@@ -69,18 +73,20 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
         } else if (data) {
             //success
             setUser(data)
+            router.push('/')
         } else {
             //undefined error not carried trough the error field en the api response
             setError("unknown error")
         }
-    }, [])
+        setIsLoading(false)
+    }, [router])
 
     const logout = useCallback(() => {
         setUser(undefined)
         setError(undefined)
         setIsLoading(false)
     }, [])
-    console.log("in auth", user)
+
     return (
         <authCtx.Provider value={{
             login,

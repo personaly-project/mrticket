@@ -11,7 +11,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
     }
 
     const { email, psw } = JSON.parse(req.body) as { email: string, psw: string }
-    console.log(email, psw)
     if (!email || !psw) {
         return res.status(400).json({
             error: "bad request"

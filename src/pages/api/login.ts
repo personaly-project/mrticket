@@ -1,6 +1,7 @@
 import { IApiResponse, IUser } from "@/lib/types";
 import { login } from "@/services/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { encode } from "@/services/auth/jwt";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IUser>>) => {
 
@@ -18,6 +19,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
     }
     try {
         const targetUser = await login(email, psw)
+        const token = encode(targetUser)
+        res.setHeader("Authorization", `Bearer ${token}`)
         return res.status(200).json({
             data: targetUser
 

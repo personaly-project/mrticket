@@ -1,14 +1,8 @@
 /** @format */
 import Stripe from "stripe";
-
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { type } from "os";
-const stripeConfig = {
-  apiVersion: "2020-08-27",
-  secretKey: process.env.STRIPE_SECRET_KEY,
-  publicKey: process.env.STRIPE_PUBLIC_KEY,
-};
+
 type Data = {
   amount: number;
 };

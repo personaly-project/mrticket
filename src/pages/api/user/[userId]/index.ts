@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IApiResponse, IPublicProfile } from "@/lib/types";
 import { ticketsApi, usersApi } from "@/services/prisma";
+import { withBearerToken } from "@/lib/middleware";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IPublicProfile>>) => {
 
@@ -32,4 +33,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IP
     }
 }
 
-export default handler
+export default withBearerToken(handler)

@@ -1,5 +1,6 @@
-import { enforceBearerToken } from "./withAuth";
+import { enforceBearerToken, withBearerToken } from "./withAuth";
 
 export {
-    enforceBearerToken
+    enforceBearerToken,
+    withBearerToken
 }

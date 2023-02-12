@@ -115,3 +115,10 @@ export interface IApiResponse<T> {
   data?: T,
   error?: string
 }
+
+export interface IPublicProfile {
+  email: string,
+  username: string,
+  avatarUrl: string,
+  tickets: ITicket[]
+}

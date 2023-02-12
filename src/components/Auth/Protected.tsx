@@ -17,7 +17,7 @@ const ProtectedRoute: React.FC<IProps> = ({ children, disabled }) => {
     }
 
     useEffect(() => {
-        if (!isLoading && !user) {
+        if (!isLoading && !user && !disabled) {
             router.push('/login')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

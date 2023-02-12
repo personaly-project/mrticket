@@ -23,9 +23,8 @@ export const enforceBearerToken = (handler: NextApiHandler) => {
 
 export const withBearerToken = (handler: NextApiHandler) => {
     return async (req: NextApiRequest, res: NextApiResponse<IApiResponse<unknown>>) => {
-        const { userId } = req.query
         const authorizationHeader = req.headers.authorization
-        if (!userId || typeof userId !== "string" || !authorizationHeader) return res.status(401).json({ error: "missing authentication in request" })
+        if (!authorizationHeader) return res.status(401).json({ error: "missing authentication in request" })
         try {
             const decoded = decode<IUser>(authorizationHeader)
             const newToken = encode(decoded)

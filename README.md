@@ -1,3 +1,5 @@
+> **_NOTE:_** Add SECRET_KEY="sklajdgb34tbksdjavfSECREt" to env in development for jwt functions
+
 > **_NOTE:_**  To use seed your local db, instal missing dependencies first with yarn, then do npx prisma migrate dev so the db tables would update to the current schema and prisma will auto run the seed script
 
 ## Project Management - Linear

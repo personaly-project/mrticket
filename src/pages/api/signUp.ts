@@ -2,6 +2,7 @@ import { INewUserSrcData, IApiResponse, IUser } from "@/lib/types";
 import { signUp } from "@/services/auth";
 import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { encode } from "@/services/auth/jwt";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IUser>>) => {
 
@@ -14,7 +15,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
     console.log(src)
     try {
         const user = await signUp(src)
-        console.log(user)
+        const token = encode(user)
+        res.setHeader("Authorization", `Bearer ${token}`)
         return res.status(200).json({
             data: user
         })

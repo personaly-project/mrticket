@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IP
         }
 
         return res.status(200).json({
-            data: publicProfile
+            data: publicProfile,
         })
     } catch (err) {
         return res.status(500).json({
@@ -33,4 +33,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IP
     }
 }
 
-export default withBearerToken(handler)
+export default handler

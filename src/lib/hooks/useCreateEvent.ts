@@ -2,9 +2,9 @@ import { useState } from "react";
 import { INewEventSrcData } from "../types";
 
 export const useCreateEvent = (venueId: string) => {
-  const [eventType, setEventType] = useState<string>("");
-  const [startHour, setStartHour] = useState<Date>();
-  const [date, setDate] = useState<Date>();
+  const [eventType, setEventType] = useState<string>("concert");
+  const [startHour, setStartHour] = useState<string>("");
+  const [date, setDate] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [performers, setPerformers] = useState<string[]>([]);
   const [eventSpecs, setEventSpecs] = useState<string>("");
@@ -13,11 +13,11 @@ export const useCreateEvent = (venueId: string) => {
     setEventType(src);
   };
 
-  const updateStartHour = (src: Date) => {
+  const updateStartHour = (src: string) => {
     setStartHour(src);
   };
 
-  const updateDate = (src: Date) => {
+  const updateDate = (src: string) => {
     setDate(src);
   };
 
@@ -38,7 +38,7 @@ export const useCreateEvent = (venueId: string) => {
       return {
         eventType,
         startHour,
-        date,
+        date: new Date(date),
         title,
         performers,
         eventSpecs: null,

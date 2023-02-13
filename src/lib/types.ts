@@ -3,7 +3,7 @@
 export interface IEvent {
   id: string;
   eventType: string;
-  startHour: Date;
+  startHour: string;
   date: Date;
   title: string;
   performers: string[];
@@ -18,7 +18,7 @@ export interface ISearchQ<T> {
 
 export interface INewEventSrcData {
   eventType: string;
-  startHour: Date;
+  startHour: string;
   date: Date;
   title: string;
   performers: string[];
@@ -29,12 +29,11 @@ export interface INewEventSrcData {
 export interface INewTicketSrcData {
   title: string;
   ticket: string;
-  sold: boolean;
+  sold: false;
   price: number;
   imgs: string[];
   eventId: string;
   sellerId: string;
-  buyerId: string | null
 }
 
 export interface INewVenueSrcData {

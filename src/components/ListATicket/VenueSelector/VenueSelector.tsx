@@ -33,21 +33,20 @@ const VenueSelector: React.FC<IProps> = ({ venuesSrc, onSubmitVenue }) => {
       {venue ? (
         <>
           <h3>
-            {" "}
             Selected: {venue.name} {confirmed ? "Confirmed" : null}{" "}
           </h3>
-          <div className="flex flex-row items-center justify-around">
+          <div className="flex flex-row items-center my-4 gap-4">
             <button
               onClick={toggleMakeNew}
-              className="m-4 p-4 bg-red-500 rounded-md shadow text-white"
+              className="px-4 py-2 bg-danger rounded-md shadow text-white"
             >
               Reset
             </button>
             <button
               onClick={onExistingConfirmed}
-              className="m-4 p-4 bg-blue-500 rounded-md shadow text-white"
+              className="px-4 py-2 bg-purple-medium rounded-md shadow text-white"
             >
-              confirm
+              Confirm
             </button>
           </div>
         </>
@@ -55,7 +54,7 @@ const VenueSelector: React.FC<IProps> = ({ venuesSrc, onSubmitVenue }) => {
         <>
           <button
             onClick={toggleMakeNew}
-            className="m-4 p-4 bg-blue-500 rounded-md shadow text-white"
+            className="my-4 px-4 py-2 bg-purple-dark rounded-md shadow text-white"
           >
             {makeNew ? "Use existing" : "Make new"}
           </button>

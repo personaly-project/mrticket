@@ -12,7 +12,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
         })
     }
     const src = JSON.parse(req.body) as INewUserSrcData
-    console.log(src)
     try {
         const user = await signUp(src)
         const token = encode(user)

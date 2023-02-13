@@ -49,7 +49,13 @@ const getEventsSearch = async (
 
 const createEvent = async (src: INewEventSrcData): Promise<IEvent> => {
   const newEvent = prisma.event.create({
-    data: src,
+    data: {
+      date: src.date,
+      eventType: src.eventType,
+      startHour: src.startHour,
+      title: src.title,
+      venueId: src.venueId
+    },
   });
 
   return newEvent;

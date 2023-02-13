@@ -48,7 +48,7 @@ const createRandomEvent = (venueID: string): INewEventSrcData => {
     performers: faker.helpers.uniqueArray(() => {
       return `performer: ${faker.random.word()}`;
     }, getGenNumber(2)),
-    startHour: faker.date.future(),
+    startHour: faker.date.future().toDateString(),
     title: "Title: " + faker.lorem.words(getGenNumber(5)),
     venueId: venueID,
   };
@@ -68,7 +68,6 @@ const createRandomTicket = (
     price: parseInt(faker.finance.amount()),
     ticket: "Ticket: " + faker.lorem.words(getGenNumber(5)),
     title: "Title of Ticket: " + faker.lorem.words(getGenNumber(4)),
-    buyerId: "",
   };
 };
 

@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IT
         return res.status(405).json({})
     }
     try {
-        const src = req.body as INewTicketSrcData
+        const src = JSON.parse(req.body) as INewTicketSrcData
         const { userId } = req.query
         if (!userId || !src) return res.status(400).json({
             error: "bad request"
@@ -20,10 +20,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IT
             data: ticket
         })
     } catch (err) {
+        console.log(err)
         return res.status(500).json({
             error: "unknown error"
         })
     }
 }
 
-export default enforceBearerToken(handler)
+export default handler

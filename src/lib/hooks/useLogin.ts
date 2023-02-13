@@ -2,8 +2,8 @@ import { useState, useCallback } from "react"
 import emailValidator from "email-validator"
 
 export const useLogin = (dispatchLogin: (email: string, psw: string) => void) => {
-    const [email, setEmail] = useState<string>()
-    const [psw, setPsw] = useState<string>()
+    const [email, setEmail] = useState<string>("")
+    const [psw, setPsw] = useState<string>("")
     const [pswVisibility, setPswVisibility] = useState<boolean>(false)
 
     const updateEmail = (update: string) => {

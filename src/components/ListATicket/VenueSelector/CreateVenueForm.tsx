@@ -40,7 +40,7 @@ const CreateVenueForm: React.FC<IProps> = ({ onSubmit }) => {
     useEffect(() => {
         const venueSrc = getVenue()
         if (loading && venueSrc) {
-            fetch('/api/tickets', {
+            fetch('/api/venues', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,8 +48,9 @@ const CreateVenueForm: React.FC<IProps> = ({ onSubmit }) => {
                 body: JSON.stringify(venueSrc)
             })
                 .then(resp => resp.json())
-                .then(venue => {
-                    onSubmit(venue)
+                .then(parsed => {
+                    console.log(parsed.data)
+                    onSubmit(parsed.data)
                     setIsLoading(false)
                 })
         }
@@ -69,14 +70,14 @@ const CreateVenueForm: React.FC<IProps> = ({ onSubmit }) => {
                 <Input title='Place type' placeholder='Venue type' listener={updatePlaceType} value={placeType} />
                 {
                     loading ? <p> Loading </p> : (
-                        <>
-                            <button type='submit' className='p-2 bg-blue-600 rounded-md shadow text-white w-32 self-end'>
-                                Submit
-                            </button>
-                            <button type='reset' className='p-2 bg-red-600 rounded-md shadow text-white w-32 self-end'>
+                        <div className='flex flex-row items-center justify-center gap-2 w-fit'>
+                            <button type='reset' className='py-2 px-4 bg-danger rounded-md shadow text-white w-32 self-end'>
                                 Reset
                             </button>
-                        </>
+                            <button type='submit' className='py-2 px-4 bg-purple-medium rounded-md shadow text-white w-32 self-end'>
+                                Submit
+                            </button>
+                        </div>
                     )
                 }
             </form>

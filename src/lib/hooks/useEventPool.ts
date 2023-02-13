@@ -23,18 +23,19 @@ export function useEventPool(venue: Venue | null): IEventPoolData {
             },
         })
             .then((resp) => resp.json())
-            .then((events) => {
-                if (events.error) {
+            .then((parsed) => {
+                if (parsed.error) {
                     setEventPoolData({
-                        eventPool: [] as IEvent[],
+                        eventPool: [],
                         loading: false,
-                        error: events.error
+                        error: parsed.error
                     })
                 } else {
+                    console.log(parsed.data)
                     setEventPoolData({
-                        eventPool: events.eventPool as IEvent[],
+                        eventPool: parsed.data,
                         loading: false,
-                        error: events.error,
+                        error: parsed.error,
                     });
                 }
 

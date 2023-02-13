@@ -36,7 +36,7 @@ model Ticket {
 model Event {
   id         String   @id @default(uuid())
   eventType  String
-  startHour  DateTime
+  startHour  String
   date       DateTime
   title      String
   performers String[]

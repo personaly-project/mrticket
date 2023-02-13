@@ -1,32 +1,27 @@
 import { useEventPool } from "@/lib/hooks/useEventPool";
-import { INewTicketSrcData } from "@/lib/types";
-import TicketPage from "@/pages/ticket/[ticket]";
-import { Event as PEvent, Ticket, Venue } from "@prisma/client";
-import { debug } from "console";
+import { IVenue, ITicket, IEvent, INewTicketSrcData } from "@/lib/types";
 import { useRouter } from "next/router";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import EventSelector from "./EventSelector/EventSelector";
-import MainForm from "./MainForm";
-import Step from "./Step";
+import CreateTicketForm from "./TicketCreator/CreateTicketForm";
 import VenueSelector from "./VenueSelector/VenueSelector";
-
-const STEPS = ["venue", "event", "ticket", "confirmation"];
+import Confirmation from "./Confirmation";
 
 interface IProps {
-  venues: Venue[];
+  venues: IVenue[];
 }
 
 const ListATicket: React.FC<IProps> = ({ venues }) => {
   const router = useRouter();
 
-  const [venue, setVenue] = useState<Venue | null>(null);
+  const [venue, setVenue] = useState<IVenue | null>(null);
   const {
     eventPool,
     loading: isEventPoolLoading,
     error: eventPoolError,
   } = useEventPool(venue);
-  const [event, setEvent] = useState<PEvent | null>(null);
-  const [ticket, setTicket] = useState<INewTicketSrcData | null>(null);
+  const [event, setEvent] = useState<IEvent | null>(null);
+  const [ticket, setTicket] = useState<INewTicketSrcData | null>(null)
 
   const resetVenue = () => {
     setVenue(null);
@@ -36,30 +31,21 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
     setEvent(null);
   };
 
-  const onSubmitVenue = (venue: Venue) => {
+  const onSubmitVenue = (venue: IVenue) => {
     setVenue(venue);
   };
 
-  const onSubmitEvent = (event: PEvent) => {
+  const onSubmitEvent = (event: IEvent) => {
+    console.log(event)
     setEvent(event);
   };
 
-  const onTicketConfirmed = (ticket: Ticket) => {
-    router.push(`/tickets/${ticket.id}`);
+  const onSubmitTicket = (ticket: INewTicketSrcData) => {
+    setTicket(ticket)
+  }
+  const onTicketConfirmed = (ticket: ITicket) => {
+    router.push(`/ticket/${ticket.id}`);
   };
-
-  const ticketStep = (target: number) => (
-    <Step next={() => {}} tittle={STEPS[target]}>
-      {" "}
-      <div>ticket</div>{" "}
-    </Step>
-  );
-  const confirmationStep = (target: number) => (
-    <Step next={() => {}} tittle={STEPS[target]}>
-      {" "}
-      <div>confirmation</div>{" "}
-    </Step>
-  );
 
   function displayStep() {
     if (!venue)
@@ -77,26 +63,21 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
           <EventSelector
             venueID={venue.id}
             eventsPool={eventPool}
-            onSubmitEvent={onSubmitEvent} //{(event) => console.log(event)}
-            reset={() => {}}
+            onSubmitEvent={onSubmitEvent}
+            reset={resetEvent}
           />
         );
       if (eventPoolError) return <div>Error!</div>;
     }
-    // if(!ticket)return <>Ticket Placeholder</>
-    return <div>Step Placeholder</div>;
+    if (event && !ticket) return <CreateTicketForm eventId={event.id} onSubmit={onSubmitTicket} />
+    else if (ticket) return <Confirmation event={event!} onTicketConfirmed={onTicketConfirmed} ticketSrc={ticket} venue={venue} />
+    return null
   }
 
   return (
-    <div className="p-4 rounded-md shadow">
+    <div className="p-4 rounded-md shadow mt-20">
       <h1 className="text-xl font-semibold"> List a ticket </h1>
-      <MainForm tittle={"Title Placeholder"}>{displayStep()}</MainForm>
-      <button
-        onClick={() => {}}
-        className="p-2 bg-blue-600 rounded-md shadow text-white w-32 self-end"
-      >
-        Next
-      </button>
+      {displayStep()}
     </div>
   );
 };

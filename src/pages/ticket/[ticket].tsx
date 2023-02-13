@@ -1,7 +1,7 @@
 /** @format */
 
 import { FC } from "react";
-import { Ticket, Event, Venue } from "@prisma/client";
+import { ITicket, IEvent, IVenue } from "@/lib/types";
 import { venuesApi } from "@/services/prisma/venues";
 import { eventsApi } from "@/services/prisma/events";
 import { ticketsApi } from "@/services/prisma/tickets";
@@ -9,9 +9,9 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 
 interface IPageProps {
-  ticketData: Ticket;
-  eventData: Event;
-  venueData: Venue;
+  ticketData: ITicket;
+  eventData: IEvent;
+  venueData: IVenue;
 }
 
 const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
@@ -54,8 +54,7 @@ const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
           Event: {eventData.title} | Event Type: {eventData.eventType}{" "}
         </li>
         <li>
-          When : {eventData.date.toString()} @{" "}
-          {eventData.startHour.toTimeString()}{" "}
+          When : {eventData.date.getDate()}/{eventData.date.getMonth()}/{eventData.date.getFullYear()} - {eventData.startHour}
         </li>
         <li>Performers: {eventData.performers} </li>
         <li> Price: ${ticketData.price} </li>

@@ -13,6 +13,6 @@ export function encode<T>(src: T & object): string {
 }
 
 export function decode<T>(authHeader: string): T {
-    const token = authHeader.split(' ')[2]
+    const token = authHeader.split(' ')[1]
     return jwt.verify(token, SECRET_KEY) as T
 }

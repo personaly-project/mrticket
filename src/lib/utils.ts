@@ -24,7 +24,7 @@ export const createRandomEvent = (venueID: string): INewEventSrcData => {
         eventSpecs: faker.lorem.sentences(3),
         eventType: eventTypes[getGenNumber(2)],
         performers: faker.helpers.uniqueArray(faker.random.word, getGenNumber(2)),
-        startHour: faker.date.future(),
+        startHour: faker.date.future().toDateString(),
         title: faker.lorem.words(getGenNumber(5)),
         venueId: venueID,
     }
@@ -39,7 +39,6 @@ export const createRandomTicket = (eventID: string, sellerId: string): INewTicke
         ticket: faker.lorem.words(getGenNumber(5)),
         title: faker.lorem.words(getGenNumber(5)),
         sellerId,
-        buyerId: null
     }
 }
 

@@ -11,8 +11,6 @@ export default function Search({ ticketSearch, setTicketSearch }: IProps) {
   const [venues, setVenues] = useState<any>([]);
   const handleChange = (e: any) => {
     setTicketSearch(e.target.value);
-    // console.log keys from venues
-    // get all the keys from an object
   };
 
   useEffect(() => {

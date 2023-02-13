@@ -3,11 +3,11 @@ import { INewUserSrcData } from "../types"
 import emailValidator from "email-validator"
 
 export const useSignUp = (dispatchRegister: (src: INewUserSrcData) => void) => {
-    const [username, setUsername] = useState<string | undefined>()
-    const [email, setEmail] = useState<string | undefined>()
-    const [firstName, setFirstName] = useState<string | undefined>()
-    const [lastName, setLastName] = useState<string | undefined>()
-    const [psw, setPsw] = useState<string | undefined>()
+    const [username, setUsername] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [firstName, setFirstName] = useState<string>("")
+    const [lastName, setLastName] = useState<string>("")
+    const [psw, setPsw] = useState<string>("")
     const [pswVisibility, setPswVisibility] = useState<boolean>(false)
 
     const togglePswVisibility = () => {
@@ -19,19 +19,19 @@ export const useSignUp = (dispatchRegister: (src: INewUserSrcData) => void) => {
         return "password"
     }, [pswVisibility])
 
-    const updateUsername = (update?: string) => {
+    const updateUsername = (update: string) => {
         setUsername(update)
     }
-    const updateEmail = (update?: string) => {
+    const updateEmail = (update: string) => {
         setEmail(update)
     }
-    const updateFirstName = (update?: string) => {
+    const updateFirstName = (update: string) => {
         setFirstName(update)
     }
-    const updateLastName = (update?: string) => {
+    const updateLastName = (update: string) => {
         setLastName(update)
     }
-    const updatePsw = (update?: string) => {
+    const updatePsw = (update: string) => {
         setPsw(update)
     }
 

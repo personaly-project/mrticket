@@ -4,6 +4,7 @@ import { useSelector } from "./useSelector";
 import { useEventPool } from "./useEventPool";
 import { useSignUp } from "./useSignUp";
 import { useLogin } from "./useLogin";
+import { useCreateTicket } from "./useCreateTicket";
 
 export {
     useCreateVenue,
@@ -11,5 +12,6 @@ export {
     useSelector,
     useEventPool,
     useSignUp,
-    useLogin
+    useLogin,
+    useCreateTicket
 }

@@ -1,26 +1,22 @@
+import { IApiResponse, IEvent } from "@/lib/types";
 import { venuesApi } from "@/services/prisma";
-import { Event as PEvent } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-interface IData {
-    eventPool?: PEvent[]
-}
 
-const handler = async (req: NextApiRequest, resp: NextApiResponse<IData>) => {
-
+const handler = async (req: NextApiRequest, resp: NextApiResponse<IApiResponse<IEvent[]>>) => {
     if (req.method !== 'GET') {
-        resp.status(405).json({})
+        return resp.status(400).json({
+            error: "bad request"
+        })
     }
-
-    const target = req.query.venueId as string
-
     try {
+        const target = req.query.venueId as string
         const venue = await venuesApi.getVenue(target)
-        return resp.status(200).json({ eventPool: venue.events })
-
+        return resp.status(200).json({ data: venue.events })
     } catch (err) {
-        console.log(err)
-        resp.status(500).json({})
+        return resp.status(500).json({
+            error: "unknown error "
+        })
     }
 }
 

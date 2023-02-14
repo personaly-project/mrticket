@@ -85,6 +85,19 @@ const updateTicket = async (
   return updated;
 };
 
+const getAllTickets = async (): Promise<ITicket[]> => {
+  const date = new Date();
+
+  const tickets = await prisma.ticket.findMany({
+    where: {
+      sold: false,
+    },
+  });
+  console.log(tickets);
+  console.log("tickets");
+  return tickets;
+};
+
 export const ticketsApi = {
   getTicket,
   createNewTicket,
@@ -92,4 +105,5 @@ export const ticketsApi = {
   onTicketSold,
   searchTickets,
   updateTicket,
+  getAllTickets,
 };

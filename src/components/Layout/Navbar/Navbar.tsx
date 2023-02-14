@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useContext } from "react";
 import Link from "next/link";
 import { Disclosure } from "@headlessui/react";
@@ -7,6 +9,8 @@ import logoMustache from "../../images/logoCircleYellow.png";
 import logoWordsPurple from "../../images/logoWordsPurple.png";
 import { authCtx } from "@/lib/context/Auth/authContext";
 import Profile from "./Profile";
+import { useState } from "react";
+import searchFunction from "@/lib/searchFunction";
 
 const navigation = [
   { name: "Events", href: "#", current: false },
@@ -18,9 +22,13 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar() {
+interface IProps {
+  ticketSearch: string;
+  setTicketSearch: (value: string) => void;
+}
 
-  const { user, logout } = useContext(authCtx)
+export default function Navbar({ ticketSearch, setTicketSearch }: IProps) {
+  const { user, logout } = useContext(authCtx);
 
   return (
     <Disclosure as="nav" className="">
@@ -40,7 +48,7 @@ export default function Navbar() {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 justify-end sm:items-stretch sm:justify-start">
-                <Link href='/' >
+                <Link href="/">
                   <div className="flex flex-shrink-0 items-center space-x-3">
                     <div className="h-10 w-10 lg:block">
                       <Image src={logoMustache} alt="" />
@@ -67,32 +75,43 @@ export default function Navbar() {
                         {item.name}
                       </Link>
                     ))}
+                    <div className="flex items-center space-x-3">
+                      <input
+                        className="bg-[#F2F2F2] rounded-3xl px-3 py-2"
+                        placeholder="Search  Here"
+                        type="text"
+                        value={ticketSearch}
+                        onChange={(e) => setTicketSearch(e.target.value)}
+                      />
+                      <button className="bg-[#FFC200] text-black rounded-3xl px-3 py-2">
+                        Search
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
+
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* Profile dropdown */}
-                {
-                  user ? (
-                    <>
-                      <button
-                        type="button"
-                        className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                      >
-                        <span className="sr-only">View notifications</span>
-                        <StarIcon
-                          className="h-6 w-6 fill-yellow"
-                          aria-hidden="true"
-                        />
-                      </button>
-                      <Profile logout={logout} />
-                    </>
-                  ) : (
-                    <Link href={"/login"} >
-                      <p className="cursor-pointer" >Login / SignUp</p>
-                    </Link>
-                  )
-                }
+                {user ? (
+                  <>
+                    <button
+                      type="button"
+                      className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    >
+                      <span className="sr-only">View notifications</span>
+                      <StarIcon
+                        className="h-6 w-6 fill-yellow"
+                        aria-hidden="true"
+                      />
+                    </button>
+                    <Profile logout={logout} />
+                  </>
+                ) : (
+                  <Link href={"/login"}>
+                    <p className="cursor-pointer">Login / SignUp</p>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

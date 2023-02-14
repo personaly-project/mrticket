@@ -1,15 +1,17 @@
+/** @format */
+
 import { FC, ReactNode } from "react";
 import { Navbar } from "./Navbar";
 
 interface IProps {
-  children: ReactNode;
+  ticketSearch: string;
+  setTicketSearch: (value: string) => void;
 }
 
-const Layout: FC<IProps> = ({ children }) => {
+const Layout = (props: IProps) => {
   return (
     <div className="min-h-screen">
-      <Navbar />
-      {children}
+      <Navbar {...props} />
     </div>
   );
 };

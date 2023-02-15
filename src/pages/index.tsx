@@ -1,8 +1,19 @@
 /** @format */
 import SearchFeature from "@/components/SearchFeataure";
+import { ITicket, IEvent, IVenue } from "@/lib/types";
+import { venuesApi } from "@/services/prisma";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
-export default function Home() {
+import { getAllEvents } from "@/services/prisma/events";
+import { ticketsApi } from "@/services/prisma";
+
+interface IPageProps {
+  venueData: IVenue;
+  allEvents: IEvent[];
+  allTickets: ITicket[];
+}
+
+export default function Home({ venueData, allEvents, allTickets }: IPageProps) {
   return (
     <>
       <main>
@@ -10,7 +21,20 @@ export default function Home() {
           see ticket
         </Link>
       </main>
-      <SearchFeature />
+      <SearchFeature
+        venuedata={venueData}
+        allevents={allEvents}
+        alltickets={allTickets}
+      />
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const venueData = await venuesApi.getAllVenues();
+
+  const allEvents = await getAllEvents();
+  const allTickets = await ticketsApi.getAllTickets();
+
+  return { props: { venueData, allEvents, allTickets } };
+};

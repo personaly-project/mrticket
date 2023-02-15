@@ -1,11 +1,11 @@
 /** @format */
 import SearchFeature from "@/components/SearchFeataure";
 import { ITicket, IEvent, IVenue } from "@/lib/types";
-import { venuesApi } from "@/services/prisma";
+import { venuesApi, eventsApi, ticketsApi } from "@/services/prisma";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { getAllEvents } from "@/services/prisma/events";
-import { ticketsApi } from "@/services/prisma";
+
 
 interface IPageProps {
   venueData: IVenue;
@@ -31,10 +31,9 @@ export default function Home({ venueData, allEvents, allTickets }: IPageProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const venueData = await venuesApi.getAllVenues();
-
+  const venueData = await getAllVenues();
   const allEvents = await getAllEvents();
-  const allTickets = await ticketsApi.getAllTickets();
+  const allTickets = await getAllTickets();
 
   return { props: { venueData, allEvents, allTickets } };
 };

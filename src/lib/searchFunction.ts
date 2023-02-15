@@ -6,19 +6,12 @@ function filterObject<T>(
   objectExample: T,
   searchQuery: string
 ) {
-  if (searchQuery.length < 2) {
-    return inputArray;
-  }
   let result: T[] = [];
-  if (
-    typeof objectExample !== "object" ||
-    typeof Array.isArray(objectExample)
-  ) {
-    return;
+  if (typeof objectExample !== "object") {
+    return [];
   }
-
   if (!objectExample) {
-    return;
+    return [];
   }
 
   const keys: string[] = Object.keys(objectExample);

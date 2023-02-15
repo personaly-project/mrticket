@@ -48,12 +48,12 @@ export interface INewVenueSrcData {
 }
 
 export interface INewUserSrcData {
-  psw: string,
-  email: string,
-  username: string,
-  firstName: string,
-  lastName: string,
-  avatarUrl: string,
+  psw: string;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
 }
 
 export interface ICity {
@@ -86,7 +86,6 @@ export interface ITicket {
   price: number;
   imgs: string[];
   eventId: string;
-  buyerId: string | null;
 }
 
 export interface IVenue {

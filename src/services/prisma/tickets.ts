@@ -1,38 +1,38 @@
 /** @format */
 
-import prisma from "./prisma";
-import { INewTicketSrcData, ISearchQ, ITicket } from "@/lib/types";
-import { createRandomTicket } from "@/lib/utils";
+import prisma from "./prisma"
+import { INewTicketSrcData, ISearchQ, ITicket } from "@/lib/types"
+import { createRandomTicket } from "@/lib/utils"
 
 const sampleTicket: ITicket = {
   ...createRandomTicket("event-sample-id", "sample-user-id"),
   id: "sample-ticket-id",
-};
+}
 
 const getTicket = async (ticketId: string): Promise<ITicket> => {
   const ticket = await prisma.ticket.findUniqueOrThrow({
     where: {
       id: ticketId,
     },
-  });
-  return ticket;
-};
+  })
+  return ticket
+}
 
 const createNewTicket = async (src: INewTicketSrcData): Promise<ITicket> => {
   const ticket = await prisma.ticket.create({
     data: src,
-  });
-  return ticket;
-};
+  })
+  return ticket
+}
 
 const getTicketByEvent = async (eventId: string): Promise<ITicket[]> => {
   const tickets = prisma.ticket.findMany({
     where: {
       eventId: eventId,
     },
-  });
-  return tickets;
-};
+  })
+  return tickets
+}
 
 const onTicketSold = async (
   ticketId: string,
@@ -46,9 +46,9 @@ const onTicketSold = async (
       sold: true,
       buyerId,
     },
-  });
-  return await getTicket(ticketId);
-};
+  })
+  return await getTicket(ticketId)
+}
 
 const searchTickets = async (
   q: ISearchQ<string | Date | number | boolean>
@@ -56,7 +56,7 @@ const searchTickets = async (
   if (q.target === "id")
     throw new Error(
       "this is the wrong method to make a get by id req, refer to getEvent"
-    );
+    )
   if (
     q.target in sampleTicket &&
     q.target !== "sold" &&
@@ -66,11 +66,11 @@ const searchTickets = async (
       where: {
         [q.target]: q.value,
       },
-    });
-    return tickets;
+    })
+    return tickets
   }
-  throw new Error(`${q.target} is not a valid property`);
-};
+  throw new Error(`${q.target} is not a valid property`)
+}
 
 const updateTicket = async (
   update: INewTicketSrcData,
@@ -81,22 +81,20 @@ const updateTicket = async (
       id: ticketId,
     },
     data: update,
-  });
-  return updated;
-};
+  })
+  return updated
+}
 
-const getAllTickets = async (): Promise<ITicket[]> => {
-  const date = new Date();
+export const getAllTickets = async (): Promise<ITicket[]> => {
+  const date = new Date()
 
   const tickets = await prisma.ticket.findMany({
     where: {
       sold: false,
     },
-  });
-  console.log(tickets);
-  console.log("tickets");
-  return tickets;
-};
+  })
+  return tickets
+}
 
 export const ticketsApi = {
   getTicket,
@@ -106,4 +104,4 @@ export const ticketsApi = {
   searchTickets,
   updateTicket,
   getAllTickets,
-};
+}

@@ -48,12 +48,12 @@ export interface INewVenueSrcData {
 }
 
 export interface INewUserSrcData {
-  psw: string,
-  email: string,
-  username: string,
-  firstName: string,
-  lastName: string,
-  avatarUrl: string,
+  psw: string;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
 }
 
 export interface ICity {
@@ -67,57 +67,57 @@ export interface ICountry {
 }
 
 export interface IUser {
-  id: string,
-  email: string,
-  username: string,
-  firstName: string,
-  lastName: string,
-  avatarUrl: string,
-  buyHistory: string[],
-  psw: string
+  id: string;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
+  buyHistory: string[];
+  psw: string;
 }
 
 export interface ITicket {
-  id: string
-  title: string
-  ticket: string
-  sold: boolean
-  sellerId: string
-  price: number
-  imgs: string[]
-  eventId: string
+  id: string;
+  title: string;
+  ticket: string;
+  sold: boolean;
+  sellerId: string;
+  price: number;
+  imgs: string[];
+  eventId: string;
 }
 
 export interface IVenue {
-  id: string
-  placeType: string
-  address: string
-  city: string
-  country: string
-  state: string
-  timezone: string
-  name: string
-  events?: string[]
-  venueSpecs: string | null
+  id: string;
+  placeType: string;
+  address: string;
+  city: string;
+  country: string;
+  state: string;
+  timezone: string;
+  name: string;
+  events?: string[];
+  venueSpecs: string | null;
 }
 
 export interface IUserUpdate {
-  psw: string,
-  email: string,
-  username: string,
-  firstName: string,
-  lastName: string,
-  avatarUrl: string,
+  psw: string;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
 }
 
 export interface IApiResponse<T> {
-  data?: T,
-  error?: string
+  data?: T;
+  error?: string;
 }
 
 export interface IPublicProfile {
-  email: string,
-  username: string,
-  avatarUrl: string,
-  tickets: ITicket[]
+  email: string;
+  username: string;
+  avatarUrl: string;
+  tickets: ITicket[];
 }

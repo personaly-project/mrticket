@@ -71,9 +71,15 @@ const getEventsOnCity = async (
   }, []);
 };
 
+export const getAllEvents = async (): Promise<IEvent[]> => {
+  const events = await prisma.event.findMany();
+  return events;
+};
+
 export const eventsApi = {
   getEvent,
   getEventsSearch,
   createEvent,
   getEventsOnCity,
+  getAllEvents,
 };

@@ -1,21 +1,28 @@
 /** @format */
-
+import { FC } from "react";
+import { ticketsApi, eventsApi, venuesApi } from "@/services/prisma";
+import { GetServerSideProps } from "next";
+import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import searchFunction from "../lib/searchFunction";
-export default function SearchFeature() {
-  const [tickets, setTickets] = useState<any[]>([]);
+import { ITicket, IEvent, IVenue } from "@/lib/types";
+
+interface IPageProps {
+  allvenues: IVenue;
+  allevents: IEvent[];
+  alltickets: ITicket[];
+}
+
+const SearchFeature: FC<IPageProps> = (props: IPageProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  useEffect(() => {
-    const search = async () => {
-      const allTickets = await fetch("/api/getalltickets");
-      return allTickets.json();
-    };
-    search().then((tickets) => setTickets(tickets["data"]));
-  }, []);
+  const allTickets: ITicket[] = props.alltickets;
+  console.log(allTickets);
+
+  const [tickets, setTickets] = useState<ITicket[]>(allTickets);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    console.log(props);
     const objectToStructure = tickets[0];
     const filteredTickets = searchFunction(
       tickets,
@@ -122,10 +129,10 @@ export default function SearchFeature() {
           gap: "1rem",
         }}
       >
-        {tickets.length > 0 &&
-          tickets.map((ticket: any, index: number) => (
+        {tickets &&
+          tickets.map((ticket: ITicket) => (
             <div
-              key={index}
+              key={ticket.id}
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -137,7 +144,7 @@ export default function SearchFeature() {
               }}
             >
               <li
-                key={index}
+                key={ticket.id}
                 style={{
                   fontSize: "1.5rem",
                   display: "flex",
@@ -149,33 +156,29 @@ export default function SearchFeature() {
                 {ticket.title} {ticket.price}
               </li>
               <li>
-                <button
-                  style={{
-                    marginTop: "1rem",
-                    width: "6rem",
-                    height: "3rem",
-                    borderRadius: "5px",
-                    marginRight: "1rem",
-                    fontSize: "1rem",
-                    padding: "0 1rem",
-                    backgroundColor: "black",
-                    color: "white",
-                  }}
-                >
-                  Buy Now
-                </button>
+                <Link href={`/ticket/${ticket.id}`}>
+                  <button
+                    style={{
+                      marginTop: "1rem",
+                      width: "6rem",
+                      height: "3rem",
+                      borderRadius: "5px",
+                      marginRight: "1rem",
+                      fontSize: "1rem",
+                      padding: "0 1rem",
+                      backgroundColor: "black",
+                      color: "white",
+                    }}
+                  >
+                    Buy Now
+                  </button>
+                </Link>
               </li>
             </div>
           ))}
       </ul>
     </div>
   );
-}
+};
 
-interface Ticket {
-  data: {
-    id: number;
-    title: string;
-    description: string;
-  };
-}
+export default SearchFeature;

@@ -22,7 +22,7 @@ export default function Home({ venueData, allEvents, allTickets }: IPageProps) {
         </Link>
       </main>
       <SearchFeature
-        venuedata={venueData}
+        allvenues={allVenues}
         allevents={allEvents}
         alltickets={allTickets}
       />

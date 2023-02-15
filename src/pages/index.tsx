@@ -1,5 +1,5 @@
 /** @format */
-
+import SearchFeature from "@/components/SearchFeataure";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
           see ticket
         </Link>
       </main>
+      <SearchFeature />
     </>
   );
 }

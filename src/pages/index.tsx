@@ -8,12 +8,12 @@ import { getAllEvents } from "@/services/prisma/events";
 
 
 interface IPageProps {
-  venueData: IVenue;
+  allVenues: IVenue;
   allEvents: IEvent[];
   allTickets: ITicket[];
 }
 
-export default function Home({ venueData, allEvents, allTickets }: IPageProps) {
+export default function Home({ allVenues, allEvents, allTickets }: IPageProps) {
   return (
     <>
       <main>
@@ -31,9 +31,9 @@ export default function Home({ venueData, allEvents, allTickets }: IPageProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const venueData = await getAllVenues();
+  const allVenues = await getAllVenues();
   const allEvents = await getAllEvents();
   const allTickets = await getAllTickets();
 
-  return { props: { venueData, allEvents, allTickets } };
+  return { props: { allVenues, allEvents, allTickets } };
 };

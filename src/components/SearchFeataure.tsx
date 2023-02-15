@@ -1,6 +1,7 @@
 /** @format */
 
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import searchFunction from "../lib/searchFunction";
 export default function SearchFeature() {
   const [tickets, setTickets] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -10,8 +11,19 @@ export default function SearchFeature() {
       return allTickets.json();
     };
     search().then((tickets) => setTickets(tickets["data"]));
-    console.log(tickets);
   }, []);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const objectToStructure = tickets[0];
+    const filteredTickets = searchFunction(
+      tickets,
+      objectToStructure,
+      searchTerm
+    );
+    setTickets(filteredTickets);
+  };
 
   return (
     <div
@@ -33,6 +45,9 @@ export default function SearchFeature() {
           alignItems: "center",
           justifyContent: "center",
           width: "100%",
+        }}
+        onSubmit={(e) => {
+          handleSubmit(e);
         }}
       >
         <input
@@ -95,41 +110,62 @@ export default function SearchFeature() {
         style={{
           display: "flex",
           flexDirection: "column",
-          width: "1000px",
+          width: "1500px",
           height: "700px",
-          position: "absolute",
           fontSize: "1.5rem",
           color: "black",
-          backgroundColor: "red",
-          opacity: "0.1",
-          top: "100px",
+          top: "150%",
+          position: "absolute",
+          border: "1px solid lightgray",
+
           overflow: "scroll",
+          gap: "1rem",
         }}
       >
         {tickets.length > 0 &&
-          tickets.map((ticket: any) => (
-            <li
-              key={ticket.id}
+          tickets.map((ticket: any, index: number) => (
+            <div
+              key={index}
               style={{
-                fontSize: "1.5rem",
-                position: "absolute",
                 display: "flex",
-                flexDirection: "column",
-                width: "1000px",
-                colorAdjust: "exact",
-
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
                 height: "100px",
-                top: "100px",
-
-                backgroundColor: "red",
-
-                transform: "translateX(-50%)",
-                color: "black",
+                padding: "0 1rem",
+                alignItems: "center",
               }}
             >
-              hello beatiful world
-              {ticket.title} {ticket.description}
-            </li>
+              <li
+                key={index}
+                style={{
+                  fontSize: "1.5rem",
+                  display: "flex",
+                  flexDirection: "column",
+
+                  color: "black",
+                }}
+              >
+                {ticket.title} {ticket.price}
+              </li>
+              <li>
+                <button
+                  style={{
+                    marginTop: "1rem",
+                    width: "6rem",
+                    height: "3rem",
+                    borderRadius: "5px",
+                    marginRight: "1rem",
+                    fontSize: "1rem",
+                    padding: "0 1rem",
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
+                >
+                  Buy Now
+                </button>
+              </li>
+            </div>
           ))}
       </ul>
     </div>

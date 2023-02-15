@@ -8,7 +8,7 @@ import searchFunction from "../lib/searchFunction";
 import { ITicket, IEvent, IVenue } from "@/lib/types";
 
 interface IPageProps {
-  venuedata: IVenue;
+  allvenues: IVenue;
   allevents: IEvent[];
   alltickets: ITicket[];
 }

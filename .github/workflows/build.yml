@@ -18,6 +18,5 @@ jobs:
         working-directory: aws-cdk
       - name: install dependencies
         run: yarn
-        working-directory: /
       - name: build-nextjs
         run: yarn build

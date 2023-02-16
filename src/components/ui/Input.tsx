@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 
 interface IProps {
-  title: string;
-  value: any;
-  type?: string;
-  listener: (src: any) => void;
-  placeholder?: string;
+  title: string
+  value: any
+  type?: string
+  listener: (src: any) => void
+  placeholder?: string
   required?: boolean
 }
 
@@ -15,15 +15,15 @@ const Input: React.FC<IProps> = ({
   type,
   placeholder,
   listener,
-  required
+  required,
 }) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    listener(e.target.value);
-  };
+    listener(e.target.value)
+  }
 
   return (
     <div className="flex flex-row justify-between max-w-sm">
-      <label htmlFor={title} className="font-semibold">
+      <label htmlFor={title} className=" ">
         {" "}
         {title}{" "}
       </label>
@@ -36,7 +36,7 @@ const Input: React.FC<IProps> = ({
         onChange={onChange}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

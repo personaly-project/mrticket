@@ -121,3 +121,11 @@ export interface IPublicProfile {
   avatarUrl: string;
   tickets: ITicket[];
 }
+
+export interface ITicketUpdate {
+  title?: string;
+  ticket?: string;
+  sold?: false;
+  price?: number;
+  imgs?: string[];
+}

@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import crowd from "./images/crowd2.jpg";
 
-export default function Hero({}: Props) {
+export default function Hero() {
   return (
     <div className="max-w-[1640px] mx-auto px-4 ">
       <div className="max-h-[500px] relative">

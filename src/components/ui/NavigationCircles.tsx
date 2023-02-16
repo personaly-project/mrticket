@@ -1,15 +1,15 @@
-import { CheckIcon } from '@heroicons/react/20/solid'
+import { CheckIcon } from "@heroicons/react/20/solid"
 
 const steps = [
-  { name: 'Venue', href: '#', status: 'complete' },
-  { name: 'Event', href: '#', status: 'complete' },
-  { name: 'Ticket', href: '#', status: 'current' },
-  { name: 'Review', href: '#', status: 'upcoming' },
-  { name: 'Complete', href: '#', status: 'upcoming' },
+  { name: "Venue", href: "#", status: "complete" },
+  { name: "Event", href: "#", status: "complete" },
+  { name: "Ticket", href: "#", status: "current" },
+  { name: "Review", href: "#", status: "upcoming" },
+  { name: "Complete", href: "#", status: "upcoming" },
 ]
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ")
 }
 
 export default function navigationCircles() {
@@ -17,23 +17,38 @@ export default function navigationCircles() {
     <nav aria-label="Progress">
       <ol role="list" className="flex items-center">
         {steps.map((step, stepIdx) => (
-          <li key={step.name} className={classNames(stepIdx !== steps.length - 1 ? 'pr-8 sm:pr-20' : '', 'relative')}>
-            {step.status === 'complete' ? (
+          <li
+            key={step.name}
+            className={classNames(
+              stepIdx !== steps.length - 1 ? "pr-8 sm:pr-20" : "",
+              "relative"
+            )}
+          >
+            {step.status === "complete" ? (
               <>
-                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                <div
+                  className="absolute inset-0 flex items-center"
+                  aria-hidden="true"
+                >
                   <div className="h-0.5 w-full bg-indigo-600" />
                 </div>
                 <a
                   href="#"
                   className="relative flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 hover:bg-indigo-900"
                 >
-                  <CheckIcon className="h-5 w-5 text-white" aria-hidden="true" />
+                  <CheckIcon
+                    className="h-5 w-5 text-white"
+                    aria-hidden="true"
+                  />
                   <span className="sr-only">{step.name}</span>
                 </a>
               </>
-            ) : step.status === 'current' ? (
+            ) : step.status === "current" ? (
               <>
-                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                <div
+                  className="absolute inset-0 flex items-center"
+                  aria-hidden="true"
+                >
                   <div className="h-0.5 w-full bg-gray-200" />
                 </div>
                 <a
@@ -41,13 +56,19 @@ export default function navigationCircles() {
                   className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-indigo-600 bg-white"
                   aria-current="step"
                 >
-                  <span className="h-2.5 w-2.5 rounded-full bg-indigo-600" aria-hidden="true" />
+                  <span
+                    className="h-2.5 w-2.5 rounded-full bg-indigo-600"
+                    aria-hidden="true"
+                  />
                   <span className="sr-only">{step.name}</span>
                 </a>
               </>
             ) : (
               <>
-                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                <div
+                  className="absolute inset-0 flex items-center"
+                  aria-hidden="true"
+                >
                   <div className="h-0.5 w-full bg-gray-200" />
                 </div>
                 <a

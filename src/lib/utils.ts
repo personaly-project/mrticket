@@ -52,3 +52,7 @@ export const createRandomUser = (): INewUserSrcData => {
         psw: faker.internet.password(),
     }
 }
+
+export const makeFilename = (ownerId: string, name: string) => {
+    return `${ownerId}-${name}`
+}

@@ -1,7 +1,7 @@
 /** @format */
 
 import prisma from "./prisma"
-import { INewTicketSrcData, ISearchQ, ITicket } from "@/lib/types"
+import { INewTicketSrcData, ISearchQ, ITicket, ITicketUpdate } from "@/lib/types"
 import { createRandomTicket } from "@/lib/utils"
 
 const sampleTicket: ITicket = {
@@ -73,7 +73,7 @@ const searchTickets = async (
 }
 
 const updateTicket = async (
-  update: INewTicketSrcData,
+  update: ITicketUpdate,
   ticketId: string
 ): Promise<ITicket> => {
   const updated = await prisma.ticket.update({

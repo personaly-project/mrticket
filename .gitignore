@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/aws-cdk/node_modules
 /.pnp
 .pnp.js
 

@@ -13,5 +13,12 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "18"
-      - run: yarn
-      - run: yarn build
+      - name: install dependencies
+        run: yarn
+        working-directory: ./
+      - name: build CDK
+        run: yarn build
+        working-directory: ./aws-cdk
+      - name: build Project
+        run: yarn build
+        working-directory: ./

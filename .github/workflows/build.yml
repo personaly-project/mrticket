@@ -13,8 +13,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "18"
-      - run: cd aws-cdk
-      - run: yarn
-      - run: cd ../
-      - run: yarn
-      - run: yarn build
+      - name: install dependencies of cdk
+        run: yarn
+        working-directory: aws-cdk
+      - name: install dependencies
+        run: yarn
+        working-directory: /
+      - name: build-nextjs
+        run: yarn build

@@ -15,7 +15,6 @@ jobs:
           node-version: "18"
       - run: cd aws-cdk
       - run: yarn
-      - run: yarn cdk bootstrap
       - run: cd ../
       - run: yarn
       - run: yarn build

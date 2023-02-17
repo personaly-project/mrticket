@@ -4,7 +4,7 @@ import { ticketsApi, eventsApi, venuesApi } from "@/services/prisma";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
-import searchFunction from "../lib/searchFunction";
+import { filterObject, filterEventsBasedOnDate } from "../lib/searchFunction";
 import { ITicket, IEvent, IVenue } from "@/lib/types";
 
 interface IPageProps {
@@ -16,16 +16,24 @@ interface IPageProps {
 const SearchFeature: FC<IPageProps> = (props: IPageProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const allTickets: ITicket[] = props.alltickets;
-  console.log(allTickets);
 
   const [tickets, setTickets] = useState<ITicket[]>(allTickets);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(props);
+    const { alltickets, allevents } = props;
+    console.log(e.target.from.value);
+    const fromDate = e.target.from.value;
+    const toDate = e.target.to.value;
+    const filteredTicketsByDate: any[] = filterEventsBasedOnDate(
+      allevents,
+      alltickets,
+      fromDate,
+      toDate
+    );
     const objectToStructure = tickets[0];
-    const filteredTickets = searchFunction(
-      tickets,
+    const filteredTickets = filterObject(
+      filteredTicketsByDate,
       objectToStructure,
       searchTerm
     );
@@ -74,6 +82,7 @@ const SearchFeature: FC<IPageProps> = (props: IPageProps) => {
         />
         <input
           type="date"
+          name="from"
           style={{
             width: "20%",
             lineHeight: "2rem",
@@ -85,6 +94,7 @@ const SearchFeature: FC<IPageProps> = (props: IPageProps) => {
           placeholder="From"
         />
         <input
+          name="to"
           type="date"
           style={{
             width: "20%",

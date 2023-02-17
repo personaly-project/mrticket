@@ -1,7 +1,7 @@
 /** @format */
 import React from "react";
 
-function filterObject<T>(
+export function filterObject<T>(
   inputArray: Array<T>,
   objectExample: T,
   searchQuery: string
@@ -37,4 +37,66 @@ function filterObject<T>(
   return result;
 }
 
-export default filterObject;
+export const filterEventsBasedOnDate = (
+  events: any[],
+  tickets: any[],
+  fromDate: string,
+  toDate: string
+) => {
+  if (fromDate === "" && toDate === "") {
+    return tickets;
+  }
+  if (fromDate.length < 1) {
+    const currentDate = new Date();
+    fromDate = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`;
+  }
+
+  let fromArray: any[] = fromDate.split("-");
+  let toArray: any[] = toDate.split("-");
+  fromArray = fromArray.map((element) => parseInt(element));
+  toArray = toArray.map((element) => parseInt(element));
+
+  let res: any[] = [];
+  events.forEach((element) => {
+    return res.push({
+      date: element.date.getDate(),
+      month: element.date.getMonth(),
+      year: element.date.getFullYear(),
+      id: element.id,
+    });
+  });
+  console.log("res", res);
+  console.log("fromArray", fromArray);
+  console.log("toArray", toArray);
+  let filteredVenues = res.filter((element) => {
+    if (
+      element.year >= fromArray[0] &&
+      element.year <= toArray[0] &&
+      element.month >= fromArray[1] &&
+      element.month <= toArray[1]
+    ) {
+      if (
+        fromArray[1] === element.month ||
+        (toArray[1] === element.month &&
+          element.date >= fromArray[2] &&
+          element.date <= toArray[2])
+      ) {
+        return element;
+      }
+      return element;
+    }
+  });
+  console.log("venues:", filteredVenues);
+  let filteredTickets = tickets.filter((element) => {
+    let found = false;
+    filteredVenues.forEach((venue) => {
+      if (venue.id === element.eventId) {
+        found = true;
+      }
+    });
+    if (found) {
+      return element;
+    }
+  });
+  return filteredTickets;
+};

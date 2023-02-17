@@ -53,6 +53,6 @@ export const createRandomUser = (): INewUserSrcData => {
     }
 }
 
-export const makeFilename = (ownerId: string, name: string) => {
-    return `${ownerId}-${name}`
+export const makeFilename = (ownerId: string, ticketId: string, extension: string) => {
+    return `${ownerId}-${ticketId}.${extension}`
 }

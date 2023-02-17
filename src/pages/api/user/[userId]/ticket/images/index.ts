@@ -40,7 +40,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<st
                 resolve(location)
             })
         })
-
+        console.log(location)
         return res.status(200).json({
             data: location
         })

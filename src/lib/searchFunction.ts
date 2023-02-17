@@ -65,9 +65,6 @@ export const filterEventsBasedOnDate = (
       id: element.id,
     });
   });
-  console.log("res", res);
-  console.log("fromArray", fromArray);
-  console.log("toArray", toArray);
   let filteredVenues = res.filter((element) => {
     if (
       element.year >= fromArray[0] &&
@@ -86,7 +83,6 @@ export const filterEventsBasedOnDate = (
       return element;
     }
   });
-  console.log("venues:", filteredVenues);
   let filteredTickets = tickets.filter((element) => {
     let found = false;
     filteredVenues.forEach((venue) => {

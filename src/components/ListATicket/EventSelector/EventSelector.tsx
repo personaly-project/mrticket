@@ -47,13 +47,13 @@ const EventSelector: React.FC<IProps> = ({
           <div className="flex flex-row items-center my-4 gap-4">
             <button
               onClick={toggleMakeNew}
-              className=" px-4 py-2 bg-danger rounded-md shadow text-white"
+              className=" px-4 py-2 rounded-md shadow bg-lightblue text-black hover:text-danger"
             >
               Reset
             </button>
             <button
               onClick={onExistingConfirmed}
-              className="px-4 py-2 bg-purple-dark rounded-md shadow text-white"
+              className="px-4 py-2 rounded-md shadow  bg-purple-light text-black hover:bg-yellow"
             >
               confirm
             </button>

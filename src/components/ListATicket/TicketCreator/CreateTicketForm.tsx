@@ -8,6 +8,7 @@ import CurrencyInput from "react-currency-format"
 interface IProps {
   onSubmit: (ticket: INewTicketSrcData) => void
   eventId: string
+  reset: () => void
 }
 
 const CreateTicketForm: FC<IProps> = ({ onSubmit, eventId }) => {
@@ -35,22 +36,22 @@ const CreateTicketForm: FC<IProps> = ({ onSubmit, eventId }) => {
 
   return (
     <form
-      className="my-2 shadow rounded p-4 w-fit"
+      className="my-2 shadow rounded p-4 w-fit items-center "
       onSubmit={onTicketSrcSubmitted}
     >
       <h2 className="text-xxl font-bold mb-4"> Set your ticket details </h2>
       <Input
         listener={updateTitle}
-        title={"Seat Details"}
-        placeholder={"Give section and seat, if applicable"}
+        title={"Ticket Title"}
+        placeholder={"Section and Seat"}
         value={title}
         required
       />
       <Input
         listener={updatePrice}
         title={"Price $ "}
-        placeholder={"Set the dollar value of your ticket"}
-        value={title}
+        placeholder={"$"}
+        value={price}
         required
       />
       <div className="flex flex-row items-center justify-center gap-4 pt-4">

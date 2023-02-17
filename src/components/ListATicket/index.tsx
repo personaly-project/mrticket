@@ -32,6 +32,10 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
     setEvent(null)
   }
 
+  const resetTicket = () => {
+    setTicket(null)
+  }
+
   const onSubmitVenue = (venue: IVenue) => {
     setVenue(venue)
   }
@@ -71,7 +75,13 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
       if (eventPoolError) return <div>Error!</div>
     }
     if (event && !ticket)
-      return <CreateTicketForm eventId={event.id} onSubmit={onSubmitTicket} />
+      return (
+        <CreateTicketForm
+          eventId={event.id}
+          onSubmit={onSubmitTicket}
+          reset={resetTicket}
+        />
+      )
     else if (ticket)
       return (
         <Confirmation

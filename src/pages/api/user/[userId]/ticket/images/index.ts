@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import formidable from "formidable"
 import fs from "fs"
 import { uploadFile } from "@/services/aws/storage";
-import { ticketsApi, usersApi } from "@/services/prisma";
+import { makeFilename } from "@/lib/utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<string>>) => {
 
@@ -15,22 +15,28 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<st
 
     const form = new formidable.IncomingForm({
         multiples: false,
-        keepExtensions: true
+        keepExtensions: true,
     })
 
     const owner = req.query.userId as string
-
+    if (!owner) return res.status(400).json({
+        error: 'not allowed'
+    })
     try {
         const location = await new Promise<string>((resolve, reject) => {
             form.parse(req, async (err, fields, files) => {
                 if (err) {
                     reject(new Error("could not parse the image"))
                 }
-
+                const ticketId = fields.ticketId
                 const file = files.image as formidable.File
+                const extension = file.mimetype?.split('/')[1]
+                if (!extension) {
+                    reject(new Error("could not find file extension"))
+                }
+                file.newFilename = makeFilename(owner, ticketId as string, extension!)
                 const raw = await fs.promises.readFile(file.filepath)
-
-                const location = await uploadFile(raw, owner)
+                const location = await uploadFile(raw, file.newFilename, file.mimetype as string)
                 resolve(location)
             })
         })

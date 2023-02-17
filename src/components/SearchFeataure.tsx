@@ -16,7 +16,6 @@ interface IPageProps {
 const SearchFeature: FC<IPageProps> = (props: IPageProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const allTickets: ITicket[] = props.alltickets;
-  console.log(allTickets);
 
   const [tickets, setTickets] = useState<ITicket[]>(allTickets);
 

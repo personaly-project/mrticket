@@ -1,83 +1,87 @@
 /** @format */
 
-import { FC } from "react";
-import { ITicket, IEvent, IVenue } from "@/lib/types";
-import { venuesApi } from "@/services/prisma/venues";
-import { eventsApi } from "@/services/prisma/events";
-import { ticketsApi } from "@/services/prisma/tickets";
-import { GetServerSideProps } from "next";
-import Link from "next/link";
+import { FC } from "react"
+import { ITicket, IEvent, IVenue } from "@/lib/types"
+import { venuesApi } from "@/services/prisma/venues"
+import { eventsApi } from "@/services/prisma/events"
+import { ticketsApi } from "@/services/prisma/tickets"
+import { GetServerSideProps } from "next"
+import Link from "next/link"
 
 interface IPageProps {
-  ticketData: ITicket;
-  eventData: IEvent;
-  venueData: IVenue;
+  ticketData: ITicket
+  eventData: IEvent
+  venueData: IVenue
 }
 
 const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-      }}
-    >
-      <ul
+    <div className="bg-purple-dark font-anekbangla">
+      <div
         style={{
-          fontWeight: "bold",
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
           justifyContent: "center",
-
-          backgroundColor: "white",
-          padding: "25px",
-          borderRadius: "10px",
-          fontKerning: "normal",
-          wordBreak: "break-word",
-          fontSize: "24px",
-          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+          height: "100vh",
         }}
       >
-        <li> Ticket: {ticketData.title} </li>
-        <li>
-          Venue: {venueData.name} | Place Type: {venueData.placeType}{" "}
-        </li>
-        <li>
-          Address: {venueData.address} {venueData.city} {venueData.state} |{" "}
-          {venueData.country}{" "}
-        </li>
-        <br />
-        <li>
-          Event: {eventData.title} | Event Type: {eventData.eventType}{" "}
-        </li>
-        <li>
-          When : {eventData.date.getDate()}/{eventData.date.getMonth()}/{eventData.date.getFullYear()} - {eventData.startHour}
-        </li>
-        <li>Performers: {eventData.performers} </li>
-        <li> Price: ${ticketData.price} </li>
+        <ul
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
 
-        <Link href={`/checkout?${ticketData.price}`}>
-          <button
-            style={{
-              marginTop: "10px",
-              backgroundColor: "green",
-              color: "white",
-              padding: "10px",
-              borderRadius: "5px",
-              border: "none",
-            }}
-          >
+            backgroundColor: "white",
+            padding: "25px",
+            borderRadius: "10px",
+            fontKerning: "normal",
+            wordBreak: "break-word",
+            fontSize: "24px",
+            boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+          }}
+        >
+          <li className="font-bold">
+            Event: {eventData.title} | Event Type: {eventData.eventType}{" "}
+          </li>
+          <li>
+            When : {eventData.date.getDate()}/{eventData.date.getMonth()}/
+            {eventData.date.getFullYear()} - {eventData.startHour}
+          </li>
+          <br />
+          <li>
+            Venue: {venueData.name} | Place Type: {venueData.placeType}{" "}
+          </li>
+          <li>
+            Address: {venueData.address} {venueData.city} {venueData.state} |{" "}
+            {venueData.country}{" "}
+          </li>
+          <br />
+
+          <li>Performers: {eventData.performers} </li>
+          <li>
             {" "}
-            Pay now{" "}
-          </button>
-        </Link>
-      </ul>
+            Price: ${ticketData.price}
+            <Link href={`/checkout?${ticketData.price}`}>
+              <button
+                className="bg-yellow font-anekbangla font-bold"
+                style={{
+                  marginTop: "10px",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  border: "none",
+                }}
+              >
+                {" "}
+                buy now{" "}
+              </button>
+            </Link>
+          </li>
+        </ul>
+      </div>
     </div>
-  );
-};
+  )
+}
 
 // This gets called on every request
 
@@ -86,20 +90,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const ticketData = await ticketsApi.getTicket(
       context.params!.ticket as string
-    );
-    const eventData = await eventsApi.getEvent(ticketData.eventId);
-    const venueData = await venuesApi.getVenue(eventData.venueId);
-
+    )
+    const eventData = await eventsApi.getEvent(ticketData.eventId)
+    const venueData = await venuesApi.getVenue(eventData.venueId)
 
     // Pass data to the page via props
-    return { props: { ticketData, eventData, venueData } };
-  }
-  catch (err) {
+    return { props: { ticketData, eventData, venueData } }
+  } catch (err) {
     return {
       notFound: true,
     }
   }
+}
 
-};
-
-export default TicketPage;
+export default TicketPage

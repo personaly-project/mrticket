@@ -22,9 +22,12 @@ const SearchFeature: FC<IPageProps> = (props: IPageProps) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { alltickets, allevents } = props;
-    console.log(e.target.from.value);
-    const fromDate = e.target.from.value;
-    const toDate = e.target.to.value;
+    const target = e.target as typeof e.target & {
+      from: { value: string };
+      to: { value: string };
+    };
+    const fromDate = target.from.value;
+    const toDate = target.to.value;
     const filteredTicketsByDate: any[] = filterEventsBasedOnDate(
       allevents,
       alltickets,

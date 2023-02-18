@@ -2,8 +2,8 @@
 
 import { IApiResponse, INewVenueSrcData, IVenue } from "@/lib/types";
 import { venuesApi } from "@/services/prisma";
-import { Venue } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { withBearerToken } from "@/lib/middleware";
 
 const handler = async (
   req: NextApiRequest,
@@ -25,4 +25,4 @@ const handler = async (
   }
 };
 
-export default handler;
+export default withBearerToken(handler);

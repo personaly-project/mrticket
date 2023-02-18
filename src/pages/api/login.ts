@@ -12,7 +12,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
     }
     const { Authorization } = req.cookies
 
-
     if (req.body) {
         const { email, psw } = JSON.parse(req.body) as { email: string, psw: string }
 
@@ -24,8 +23,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
 
         try {
             const targetUser = await login(email, psw)
-            const token = encode(targetUser)
+            const token = encode({ id: targetUser.id })
+
             res.setHeader("set-cookie", `Authorization=Bearer ${token}`)
+
             return res.status(200).json({
                 data: targetUser
             })

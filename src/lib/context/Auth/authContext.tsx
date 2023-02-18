@@ -34,7 +34,6 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
     const login = useCallback(
         async (email: string, psw: string) => {
             setIsLoading(true);
-            console.log('here =========>', cookies.get('Authorization'))
             const resp = await fetch("/api/login", {
                 method: "POST",
                 headers: {

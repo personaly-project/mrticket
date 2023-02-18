@@ -28,11 +28,11 @@ const NavigationCircles: React.FC<NavigationCirclesProps> = ({
                 stepIdx < currentStepIndex
                   ? "complete"
                   : stepIdx === currentStepIndex
-                  ? "current"
-                  : "upcoming"
+                    ? "current"
+                    : "upcoming"
               return (
                 <li
-                  key={step.name}
+                  key={`${step.name}-${stepIdx}`}
                   className={classNames(
                     stepIdx !== numberOfSteps - 1 ? "pr-8 sm:pr-20" : "",
                     "relative"

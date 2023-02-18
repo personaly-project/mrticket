@@ -1,16 +1,17 @@
 /** @format */
 
 import Head from "next/head";
-import StripeCheckout from "@/services/stripe/stripeCheckout";
+import { StripeCheckout } from "@/services/stripe/stripeCheckout";
 import { GetServerSideProps } from "next";
+import { ticketsApi } from "@/services/prisma";
+import { ITicket } from "@/lib/types";
 
 interface IPageProps {
-  ticketId?: string
+  ticketid?: string;
+  allticket?: ITicket[];
 }
 
-const Home: React.FC<IPageProps> = ({
-  ticketId
-}) => {
+const Home: React.FC<IPageProps> = ({ ticketid, allticket }) => {
   return (
     <>
       <Head>
@@ -20,25 +21,27 @@ const Home: React.FC<IPageProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <StripeCheckout />
+        <StripeCheckout ticketId={ticketid} allTickets={allticket} />
       </main>
     </>
   );
-}
+};
 
-export default Home
+export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const ticketId = context.query.ticketId as string
+  const ticketId = context.query.ticketId as string;
+  const AllTickets = await ticketsApi.getAllTickets();
   if (!ticketId) {
     return {
       notFound: true,
-    }
+    };
   }
 
   return {
     props: {
-      ticketId: ticketId
+      ticketid: ticketId,
+      allticket: AllTickets,
     },
-  }
-}
+  };
+};

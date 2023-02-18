@@ -44,7 +44,7 @@ const EventSelector: React.FC<IProps> = ({
             {" "}
             Selected: {event.title} {confirmed ? "Confirmed" : null}{" "}
           </h3>
-          <div className="flex flex-row items-center my-4 gap-4">
+          <div className="flex flex-row justify-between gap-4 pt-4">
             <button
               onClick={toggleMakeNew}
               className=" px-4 py-2 rounded-md shadow bg-lightblue text-black hover:text-danger"
@@ -55,7 +55,7 @@ const EventSelector: React.FC<IProps> = ({
               onClick={onExistingConfirmed}
               className="px-4 py-2 rounded-md shadow  bg-purple-light text-black hover:bg-yellow"
             >
-              confirm
+              Confirm
             </button>
           </div>
         </>

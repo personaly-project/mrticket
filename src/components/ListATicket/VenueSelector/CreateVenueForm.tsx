@@ -57,12 +57,12 @@ const CreateVenueForm: React.FC<IProps> = ({ onSubmit }) => {
   }, [loading])
 
   return (
-    <div className="shadow rounded p-4">
-      <h3 className="text-lg font-semibold my-2 border-b border-b-slate-200">
+    <div className="shadow rounded">
+      <h3 className="text-center text-lg font-semibold my-2 border-b">
         {" "}
         Create a venue{" "}
       </h3>
-      <form className="space-y-2" onSubmit={onVenueSubmitted}>
+      <form className="space-y-2 " onSubmit={onVenueSubmitted}>
         <Input
           title="Name"
           placeholder="Venue name"
@@ -108,7 +108,7 @@ const CreateVenueForm: React.FC<IProps> = ({ onSubmit }) => {
         {loading ? (
           <p> Loading </p>
         ) : (
-          <div className="flex flex-row items-center justify-center gap-4 pt-4">
+          <div className="flex flex-row justify-between gap-4 pt-4">
             <button
               type="reset"
               className="py-2 px-4 rounded-md shadow w-32 self-end  bg-lightblue  text-black hover:text-danger"

@@ -39,7 +39,7 @@ const CreateTicketForm: FC<IProps> = ({ onSubmit, eventId }) => {
       className="my-2 shadow rounded p-4 w-fit items-center "
       onSubmit={onTicketSrcSubmitted}
     >
-      <h2 className="text-xxl font-bold mb-4"> Set your ticket details </h2>
+      <h2 className="text-xxl font-bold mb-4"> Add your ticket details </h2>
       <Input
         listener={updateTitle}
         title={"Ticket Title"}

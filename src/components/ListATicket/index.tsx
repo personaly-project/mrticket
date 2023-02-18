@@ -1,21 +1,31 @@
 import { useEventPool } from "@/lib/hooks/useEventPool"
 import { IVenue, ITicket, IEvent, INewTicketSrcData } from "@/lib/types"
 import { useRouter } from "next/router"
-import React, { useState } from "react"
+import React, { use, useState } from "react"
 import EventSelector from "./EventSelector/EventSelector"
 import CreateTicketForm from "./TicketCreator/CreateTicketForm"
 import VenueSelector from "./VenueSelector/VenueSelector"
 import Confirmation from "./Confirmation"
+import { Venue } from "@prisma/client"
+import { StdioPipeNamed } from "child_process"
 import NavigationCircles from "../ui/NavigationCircles"
 
 interface IProps {
   venues: IVenue[]
 }
 
+const steps = [
+  { name: "Venue", href: "#", status: "upcoming" },
+  { name: "Event", href: "#", status: "upcoming" },
+  { name: "Ticket", href: "#", status: "upcoming" },
+  { name: "Review", href: "#", status: "upcoming" },
+]
+
 const ListATicket: React.FC<IProps> = ({ venues }) => {
   const router = useRouter()
 
   const [venue, setVenue] = useState<IVenue | null>(null)
+
   const {
     eventPool,
     loading: isEventPoolLoading,
@@ -52,8 +62,16 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
     router.push(`/ticket/${ticket.id}`)
   }
 
+  function evaluateStepNumber() {
+    if (!venue) return 0
+    if (!event) return 1
+    if (event && !ticket) return 2
+    if (ticket) return 3
+    return 0
+  }
+
   function displayStep() {
-    if (!venue)
+    if (stepNumber === 0)
       return (
         <VenueSelector
           onSubmitVenue={onSubmitVenue}
@@ -61,12 +79,12 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
           venuesSrc={venues}
         />
       )
-    if (!event) {
+    if (stepNumber === 1) {
       if (isEventPoolLoading) return <>Loading...</>
       if (eventPool)
         return (
           <EventSelector
-            venueID={venue.id}
+            venueID={venue!.id}
             eventsPool={eventPool}
             onSubmitEvent={onSubmitEvent}
             reset={resetEvent}
@@ -74,55 +92,60 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
         )
       if (eventPoolError) return <div>Error!</div>
     }
-    if (event && !ticket)
+    if (stepNumber === 2)
       return (
         <CreateTicketForm
-          eventId={event.id}
+          eventId={event!.id}
           onSubmit={onSubmitTicket}
           reset={resetTicket}
         />
       )
-    else if (ticket)
+    if (stepNumber === 3)
       return (
         <Confirmation
           event={event!}
           onTicketConfirmed={onTicketConfirmed}
-          ticketSrc={ticket}
-          venue={venue}
+          ticketSrc={ticket!}
+          venue={venue!}
         />
       )
     return null
   }
-
+  const stepNumber = evaluateStepNumber()
   return (
     <>
       <div
-        className="bg-purple-dark font-anekbangla"
+        className=" bg-purple-dark font-anekbangla"
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          height: "100vh",
+          minHeight: "100vh",
+          paddingTop: "80px",
         }}
       >
         <ul
+          className=" bg-white flex flex-col justify-center p-5"
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-
-            backgroundColor: "white",
-            padding: "25px",
             borderRadius: "10px",
-            fontKerning: "normal",
             wordBreak: "break-word",
-            fontSize: "24px",
-            boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+            overflow: "auto",
           }}
         >
-          <h1 className="font-semibold mx-10"> Sell a Ticket </h1>
-          {NavigationCircles()}
+          <h1
+            className="
+              font-extrabold
+              text-3xl
+              text-purple-dark"
+          >
+            {" "}
+            Sell a Ticket{" "}
+          </h1>
+          <NavigationCircles
+            currentStepIndex={stepNumber}
+            numberOfSteps={steps.length}
+          />
           {displayStep()}
         </ul>
       </div>

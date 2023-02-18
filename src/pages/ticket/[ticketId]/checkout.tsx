@@ -1,9 +1,16 @@
 /** @format */
 
 import Head from "next/head";
-import { GetServerSideProps } from "next";
 import StripeCheckout from "@/services/stripe/stripeCheckout";
-export default function Home() {
+import { GetServerSideProps } from "next";
+
+interface IPageProps {
+  ticketId?: string
+}
+
+const Home: React.FC<IPageProps> = ({
+  ticketId
+}) => {
   return (
     <>
       <Head>
@@ -17,4 +24,21 @@ export default function Home() {
       </main>
     </>
   );
+}
+
+export default Home
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const ticketId = context.query.ticketId as string
+  if (!ticketId) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      ticketId: ticketId
+    },
+  }
 }

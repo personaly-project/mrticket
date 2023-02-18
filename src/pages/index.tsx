@@ -17,8 +17,8 @@ interface IPageProps {
 export default function Home({ allVenues, allEvents, allTickets }: IPageProps) {
   return (
     <>
-      <main>
-        <Link href={`/ticket/05c4af58-389d-408b-a017-6725d4b97766`}>
+      <main className="pt-20" >
+        <Link href={`/test`}>
           see ticket
         </Link>
       </main>

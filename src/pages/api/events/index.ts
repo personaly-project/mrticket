@@ -19,4 +19,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IE
     }
 };
 
-export default handler;
+export default withBearerToken(handler);

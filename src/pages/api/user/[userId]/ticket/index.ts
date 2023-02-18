@@ -27,4 +27,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IT
     }
 }
 
-export default handler
+export default enforceBearerToken(handler)

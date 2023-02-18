@@ -4,6 +4,7 @@ import formidable from "formidable"
 import fs from "fs"
 import { uploadFile } from "@/services/aws/storage";
 import { makeFilename } from "@/lib/utils";
+import { enforceBearerToken } from "@/lib/middleware";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<string>>) => {
 
@@ -57,4 +58,4 @@ export const config = {
     },
 }
 
-export default handler;
+export default enforceBearerToken(handler);

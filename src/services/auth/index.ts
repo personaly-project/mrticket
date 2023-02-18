@@ -22,13 +22,9 @@ const login = async (email: string, psw: string): Promise<IUser> => {
     }
 }
 
-const autoLogin = async (email: string, hashed: string): Promise<IUser> => {
-    const targetUser = await usersApi.getUserByEmail(email)
-    if (hashed !== targetUser.psw) {
-        throw new Error("403")
-    } else {
-        return targetUser
-    }
+const autoLogin = async (id: string): Promise<IUser> => {
+    const targetUser = await usersApi.getUser(id)
+    return targetUser
 }
 
 export {

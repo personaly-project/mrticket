@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<st
         error: 'not allowed'
     })
     try {
-        const location = await new Promise<string>((resolve, reject) => {
+        const filename = await new Promise<string>((resolve, reject) => {
             form.parse(req, async (err, fields, files) => {
                 if (err) {
                     reject(new Error("could not parse the image"))
@@ -36,17 +36,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<st
                 }
                 file.newFilename = makeFilename(owner, ticketId as string, extension!)
                 const raw = await fs.promises.readFile(file.filepath)
-                const location = await uploadFile(raw, file.newFilename, file.mimetype as string)
-                resolve(location)
+                await uploadFile(raw, file.newFilename, file.mimetype as string)
+                resolve(file.newFilename)
             })
         })
-
         return res.status(200).json({
-            data: location
+            data: filename
         })
 
     } catch (err) {
-        console.log(err)
         return res.status(500).json({
             error: (err as Error).message
         })

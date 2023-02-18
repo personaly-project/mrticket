@@ -12,7 +12,7 @@ export default function Navbar() {
   const [nav, setNav] = useState(false);
 
   return (
-    <div className="max-w-[1640px] mx-auto flex items-center p-4 justify-between shadow-md  ">
+    <div className="max-w-[1640px] mx-auto flex items-center p-4 justify-between shadow-md ">
       {/* Left side */}
       <div className="flex items-center">
         <Link href="/">
@@ -44,29 +44,36 @@ export default function Navbar() {
 
       {/* Right side */}
       <div className="flex items-center">
-        <Link href={'/listTicket'} >
+        <Link href={"/listTicket"}>
           <span className="bg-[#9187F4] border-0 text-white rounded-full p-2 px-3 mr-2 font-medium">
             Sell My Tickets
           </span>
         </Link>
-        {
-          user ? (
-            <>
-              <div className="self-center w-8 h-8 mx-1">
-                <Image src={"https://picsum.photos/200"} alt="" width={50} height={50} className="rounded-full" />
-              </div>
-              <div onClick={() => setNav(nav => !nav)} className="cursor-pointer">
-                <AiOutlineMenu size={30} />
-              </div>
-            </>
-          ) : (
-            <Link href={'/login'}>
-              <span className="bg-[#D2EBFA] border-0 text-[#9187F4] rounded-full p-2 px-3 mr-2 font-medium">
-                Log In
-              </span>
-            </Link>
-          )
-        }
+        {user ? (
+          <>
+            <div className="self-center w-8 h-8 mx-1">
+              <Image
+                src={"https://picsum.photos/200"}
+                alt=""
+                width={50}
+                height={50}
+                className="rounded-full"
+              />
+            </div>
+            <div
+              onClick={() => setNav((nav) => !nav)}
+              className="cursor-pointer"
+            >
+              <AiOutlineMenu size={30} />
+            </div>
+          </>
+        ) : (
+          <Link href={"/login"}>
+            <span className="bg-[#D2EBFA] border-0 text-[#9187F4] rounded-full p-2 px-3 mr-2 font-medium">
+              Log In
+            </span>
+          </Link>
+        )}
         {/* <Image src={userphoto} alt="" height={40}></Image> */}
       </div>
 
@@ -97,14 +104,17 @@ export default function Navbar() {
         <nav>
           <ul className="flex flex-col p-4 text-[#202020] ">
             <li className="text-xl py-4 flex cursor-pointer">
-              <Link href={'/listTicket'} className="flex">
+              <Link href={"/listTicket"} className="flex">
                 <GiTicket size={25} className="mr-4" /> Sell My Tickets
               </Link>
             </li>
-            <li onClick={() => {
-              setNav(prev => !prev)
-              logout()
-            }} className="text-xl py-4 flex cursor-pointer">
+            <li
+              onClick={() => {
+                setNav((prev) => !prev);
+                logout();
+              }}
+              className="text-xl py-4 flex cursor-pointer"
+            >
               <FiLogIn size={25} className="mr-4" /> Log out
             </li>
           </ul>

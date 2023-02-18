@@ -107,7 +107,6 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
                     return resp.json()
                 })
                 .then(({ data, error }: { data: IUser, error: string }) => {
-                    console.log('HERE undefined')
                     if (error) {
                         //server defined error
                         cookies.set('Authorization', '')
@@ -123,7 +122,6 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
                     }
                     setIsLoading(false)
                 }).catch(err => {
-                    console.log('HERE', document.cookie, err)
                     cookies.set('Authorization', '')
                     setIsLoading(false)
                 })

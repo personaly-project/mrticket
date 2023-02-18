@@ -18,7 +18,6 @@ export default function Search({ ticketSearch, setTicketSearch }: IProps) {
       .then((res) => res.json())
       .then((data) => {
         setVenues(data);
-        console.log(data);
       });
   }, []);
 

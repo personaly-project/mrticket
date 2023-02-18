@@ -6,7 +6,6 @@ export const enforceBearerToken = (handler: NextApiHandler) => {
     return async (req: NextApiRequest, res: NextApiResponse<IApiResponse<unknown>>) => {
         const { userId } = req.query
         const authorizationToken = req.cookies.Authorization
-        console.log("AUTH MIDDLEWARE", authorizationToken)
 
         if (!userId || typeof userId !== "string" || !authorizationToken) return res.status(401).json({ error: "missing authentication in request" })
         try {

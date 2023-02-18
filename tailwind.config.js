@@ -14,24 +14,11 @@ module.exports = {
         dark: "#280060",
       },
       yellow: "#FFC200",
-      danger: "#DC2626"
+      danger: "#DC2626",
     },
-    // spacing: {
-    //   tiny: "0.375rem",
-    //   small: "1rem",
-    //   medium: "2.5rem",
-    //   lg: "5rem",
-    //   xl: "10rem",
-    // },
-    // borderRadius: {
-    //   small: "0.125rem",
-    //   medium: "0.375rem",
-    //   big: "0.75rem",
-    //   full: "100%",
-    // },
     fontFamily: {
       anekbangla: ["Anek Bangla", "sans-serif"],
     },
     plugins: [],
   },
-}
+};

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Disclosure } from "@headlessui/react";
 
 import Image from "next/image";
-import logo2 from "../../../images/logo2.jpg";
+import logo2 from "../../public/logo2.jpg";
 import userphoto from "../../../images/user.jpg";
 import { authCtx } from "@/lib/context/Auth/authContext";
 import Profile from "./Profile";
@@ -19,7 +19,11 @@ export default function Navbar() {
     <div className="max-w-[1640px] mx-auto flex items-center p-4 justify-between shadow-md  ">
       {/* Left side */}
       <div className="flex items-center">
-        <Image src={logo2} alt="" height={50}></Image>
+        <Link href="/">
+          <>
+            <Image src={logo2} alt="" height={50}></Image>
+          </>
+        </Link>
       </div>
 
       {/* Search input */}
@@ -44,12 +48,17 @@ export default function Navbar() {
 
       {/* Right side */}
       <div className="flex items-center">
-        <button className="bg-[#9187F4] border-0 text-white rounded-full p-2 px-3 mr-2 font-medium">
-          Sell my tickets
-        </button>
-        <button className="bg-[#D2EBFA] border-0 text-[#9187F4] rounded-full p-2 px-3 mr-2 font-medium">
-          Log in
-        </button>
+        <Link href="/listTicket">
+          <div className="bg-[#9187F4] border-0 text-white rounded-full p-2 px-3 mr-2 font-medium">
+            Sell My Tickets
+          </div>
+        </Link>
+        <Link href="/login">
+          <div className="bg-[#D2EBFA] border-0 text-[#9187F4] rounded-full p-2 px-3 mr-2 font-medium">
+            Log In
+          </div>
+        </Link>
+
         {/* <Image src={userphoto} alt="" height={40}></Image> */}
         <div onClick={() => setNav(!nav)} className="cursor-pointer">
           <AiOutlineMenu size={30} />
@@ -82,11 +91,19 @@ export default function Navbar() {
         </div>
         <nav>
           <ul className="flex flex-col p-4 text-[#202020] ">
-            <li className="text-xl py-4 flex">
-              <GiTicket size={25} className="mr-4" /> Sell My Tickets
+            <li className="text-xl py-4 flex  ">
+              <Link href="/listTicket" className="flex flex-row">
+                <>
+                  <GiTicket size={25} className="mr-4" /> Sell My Tickets{" "}
+                </>
+              </Link>
             </li>
-            <li className="text-xl py-4 flex">
-              <FiLogIn size={25} className="mr-4" /> Log In
+            <li className="text-xl py-4 flex flex-row">
+              <Link href="/login" className="flex flex-row">
+                <>
+                  <FiLogIn size={25} className="mr-4" /> Log In
+                </>
+              </Link>
             </li>
           </ul>
         </nav>

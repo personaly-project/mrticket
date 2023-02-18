@@ -1,110 +1,145 @@
 import { useRouter } from "next/router";
-import { createContext, ReactNode, useCallback, useState } from "react";
+import cookies from "js-cookie"
+import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
 import { IApiResponse, INewUserSrcData, IUser } from "../../types";
 
 interface IAuthContext {
-  user?: IUser;
-  error?: string;
-  isLoading: boolean;
-  login: (email: string, psw: string) => void;
-  signUp: (src: INewUserSrcData) => void;
-  logout: () => void;
+    user?: IUser;
+    error?: string;
+    isLoading: boolean;
+    login: (email: string, psw: string) => void;
+    signUp: (src: INewUserSrcData) => void;
+    logout: () => void;
 }
 
 const defaultCtx: IAuthContext = {
-  login: (email: string, psw: string) => {},
-  signUp: (src: INewUserSrcData) => {},
-  logout: () => {},
-  isLoading: false,
+    login: (email: string, psw: string) => { },
+    signUp: (src: INewUserSrcData) => { },
+    logout: () => { },
+    isLoading: false,
 };
 
 export const authCtx = createContext<IAuthContext>(defaultCtx);
 
 interface IProps {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
-  const [user, setUser] = useState<IUser | undefined>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>();
-  const router = useRouter();
+    const [user, setUser] = useState<IUser | undefined>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>();
+    const router = useRouter();
 
-  const login = useCallback(
-    async (email: string, psw: string) => {
-      setIsLoading(true);
-      const resp = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          accept: "application/json",
+    const login = useCallback(
+        async (email: string, psw: string) => {
+            setIsLoading(true);
+            const resp = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    accept: "application/json",
+                },
+                body: JSON.stringify({ email, psw }),
+            });
+            const { data, error } = (await resp.json()) as IApiResponse<IUser>;
+            if (error) {
+                //server defined error
+                setError(error);
+            } else if (data) {
+                //success
+                setUser(data);
+                router.push("/");
+            } else {
+                //undefined error not carried trough the error field en the api response
+                setError("unknown error");
+            }
+            setIsLoading(false);
         },
-        body: JSON.stringify({ email, psw }),
-      });
-      const { data, error } = (await resp.json()) as IApiResponse<IUser>;
-      console.log(data);
-      if (error) {
-        //server defined error
-        setError(error);
-      } else if (data) {
-        //success
-        setUser(data);
-        router.push("/");
-      } else {
-        //undefined error not carried trough the error field en the api response
-        setError("unknown error");
-      }
-      setIsLoading(false);
-    },
-    [router]
-  );
+        [router]
+    );
 
-  const signUp = useCallback(
-    async (src: INewUserSrcData) => {
-      setIsLoading(true);
-      const resp = await fetch("/api/signUp", {
-        method: "POST",
-        headers: {
-          accept: "application/json",
+    const signUp = useCallback(
+        async (src: INewUserSrcData) => {
+            setIsLoading(true);
+            const resp = await fetch("/api/signUp", {
+                method: "POST",
+                headers: {
+                    accept: "application/json",
+                },
+                body: JSON.stringify(src),
+            });
+
+            const { data, error } = (await resp.json()) as IApiResponse<IUser>;
+
+            if (error) {
+                //server defined error
+                setError(error);
+            } else if (data) {
+                //success
+                setUser(data);
+                router.push("/");
+            } else {
+                //undefined error not carried trough the error field en the api response
+                setError("unknown error");
+            }
+            setIsLoading(false);
         },
-        body: JSON.stringify(src),
-      });
+        [router]
+    );
 
-      const { data, error } = (await resp.json()) as IApiResponse<IUser>;
+    const logout = useCallback(() => {
+        setUser(undefined);
+        setError(undefined);
+        setIsLoading(false);
+    }, []);
 
-      if (error) {
-        //server defined error
-        setError(error);
-      } else if (data) {
-        //success
-        setUser(data);
-        router.push("/");
-      } else {
-        //undefined error not carried trough the error field en the api response
-        setError("unknown error");
-      }
-      setIsLoading(false);
-    },
-    [router]
-  );
+    useEffect(() => {
+        if (document.cookie.search('Authorization') && !user) {
+            setIsLoading(true)
 
-  const logout = useCallback(() => {
-    setUser(undefined);
-    setError(undefined);
-    setIsLoading(false);
-  }, []);
+            fetch('/api/login', {
+                method: "POST",
+                headers: {
+                    accept: "application/json",
+                },
+            })
+                .then((resp) => {
+                    return resp.json()
+                })
+                .then(({ data, error }: { data: IUser, error: string }) => {
+                    if (error) {
+                        //server defined error
+                        cookies.set('Authorization', '')
+                        setError(error)
+                    } else if (data) {
+                        //success
+                        setUser(data)
+                        router.push('/')
+                    } else {
+                        //undefined error not carried trough the error field en the api response
+                        setError("unknown error")
+                        cookies.set('Authorization', '')
+                    }
+                    setIsLoading(false)
+                }).catch(err => {
+                    cookies.set('Authorization', '')
+                    setIsLoading(false)
+                })
+        }
+    }, [router])
 
-  return (
-    <authCtx.Provider
-      value={{
-        login,
-        logout,
-        signUp,
-        isLoading,
-        error,
-        user,
-      }}
-    >
-      {children}
-    </authCtx.Provider>
-  );
+    return (
+        <authCtx.Provider
+            value={{
+                login,
+                logout,
+                signUp,
+                isLoading,
+                error,
+                user,
+            }}
+        >
+            {children}
+        </authCtx.Provider>
+    );
 };

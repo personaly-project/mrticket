@@ -4,7 +4,9 @@ const SECRET_KEY = process.env.SECRET_KEY!
 
 export function encode<T>(src: T & object): string {
     if ("id" in src) {
-        const token = jwt.sign(src, SECRET_KEY, {
+        const token = jwt.sign({
+            id: src.id
+        }, SECRET_KEY, {
             expiresIn: "1h"
         })
         return token

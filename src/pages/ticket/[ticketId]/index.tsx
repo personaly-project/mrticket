@@ -1,12 +1,13 @@
 /** @format */
 
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { ITicket, IEvent, IVenue } from "@/lib/types";
 import { venuesApi } from "@/services/prisma/venues";
 import { eventsApi } from "@/services/prisma/events";
 import { ticketsApi } from "@/services/prisma/tickets";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
+import { authCtx } from "@/lib/context/Auth/authContext";
 
 interface IPageProps {
   ticketData: ITicket;
@@ -15,6 +16,9 @@ interface IPageProps {
 }
 
 const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
+
+  const { user } = useContext(authCtx)
+
   return (
     <div className="bg-purple-dark font-anekbangla">
       <div
@@ -62,20 +66,24 @@ const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
           <li>
             {" "}
             Price: ${ticketData.price}
-            <Link href={`/ticket/${ticketData.id}/checkout`}>
-              <button
-                className="bg-yellow font-anekbangla font-bold"
-                style={{
-                  marginTop: "10px",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  border: "none",
-                }}
-              >
-                {" "}
-                buy now{" "}
-              </button>
-            </Link>
+            {
+              user?.id !== ticketData.sellerId ? (
+                <Link href={`/ticket/${ticketData.id}/checkout`}>
+                  <button
+                    className="bg-yellow font-anekbangla font-bold"
+                    style={{
+                      marginTop: "10px",
+                      padding: "10px",
+                      borderRadius: "5px",
+                      border: "none",
+                    }}
+                  >
+                    {" "}
+                    buy now{" "}
+                  </button>
+                </Link>
+              ) : null
+            }
           </li>
         </ul>
       </div>
@@ -90,13 +98,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const ticketData = await ticketsApi.getTicket(
       context.params!.ticketId as string
-    );
-    const eventData = await eventsApi.getEvent(ticketData.eventId);
-    const venueData = await venuesApi.getVenue(eventData.venueId);
+    )
+    const eventData = await eventsApi.getEvent(ticketData.eventId)
+    const venueData = await venuesApi.getVenue(eventData.venueId)
 
     // Pass data to the page via props
     return { props: { ticketData, eventData, venueData } };
   } catch (err) {
+    console.log(err)
     return {
       notFound: true,
     };

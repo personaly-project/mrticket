@@ -31,7 +31,6 @@ export function useEventPool(venue: Venue | null): IEventPoolData {
                         error: parsed.error
                     })
                 } else {
-                    console.log(parsed.data)
                     setEventPoolData({
                         eventPool: parsed.data,
                         loading: false,
@@ -41,7 +40,6 @@ export function useEventPool(venue: Venue | null): IEventPoolData {
 
             })
             .catch((err) => {
-                console.log("in error")
                 setEventPoolData({ eventPool: [], loading: false, error: err })
             });
     }, [venue]);

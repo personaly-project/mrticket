@@ -1,7 +1,7 @@
 import { IApiResponse, IUser } from "@/lib/types";
-import { login } from "@/services/auth";
+import { autoLogin, login } from "@/services/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { encode } from "@/services/auth/jwt";
+import { encode, decode } from "@/services/auth/jwt";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IUser>>) => {
 
@@ -10,26 +10,46 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
             error: "not allowed"
         })
     }
+    const { Authorization } = req.cookies
 
-    const { email, psw } = JSON.parse(req.body) as { email: string, psw: string }
-    if (!email || !psw) {
-        return res.status(400).json({
-            error: "bad request"
-        })
-    }
-    try {
-        const targetUser = await login(email, psw)
-        const token = encode(targetUser)
-        res.setHeader("Authorization", `Bearer ${token}`)
-        return res.status(200).json({
-            data: targetUser
+    if (req.body) {
+        const { email, psw } = JSON.parse(req.body) as { email: string, psw: string }
 
-        })
-    } catch (err) {
-        return res.status(404).json({
-            error: "user not found"
-        })
+        if (!email || !psw) {
+            return res.status(400).json({
+                error: "bad request"
+            })
+        }
+
+        try {
+            const targetUser = await login(email, psw)
+            const token = encode({ id: targetUser.id })
+
+            res.setHeader("set-cookie", `Authorization=Bearer ${token}`)
+
+            return res.status(200).json({
+                data: targetUser
+            })
+        } catch (err) {
+            return res.status(404).json({
+                error: "user not found"
+            })
+        }
+    } else if (Authorization) {
+        try {
+            const { email, psw } = decode<IUser>(Authorization)
+            const targetUser = await autoLogin(email, psw)
+            const newToken = encode(targetUser)
+            res.setHeader("set-cookie", `Authorization=Bearer ${newToken}`)
+            return res.status(200).json({
+                data: targetUser
+            })
+        } catch (err) {
+            return res.status(400).json({})
+        }
     }
+
+    return res.status(400).json({})
 }
 
 export default handler

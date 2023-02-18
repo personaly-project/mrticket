@@ -51,7 +51,6 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
   }
 
   const onSubmitEvent = (event: IEvent) => {
-    console.log(event)
     setEvent(event)
   }
 

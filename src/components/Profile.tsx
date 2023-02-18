@@ -16,9 +16,7 @@ const Profile: React.FC<IProps> = ({ logout }) => {
             <div>
                 <Menu.Button className="flex items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span className="sr-only">Open user menu</span>
-                    <div className="self-center w-8 h-8 mx-1">
-                        <Image src={"https://picsum.photos/200"} alt="" fill className="rounded-full" />
-                    </div>
+
                 </Menu.Button>
             </div>
             <Transition

@@ -1,17 +1,17 @@
 /** @format */
 
-import { FC } from "react"
-import { ITicket, IEvent, IVenue } from "@/lib/types"
-import { venuesApi } from "@/services/prisma/venues"
-import { eventsApi } from "@/services/prisma/events"
-import { ticketsApi } from "@/services/prisma/tickets"
-import { GetServerSideProps } from "next"
-import Link from "next/link"
+import { FC } from "react";
+import { ITicket, IEvent, IVenue } from "@/lib/types";
+import { venuesApi } from "@/services/prisma/venues";
+import { eventsApi } from "@/services/prisma/events";
+import { ticketsApi } from "@/services/prisma/tickets";
+import { GetServerSideProps } from "next";
+import Link from "next/link";
 
 interface IPageProps {
-  ticketData: ITicket
-  eventData: IEvent
-  venueData: IVenue
+  ticketData: ITicket;
+  eventData: IEvent;
+  venueData: IVenue;
 }
 
 const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
@@ -62,7 +62,7 @@ const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
           <li>
             {" "}
             Price: ${ticketData.price}
-            <Link href={`/checkout?${ticketData.price}`}>
+            <Link href={`/ticket/${ticketData.id}/checkout`}>
               <button
                 className="bg-yellow font-anekbangla font-bold"
                 style={{
@@ -80,8 +80,8 @@ const TicketPage: FC<IPageProps> = ({ ticketData, eventData, venueData }) => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // This gets called on every request
 
@@ -89,18 +89,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // Fetch data from external API
   try {
     const ticketData = await ticketsApi.getTicket(
-      context.params!.ticket as string
-    )
-    const eventData = await eventsApi.getEvent(ticketData.eventId)
-    const venueData = await venuesApi.getVenue(eventData.venueId)
+      context.params!.ticketId as string
+    );
+    const eventData = await eventsApi.getEvent(ticketData.eventId);
+    const venueData = await venuesApi.getVenue(eventData.venueId);
 
     // Pass data to the page via props
-    return { props: { ticketData, eventData, venueData } }
+    return { props: { ticketData, eventData, venueData } };
   } catch (err) {
     return {
       notFound: true,
-    }
+    };
   }
-}
+};
 
-export default TicketPage
+export default TicketPage;

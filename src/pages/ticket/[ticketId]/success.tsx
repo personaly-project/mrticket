@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import React from "react";
+import { ITicket } from "@/lib/types";
 
-function success() {
+const Success = () => {
+
   return (
     <div
       style={{
@@ -51,4 +53,4 @@ function success() {
   );
 }
 
-export default success;
+export default Success;

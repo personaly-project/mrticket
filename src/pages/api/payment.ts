@@ -19,7 +19,8 @@ export default async function handler(
     const stripe = new Stripe(secretKey, {
       apiVersion: "2022-11-15",
     });
-    const { amount }: Data = req.body;
+
+    const amount = req.body.amount.price;
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,

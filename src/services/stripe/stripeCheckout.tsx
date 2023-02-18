@@ -1,9 +1,14 @@
 /** @format */
 
+interface IPageProps {
+  ticketId: string | undefined;
+  allTickets: ITicket[] | undefined;
+}
 import Head from "next/head";
 import { NextPage } from "next";
 import Image from "next/image";
 import { loadStripe } from "@stripe/stripe-js";
+import { ticketsApi } from "../prisma";
 import {
   AddressElement,
   Elements,
@@ -16,10 +21,11 @@ import {
 } from "@stripe/react-stripe-js";
 
 import { useEffect, useState } from "react";
+import { ITicket } from "@/lib/types";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_SECRET!);
 
-export default function StripeCheckout() {
+export function StripeCheckout({ ticketId, allTickets }: IPageProps) {
   interface IStripe {
     sessionId: string;
     publishableKey: string;
@@ -36,7 +42,7 @@ export default function StripeCheckout() {
       <main>
         {stripePromise && (
           <Elements stripe={stripePromise}>
-            <CheckoutForm />
+            <CheckoutForm ticketid={ticketId} allTickets={allTickets} />
           </Elements>
         )}
       </main>
@@ -44,7 +50,14 @@ export default function StripeCheckout() {
   );
 }
 
-const CheckoutForm: React.FC = () => {
+interface checkoutProps {
+  ticketid: string | undefined;
+  allTickets: ITicket[] | undefined;
+}
+export const CheckoutForm: React.FC<checkoutProps> = ({
+  ticketid,
+  allTickets,
+}) => {
   const [paymentIntent, setPaymentIntent] = useState<any>(null);
   const stripe = useStripe();
   const elements = useElements();
@@ -53,8 +66,15 @@ const CheckoutForm: React.FC = () => {
 
   useEffect(() => {
     const getPaymentData = async () => {
-      window.location.search.slice(1);
-      const ticketValue = parseInt(window.location.search.slice(1));
+      const priceToPay: ITicket | undefined = allTickets?.find(
+        (ticket) => ticket.id === ticketid
+      );
+      priceToPay?.price;
+
+      if (!priceToPay) {
+        console.log("priceToPay is null");
+        return;
+      }
 
       const data = await fetch("/api/payment", {
         method: "POST",
@@ -62,7 +82,7 @@ const CheckoutForm: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          amount: ticketValue,
+          amount: priceToPay,
         }),
       }).then((res) => res.json());
 
@@ -81,6 +101,7 @@ const CheckoutForm: React.FC = () => {
     };
 
     getPaymentData();
+    console.log("paymentIntent", paymentIntent, ticketid, allTickets);
   }, []);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

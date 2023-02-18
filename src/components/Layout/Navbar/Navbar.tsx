@@ -1,124 +1,158 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { Disclosure } from "@headlessui/react";
-import { Bars3Icon, StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
+
 import Image from "next/image";
-import logoMustache from "../../images/logoCircleYellow.png";
-import logoWordsPurple from "../../images/logoWordsPurple.png";
+import logo2 from "../../../images/logo2.jpg";
+import userphoto from "../../../images/user.jpg";
 import { authCtx } from "@/lib/context/Auth/authContext";
 import Profile from "./Profile";
-
-const navigation = [
-  { name: "Events", href: "#", current: false },
-  { name: "Cities", href: "#", current: false },
-  { name: "Sell My Tickets", href: "/listTicket", current: true },
-];
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import { AiOutlineMenu, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
+import { GiTicket } from "react-icons/gi";
+import { FiLogIn } from "react-icons/fi";
 
 export default function Navbar() {
-
-  const { user, logout } = useContext(authCtx)
+  const { user, logout } = useContext(authCtx);
+  const [nav, setNav] = useState(false);
 
   return (
-    <Disclosure as="nav" className="">
-      {({ open }) => (
-        <>
-          <div className="w-full z-20 top-0 left-0 px-2 sm:px-6 lg:px-8 bg-white border-b border-[#d0d0d0] fixed shadow-md">
-            <div className="relative flex h-16 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <span className="sr-only">Open main menu</span>
-                  {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
-              </div>
-              <div className="flex flex-1 justify-end sm:items-stretch sm:justify-start">
-                <Link href='/' >
-                  <div className="flex flex-shrink-0 items-center space-x-3">
-                    <div className="h-10 w-10 lg:block">
-                      <Image src={logoMustache} alt="" />
-                    </div>
-                    <div className="h-9 w-14 lg:block">
-                      <Image src={logoWordsPurple} alt="" />
-                    </div>
-                  </div>
-                </Link>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? "bg-[#9187F4] text-white  hover:bg-[#FFC200] hover:text-black"
-                            : "text-black hover:bg-purple-light hover:text-white",
-                          "px-3 py-2 rounded-3xl text-m font-medium "
-                        )}
-                        aria-current={item.current ? "page" : undefined}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                {/* Profile dropdown */}
-                {
-                  user ? (
-                    <>
-                      <button
-                        type="button"
-                        className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                      >
-                        <span className="sr-only">View notifications</span>
-                        <StarIcon
-                          className="h-6 w-6 fill-yellow"
-                          aria-hidden="true"
-                        />
-                      </button>
-                      <Profile logout={logout} />
-                    </>
-                  ) : (
-                    <Link href={"/login"} >
-                      <p className="cursor-pointer" >Login / SignUp</p>
-                    </Link>
-                  )
-                }
-              </div>
-            </div>
-          </div>
+    <div className="max-w-[1640px] mx-auto flex items-center p-4 justify-between shadow-md  ">
+      {/* Left side */}
+      <div className="flex items-center">
+        <Image src={logo2} alt="" height={50}></Image>
+      </div>
 
-          <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pt-2 pb-3">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block px-3 py-2 rounded-md text-base font-medium"
-                  )}
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
-            </div>
-          </Disclosure.Panel>
-        </>
+      {/* Search input */}
+      <div className="bg-white border-2 border-[#9187F4] rounded-full shadow hover:shadow-lg flex items-center px-2 w-[300px] sm:w-[500px] lg:w-[550px] ">
+        <input
+          className="p-2 w-[150px] sm:w-[250px] lg:w-[230px] rounded-full text-center text-[#9187F4]  placeholder-[#9187F4]  font-medium focus:outline-none"
+          type="text"
+          placeholder="What are you looking for?"
+        />
+        <input
+          className="px-2 w-[80px] sm:w-[80px] lg:w-[110px] text-center text-[#9187F4]  placeholder-[#9187F4]  focus:outline-none border-2 border-x-[#9187F4]  font-medium border-y-0"
+          type="text"
+          placeholder="Anywhere"
+        />
+        <input
+          className="p-2 w-[70px] sm:w-[60px] lg:w-[140px] rounded-full text-[#9187F4]  placeholder-[#9187F4] text-center focus:outline-none font-medium"
+          type="date"
+          placeholder="Any week"
+        />
+        <AiOutlineSearch className="mx-2" size={25} />
+      </div>
+
+      {/* Right side */}
+      <div className="flex items-center">
+        <button className="bg-[#9187F4] border-0 text-white rounded-full p-2 px-3 mr-2 font-medium">
+          Sell my tickets
+        </button>
+        <button className="bg-[#D2EBFA] border-0 text-[#9187F4] rounded-full p-2 px-3 mr-2 font-medium">
+          Log in
+        </button>
+        {/* <Image src={userphoto} alt="" height={40}></Image> */}
+        <div onClick={() => setNav(!nav)} className="cursor-pointer">
+          <AiOutlineMenu size={30} />
+        </div>
+      </div>
+
+      {/*Mobile Menu */}
+      {/*Overlay */}
+      {nav ? (
+        <div className="bg-black/80 fixed w-full h-screen z-10 top-0 left-0"></div>
+      ) : (
+        ""
       )}
-    </Disclosure>
+
+      {/*Side drawer menu */}
+      <div
+        className={
+          nav
+            ? "fixed top-0 left-0 w-[300px] h-screen bg-white z-10 duration-300"
+            : "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-300"
+        }
+      >
+        <div className="flex items-center p-4">
+          <AiOutlineClose
+            onClick={() => setNav(!nav)}
+            size={30}
+            className="absolute right-4 top-4 cursor-pointer"
+          />
+          <Image src={logo2} alt="" height={50}></Image>
+        </div>
+        <nav>
+          <ul className="flex flex-col p-4 text-[#202020] ">
+            <li className="text-xl py-4 flex">
+              <GiTicket size={25} className="mr-4" /> Sell My Tickets
+            </li>
+            <li className="text-xl py-4 flex">
+              <FiLogIn size={25} className="mr-4" /> Log In
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   );
 }
+
+// return (
+//   <div className="max-w-[1640px] mx-auto flex justify-between items-center p-4">
+//     {/* Left side */}
+//     <div className="flex items-center">
+//       <div onClick={() => setNav(!nav)} className="cursor-pointer">
+//         <AiOutlineMenu size={30} />
+//       </div>
+//       <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
+//         Mister <span className="font-bold">Ticket</span>
+//       </h1>
+//       <div className="hidden lg:flex items-center bg-[#dfdfdf] rounded-full p-1 text-[14px]">
+//         <p className="bg-black text-white rounded-full p-2">Sell ticket</p>
+//         <p className="p-2">Buy ticket</p>
+//       </div>
+//     </div>
+
+//     {/* Search input */}
+//     <div className="bg-[#dfdfdf]  rounded-full flex items-center px-2 w-[200px] sm:w-[400px] lg:w-[500px]">
+//       <AiOutlineSearch size={25} />
+//       <input
+//         className="bg-[#dfdfdf] p-2 w-full rounded-full text-white placeholder-white focus:outline-none"
+//         type="text"
+//         placeholder="Search tickets"
+//       />
+//     </div>
+
+//     {/*Mobile Menu */}
+//     {/*Overlay */}
+//     {nav ? (
+//       <div className="bg-black/80 fixed w-full h-screen z-10 top-0 left-0"></div>
+//     ) : (
+//       ""
+//     )}
+
+//     {/*Side drawer menu */}
+//     <div
+//       className={
+//         nav
+//           ? "fixed top-0 left-0 w-[300px] h-screen bg-white z-10 duration-300"
+//           : "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-300"
+//       }
+//     >
+//       <AiOutlineClose
+//         onClick={() => setNav(!nav)}
+//         size={30}
+//         className="absolute right-4 top-4 cursor-pointer"
+//       />
+//       <h2 className="text-2xl p-4">
+//         Mister <span className="font-bold">Ticket</span>
+//       </h2>
+//       <nav>
+//         <ul className="flex flex-col p-4 text-[#202020] ">
+//           <li className="text-xl py-4 flex">
+//             <GiTicket size={25} className="mr-4" /> Sell Tickets
+//           </li>
+//         </ul>
+//       </nav>
+//     </div>
+//   </div>
+// );
+// }

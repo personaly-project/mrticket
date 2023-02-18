@@ -6,6 +6,7 @@ export const enforceBearerToken = (handler: NextApiHandler) => {
     return async (req: NextApiRequest, res: NextApiResponse<IApiResponse<unknown>>) => {
         const { userId } = req.query
         const authorizationToken = req.cookies.Authorization
+        console.log(authorizationToken)
         if (!userId || typeof userId !== "string" || !authorizationToken) return res.status(401).json({ error: "missing authentication in request" })
         try {
             const decoded = decode<IUser>(authorizationToken)
@@ -16,6 +17,7 @@ export const enforceBearerToken = (handler: NextApiHandler) => {
             res.setHeader("set-cookie", `Authorization=Bearer ${newToken}`)
             return handler(req, res)
         } catch (err) {
+            console.log(err)
             res.status(401).json({ error: "invalid token" })
         }
     }

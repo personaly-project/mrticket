@@ -90,13 +90,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const ticketData = await ticketsApi.getTicket(
       context.params!.ticketId as string
-    );
-    const eventData = await eventsApi.getEvent(ticketData.eventId);
-    const venueData = await venuesApi.getVenue(eventData.venueId);
+    )
+    const eventData = await eventsApi.getEvent(ticketData.eventId)
+    const venueData = await venuesApi.getVenue(eventData.venueId)
 
     // Pass data to the page via props
     return { props: { ticketData, eventData, venueData } };
   } catch (err) {
+    console.log(err)
     return {
       notFound: true,
     };

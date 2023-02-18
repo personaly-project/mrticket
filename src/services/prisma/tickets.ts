@@ -10,6 +10,7 @@ const sampleTicket: ITicket = {
 }
 
 const getTicket = async (ticketId: string): Promise<ITicket> => {
+
   const ticket = await prisma.ticket.findUniqueOrThrow({
     where: {
       id: ticketId,

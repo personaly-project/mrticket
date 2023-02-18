@@ -15,7 +15,7 @@ const Confirmation: FC<IProps> = ({
   venue,
   onTicketConfirmed,
 }) => {
-  console.log(typeof ticketSrc.price)
+
   const [confirmed, setConfirmed] = useState<boolean>(false)
   const { user } = useContext(authCtx)
   useEffect(() => {

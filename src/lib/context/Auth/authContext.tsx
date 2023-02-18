@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { browser } from "process";
+import cookies from "js-cookie"
 import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
 import { IApiResponse, INewUserSrcData, IUser } from "../../types";
 
@@ -34,6 +34,7 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
     const login = useCallback(
         async (email: string, psw: string) => {
             setIsLoading(true);
+            console.log('here =========>', cookies.get('Authorization'))
             const resp = await fetch("/api/login", {
                 method: "POST",
                 headers: {
@@ -42,7 +43,6 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
                 body: JSON.stringify({ email, psw }),
             });
             const { data, error } = (await resp.json()) as IApiResponse<IUser>;
-            console.log(data);
             if (error) {
                 //server defined error
                 setError(error);
@@ -95,29 +95,39 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (document.cookie.search('Authorization')) {
+        if (document.cookie.search('Authorization') && !user) {
             setIsLoading(true)
+
             fetch('/api/login', {
                 method: "POST",
                 headers: {
                     accept: "application/json",
                 },
-            }).then((resp) => {
-                return resp.json()
-            }).then(({ data, error }: { data: IUser, error: string }) => {
-                if (error) {
-                    //server defined error
-                    setError(error)
-                } else if (data) {
-                    //success
-                    setUser(data)
-                    router.push('/')
-                } else {
-                    //undefined error not carried trough the error field en the api response
-                    setError("unknown error")
-                }
-                setIsLoading(false)
             })
+                .then((resp) => {
+                    return resp.json()
+                })
+                .then(({ data, error }: { data: IUser, error: string }) => {
+                    console.log('HERE undefined')
+                    if (error) {
+                        //server defined error
+                        cookies.set('Authorization', '')
+                        setError(error)
+                    } else if (data) {
+                        //success
+                        setUser(data)
+                        router.push('/')
+                    } else {
+                        //undefined error not carried trough the error field en the api response
+                        setError("unknown error")
+                        cookies.set('Authorization', '')
+                    }
+                    setIsLoading(false)
+                }).catch(err => {
+                    console.log('HERE', document.cookie, err)
+                    cookies.set('Authorization', '')
+                    setIsLoading(false)
+                })
         }
     }, [router])
 

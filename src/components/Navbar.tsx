@@ -8,11 +8,14 @@ import { authCtx } from "@/lib/context/Auth/authContext";
 import { AiOutlineMenu, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import { GiTicket } from "react-icons/gi";
 import { FiLogIn } from "react-icons/fi";
+import Input from "./ui/Input";
 
 export default function Navbar() {
   const { user, logout } = useContext(authCtx);
   const [nav, setNav] = useState(false);
-
+  const [search, setSearch] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   return (
     <div className="max-w-[1640px] mx-auto flex items-center p-4 justify-between shadow-md  ">
       {/* Left side */}
@@ -30,18 +33,30 @@ export default function Navbar() {
           className="p-2 w-[150px] sm:w-[250px] lg:w-[230px] rounded-full text-center text-[#9187F4]  placeholder-[#9187F4]  font-medium focus:outline-none"
           type="text"
           placeholder="What are you looking for?"
+          value={search}
+          onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+            setSearch(e.target.value)
+          }
         />
         <input
           className="px-2 w-[80px] sm:w-[80px] lg:w-[110px] text-center text-[#9187F4]  placeholder-[#9187F4]  focus:outline-none border-2 border-x-[#9187F4]  font-medium border-y-0"
           type="date"
           placeholder="Anywhere"
+          name="from"
+          onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+            setFrom(e.target.value)
+          }
         />
         <input
           className="p-2 w-[70px] sm:w-[60px] lg:w-[140px] rounded-full text-[#9187F4]  placeholder-[#9187F4] text-center focus:outline-none font-medium"
           type="date"
           placeholder="Any week"
+          name="to"
+          onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+            setTo(e.target.value)
+          }
         />
-        <Link href={"/results"}>
+        <Link href={`/results?search=${search}-from=${from}-to=${to}`}>
           <AiOutlineSearch className="mx-2" size={25} />
         </Link>
       </div>

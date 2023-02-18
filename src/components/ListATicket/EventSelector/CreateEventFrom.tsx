@@ -112,7 +112,7 @@ const CreateEventFrom: React.FC<IProps> = ({ onSubmit, venueId }) => {
         {loading ? (
           <p> Loading </p>
         ) : (
-          <div className="flex flex-row items-center justify-center gap-4 pt-4">
+          <div className="flex flex-row justify-between gap-4 pt-4">
             <button
               type="reset"
               className="py-2 px-4 bg-lightblue rounded-md shadow text-black w-32 self-end hover:text-danger"

@@ -31,25 +31,34 @@ const VenueSelector: React.FC<IProps> = ({ venuesSrc, onSubmitVenue }) => {
   return (
     <div className="mx-10">
       <br />
-      <h2 className=""> Choose a venue </h2>
+      <h2
+        className="font-bold
+              text-2xl
+              text-purple-dark"
+      >
+        {" "}
+        Choose a venue{" "}
+      </h2>
       <br />
       {venue ? (
         <>
-          <h3>
-            Selected: {venue.name} {confirmed ? "Confirmed" : null}{" "}
+          <h3 className="my-10">
+            Venue selected: {"  "}
+            {venue.name} {confirmed ? "Confirmed" : null}
           </h3>
-          <div className="flex flex-row items-center my-4 gap-4">
-            <button
-              onClick={onExistingConfirmed}
-              className="px-4 py-2 bg-purple-medium rounded-md shadow text-white"
-            >
-              Confirm
-            </button>
+
+          <div className="flex flex-row justify-between gap-4 pt-4">
             <button
               onClick={toggleMakeNew}
-              className="px-4 py-2 mx-10 bg-purple-dark rounded-md shadow text-white"
+              className=" px-4 py-2 rounded-md shadow bg-lightblue text-black hover:text-danger"
             >
               Reset
+            </button>
+            <button
+              onClick={onExistingConfirmed}
+              className="px-4 py-2 rounded-md shadow  bg-purple-light text-black hover:bg-yellow"
+            >
+              Confirm
             </button>
           </div>
         </>

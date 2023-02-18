@@ -15,7 +15,7 @@ const EventsList: React.FC<IProps> = ({ eventsPool, onSelection }) => {
       {eventsPool.map((event, index) => {
         return (
           <p
-            className="hover:bg-purple-light rounded-md my-2 cursor-pointer flex flex-row"
+            className="hover:bg-purple-light rounded-md h-5 my-2 cursor-pointer flex flex-row"
             onClick={() => onSelection(index)}
             key={event.id}
           >

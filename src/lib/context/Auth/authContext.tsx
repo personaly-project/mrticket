@@ -94,7 +94,8 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (document.cookie.search('Authorization') && !user) {
+      
+        if (document.cookie.search('Authorization')>=0 && !user) {
             setIsLoading(true)
 
             fetch('/api/login', {
@@ -109,7 +110,6 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
                 .then(({ data, error }: { data: IUser, error: string }) => {
                     if (error) {
                         //server defined error
-                        cookies.set('Authorization', '')
                         setError(error)
                     } else if (data) {
                         //success
@@ -118,11 +118,9 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
                     } else {
                         //undefined error not carried trough the error field en the api response
                         setError("unknown error")
-                        cookies.set('Authorization', '')
                     }
                     setIsLoading(false)
                 }).catch(err => {
-                    cookies.set('Authorization', '')
                     setIsLoading(false)
                 })
         }

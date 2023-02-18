@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import logo2 from "../../../images/logo2.jpg";
+import logo2 from "../../public/logo2.jpg";
 import { authCtx } from "@/lib/context/Auth/authContext";
 import { AiOutlineMenu, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import { GiTicket } from "react-icons/gi";
@@ -14,9 +14,13 @@ export default function Navbar() {
   return (
     <div className="max-w-[1640px] mx-auto flex items-center p-4 justify-between shadow-md  ">
       {/* Left side */}
-      <Link href={'/'} className="flex items-center">
-        <Image src={logo2} alt="" height={50}></Image>
-      </Link>
+      <div className="flex items-center">
+        <Link href="/">
+          <>
+            <Image src={logo2} alt="" height={50}></Image>
+          </>
+        </Link>
+      </div>
 
       {/* Search input */}
       <div className="bg-white border-2 border-[#9187F4] rounded-full shadow hover:shadow-lg flex items-center px-2 w-[300px] sm:w-[500px] lg:w-[550px] ">
@@ -41,9 +45,9 @@ export default function Navbar() {
       {/* Right side */}
       <div className="flex items-center">
         <Link href={'/listTicket'} >
-          <p className="bg-[#9187F4] border-0 text-white rounded-full p-2 px-3 mr-2 font-medium">
-            Sell my tickets
-          </p>
+          <span className="bg-[#9187F4] border-0 text-white rounded-full p-2 px-3 mr-2 font-medium">
+            Sell My Tickets
+          </span>
         </Link>
         {
           user ? (
@@ -51,15 +55,15 @@ export default function Navbar() {
               <div className="self-center w-8 h-8 mx-1">
                 <Image src={"https://picsum.photos/200"} alt="" width={50} height={50} className="rounded-full" />
               </div>
-              <div onClick={() => setNav(!nav)} className="cursor-pointer">
+              <div onClick={() => setNav(nav => !nav)} className="cursor-pointer">
                 <AiOutlineMenu size={30} />
               </div>
             </>
           ) : (
             <Link href={'/login'}>
-              <p className="bg-[#D2EBFA] border-0 text-[#9187F4] rounded-full p-2 px-3 mr-2 font-medium">
-                Log in
-              </p>
+              <span className="bg-[#D2EBFA] border-0 text-[#9187F4] rounded-full p-2 px-3 mr-2 font-medium">
+                Log In
+              </span>
             </Link>
           )
         }
@@ -93,7 +97,7 @@ export default function Navbar() {
         <nav>
           <ul className="flex flex-col p-4 text-[#202020] ">
             <li className="text-xl py-4 flex cursor-pointer">
-              <Link href={'/listTicket'} >
+              <Link href={'/listTicket'} className="flex">
                 <GiTicket size={25} className="mr-4" /> Sell My Tickets
               </Link>
             </li>

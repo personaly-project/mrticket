@@ -6,9 +6,7 @@ export function encode<T>(src: T & object): string {
     if ("id" in src) {
         const token = jwt.sign({
             id: src.id
-        }, SECRET_KEY, {
-            expiresIn: "1h"
-        })
+        }, SECRET_KEY)
         return token
     }
     throw new Error("id property missing")

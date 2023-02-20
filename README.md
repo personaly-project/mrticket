@@ -1,3 +1,5 @@
+> **_NOTE:_** Add TICKETS_BUCKET_NAME="cdk-hnb659fds-assets-783605546661-eu-west-3" to the env file, install aws-cli and in the root folder ron the command aws-configure using the key and secret_key provided in the slack
+
 > **_NOTE:_** Add SECRET_KEY="sklajdgb34tbksdjavfSECREt" to env in development for jwt functions
 
 > **_NOTE:_**  To use seed your local db, instal missing dependencies first with yarn, then do npx prisma migrate dev so the db tables would update to the current schema and prisma will auto run the seed script

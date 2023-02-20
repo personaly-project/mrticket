@@ -14,8 +14,8 @@ const VenuesList: React.FC<IProps> = ({ venuesSrc, onSelection }) => {
       {venuesSrc.map((venue, index) => (
         <p
           className={`rounded-md my-2 cursor-pointer 
-            flex flex-row 
-            px-3
+            flex flex-row
+            px-3 items-center
             hover:px-3 hover:bg-purple-light`}
           onClick={() => onSelection(index)}
           key={venue.id}

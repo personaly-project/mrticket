@@ -17,8 +17,8 @@ module.exports = {
       danger: "#DC2626",
     },
     fontFamily: {
-      anekbangla: ["Anek Bangla", "sans-serif"],
+      latoSans: ["Lato Sans", "sans-serif"],
     },
     plugins: [],
   },
-};
+}

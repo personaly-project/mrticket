@@ -1,6 +1,10 @@
 import { authCtx } from "@/lib/context/Auth/authContext"
 import { IEvent, INewTicketSrcData, ITicket, IVenue } from "@/lib/types"
 import { FC, useEffect, useState, useContext } from "react"
+import { GrLocation } from "react-icons/gr"
+import { BiTime } from "react-icons/bi"
+import { HiOutlineTicket } from "react-icons/hi"
+import moment from "moment"
 
 interface IProps {
   venue: IVenue
@@ -15,7 +19,6 @@ const Confirmation: FC<IProps> = ({
   venue,
   onTicketConfirmed,
 }) => {
-
   const [confirmed, setConfirmed] = useState<boolean>(false)
   const { user } = useContext(authCtx)
   useEffect(() => {
@@ -41,34 +44,58 @@ const Confirmation: FC<IProps> = ({
   }, [confirmed])
 
   return (
-    <div>
-      <div>
-        <h3>Where</h3>
-        <p> {venue.placeType} </p>
-        <p> {venue.name} </p>
-        <p> {venue.address} </p>
-        <p> {venue.city} </p>
-        <p> {venue.state} </p>
-        <p> {venue.country} </p>
+    <div className="font-latoSans p-4">
+      <div className="">
+        <div className="flex gap-2 items-center font-bold text-2xl">
+          <GrLocation size={25} />
+          <h3>Where</h3>
+        </div>
+        <div className="px-9 space-y-1 pb-3">
+          <p> {venue.placeType} </p>
+          <p> {venue.name} </p>
+          <p> {venue.address} </p>
+          <p> {venue.city} </p>
+          <p> {venue.state} </p>
+          <p> {venue.country} </p>
+        </div>
       </div>
+
       <div>
-        <h3>What and when</h3>
-        <p> {event.title} </p>
-        <p> {event.startHour} </p>
-        <> {event.date} </>
-        <p> {event.eventType} </p>
+        <div className="flex gap-2 items-center font-bold text-2xl">
+          <BiTime size={25} />
+          <h3>What and when</h3>
+        </div>
+        <div className="px-9 space-y-1 pb-3">
+          <p> {event.title} </p>
+          <p> {event.eventType} </p>
+          <p> {moment(event.date).format("Do - MMM YYYY, dddd @ hA")} </p>
+        </div>
       </div>
+
       <div>
-        <h3> Your offer </h3>
-        <p> {ticketSrc.title} </p>
-        <p> € {ticketSrc.price} </p>
+        <div className="flex gap-2 items-center font-bold text-2xl">
+          <HiOutlineTicket size={25} />
+          <h3> Your ticket </h3>
+        </div>
+        <div className="px-9 space-y-1 pb-3">
+          <p> {ticketSrc.title} </p>
+          <p> $ {ticketSrc.price} </p>
+        </div>
       </div>
-      <button
-        className="bg-purple-dark text-white py-2 px-4"
-        onClick={() => setConfirmed(true)}
-      >
-        Confirm
-      </button>
+      <div className="flex justify-center">
+        <button
+          onClick={() => setConfirmed(true)}
+          type="submit"
+          className="
+                items-center
+                border-0 p-4
+                rounded-md shadow w-32 
+                bg-purple-medium  font-semibold text-white  
+                hover:bg-yellow hover:grow"
+        >
+          Confirm
+        </button>
+      </div>
     </div>
   )
 }

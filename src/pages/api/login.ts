@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
 
         if (!email || !psw) {
             // Remove the cookie 'Authorization'
-            res.setHeader('set-cookie', 'Authorization=;  path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT')
+            res.setHeader('set-cookie', 'Authorization=;  path=/;')
             return res.status(400).json({
                 error: "bad request"
             })
@@ -34,7 +34,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
             })
 
         } catch (err) {
-            res.setHeader('set-cookie', 'Authorization=;  path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT')
+            res.setHeader('set-cookie', 'Authorization=;  path=/;')
             return res.status(404).json({
                 error: "user not found"
             })
@@ -50,7 +50,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
             })
         } catch (err) {
             console.error(err)
-            res.setHeader('set-cookie', 'Authorization=;  path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT')
+            res.setHeader('set-cookie', 'Authorization=;  path=/;')
             return res.status(400).json({})
         }
     }

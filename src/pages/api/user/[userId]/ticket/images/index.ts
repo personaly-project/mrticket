@@ -57,5 +57,4 @@ export const config = {
     },
 }
 
-export default 
-;
+export default handler;

@@ -1,27 +1,23 @@
 /** @format */
 
-interface IPageProps {
-  ticketId: string | undefined;
-  allTickets: ITicket[] | undefined;
-}
 import Head from "next/head";
-import { NextPage } from "next";
 import Image from "next/image";
 import { loadStripe } from "@stripe/stripe-js";
-import { ticketsApi } from "../prisma";
+import { useEffect, useState } from "react";
+import { ITicket } from "@/lib/types";
+import { useRouter } from "next/router";
+
 import {
-  AddressElement,
   Elements,
   useElements,
-  PaymentElement,
-  PaymentElementProps,
-  PaymentElementComponent,
   useStripe,
   CardElement,
 } from "@stripe/react-stripe-js";
 
-import { useEffect, useState } from "react";
-import { ITicket } from "@/lib/types";
+interface IPageProps {
+  ticketId: string | undefined;
+  allTickets: ITicket[] | undefined;
+}
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_SECRET!);
 
@@ -63,6 +59,7 @@ export const CheckoutForm: React.FC<checkoutProps> = ({
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
+  const router = useRouter()
 
   useEffect(() => {
     const getPaymentData = async () => {
@@ -147,7 +144,7 @@ export const CheckoutForm: React.FC<checkoutProps> = ({
       // The payment has been processed!
       confirmCardPayment.paymentIntent.status;
 
-      return window.location.replace("/success");
+      return router.push(`/ticket/${ticketid}/success`)
     }
   };
 

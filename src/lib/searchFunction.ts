@@ -50,12 +50,17 @@ export const filterEventsBasedOnDate = (
     const currentDate = new Date();
     fromDate = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`;
   }
+  if (toDate.length < 1) {
+    const currentDate = new Date();
+    toDate = `${
+      currentDate.getFullYear() + 5
+    }-${currentDate.getMonth()}-${currentDate.getDate()}`;
+  }
 
   let fromArray: any[] = fromDate.split("-");
   let toArray: any[] = toDate.split("-");
   fromArray = fromArray.map((element) => parseInt(element));
   toArray = toArray.map((element) => parseInt(element));
-
   let res: any[] = [];
   events.forEach((element) => {
     return res.push({

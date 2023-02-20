@@ -6,10 +6,11 @@ import { getAllTickets } from "@/services/prisma/tickets";
 import { getAllVenues } from "@/services/prisma/venues";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import logoWhite from "../../public/logoWhite.png";
 import { AiOutlineMenu } from "react-icons/ai";
+import { filterEventsBasedOnDate, filterObject } from "@/lib/searchFunction";
 
 interface IPageProps {
   allVenues: IVenue;
@@ -21,9 +22,37 @@ export default function Results({
   allEvents,
   allTickets,
 }: IPageProps) {
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const [tickets, setTickets] = useState<ITicket[]>(allTickets);
-  const handleClick = () => {};
+  useEffect(() => {
+    const setTheTicketsToSearch = () => {
+      const url = window.location.href;
+      const params = url.split("?")[1];
+      const param1 = params.split("=")[1];
+      const param1Value = param1.split("-")[0];
+      const param2 = params.split("from=")[1];
+      const param2Value = param2.split("-to")[0];
+      const param3 = params.split("=")[3];
+      const param3Value = param3.split("-").join("-");
+
+      const filteredTicketsByDate: any[] = filterEventsBasedOnDate(
+        allEvents,
+        allTickets,
+        param2Value,
+        param3Value
+      );
+
+      const objectToStructure = filteredTicketsByDate[0];
+      console.log(filteredTicketsByDate, objectToStructure, param1Value);
+      const filteredTickets = filterObject(
+        filteredTicketsByDate,
+        objectToStructure,
+        param1Value
+      );
+      console.log(filteredTickets);
+      setTickets(filteredTickets);
+    };
+    setTheTicketsToSearch();
+  }, [allEvents, allTickets]);
 
   return (
     <div className="h-100%">
@@ -71,7 +100,6 @@ export default function Results({
           ))}
         </ul>
       </div>
-      <button onClick={handleClick}>click me</button>
     </div>
   );
 }

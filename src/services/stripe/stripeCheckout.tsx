@@ -102,6 +102,7 @@ export const CheckoutForm: React.FC<checkoutProps> = ({
 
     getPaymentData();
     console.log("paymentIntent", paymentIntent, ticketid, allTickets);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

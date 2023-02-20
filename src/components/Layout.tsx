@@ -42,9 +42,7 @@ const Layout: FC<IProps> = ({ title, children }) => {
         <header>
           <Navbar />
         </header>
-        <main className="container m-auto  px-10 bg-purple-dark">
-          {children}
-        </main>
+        <main className=" min-h-screen bg-purple-dark">{children}</main>
         <footer>
           <Footer />
         </footer>

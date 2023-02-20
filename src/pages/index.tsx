@@ -1,6 +1,5 @@
 /** @format */
 import Hero from "@/components/Hero";
-import SearchFeature from "@/components/SearchFeataure";
 import { IEvent, ITicket, IVenue } from "@/lib/types";
 import { getAllEvents } from "@/services/prisma/events";
 import { getAllTickets } from "@/services/prisma/tickets";
@@ -19,11 +18,6 @@ export default function Home({ allVenues, allEvents, allTickets }: IPageProps) {
       <main>
         <Hero />
       </main>
-      <SearchFeature
-        allvenues={allVenues}
-        allevents={allEvents}
-        alltickets={allTickets}
-      />
     </>
   );
 }

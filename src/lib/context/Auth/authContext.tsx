@@ -94,8 +94,8 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-      
-        if (document.cookie.search('Authorization')>=0 && !user) {
+
+        if (document.cookie.search('Authorization') >= 0 && !user) {
             setIsLoading(true)
 
             fetch('/api/login', {
@@ -114,7 +114,7 @@ export const AuthContextProvider: React.FC<IProps> = ({ children }) => {
                     } else if (data) {
                         //success
                         setUser(data)
-                        router.push('/')
+
                     } else {
                         //undefined error not carried trough the error field en the api response
                         setError("unknown error")

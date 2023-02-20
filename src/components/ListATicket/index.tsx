@@ -1,14 +1,13 @@
 import { useEventPool } from "@/lib/hooks/useEventPool"
 import { IVenue, ITicket, IEvent, INewTicketSrcData } from "@/lib/types"
 import { useRouter } from "next/router"
-import React, { use, useState } from "react"
+import React, { useContext, useState } from "react"
 import EventSelector from "./EventSelector/EventSelector"
 import CreateTicketForm from "./TicketCreator/CreateTicketForm"
 import VenueSelector from "./VenueSelector/VenueSelector"
 import Confirmation from "./Confirmation"
-import { Venue } from "@prisma/client"
-import { StdioPipeNamed } from "child_process"
 import NavigationCircles from "../ui/NavigationCircles"
+import { authCtx } from "@/lib/context/Auth/authContext"
 
 interface IProps {
   venues: IVenue[]
@@ -25,6 +24,8 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
   const router = useRouter()
 
   const [venue, setVenue] = useState<IVenue | null>(null)
+  const [file, setFile] = useState<File[]>([])
+  const { user } = useContext(authCtx)
 
   const {
     eventPool,
@@ -57,8 +58,18 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
   const onSubmitTicket = (ticket: INewTicketSrcData) => {
     setTicket(ticket)
   }
-  const onTicketConfirmed = (ticket: ITicket) => {
-    router.push(`/ticket/${ticket.id}`)
+  const onTicketConfirmed = async (ticket: ITicket) => {
+    if (file[0]) {
+      const data = new FormData();
+      data.append("image", file[0]);
+      data.append("ticketId", ticket.id);
+      const resp = await fetch(`/api/user/${user?.id}/ticket/images`, {
+        method: "POST",
+        body: data,
+      });
+      console.log(resp.ok)
+      router.push(`/ticket/${ticket.id}`)
+    }
   }
 
   function evaluateStepNumber() {
@@ -94,6 +105,7 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
     if (stepNumber === 2)
       return (
         <CreateTicketForm
+          onImageUploaded={(file) => setFile([file])}
           eventId={event!.id}
           onSubmit={onSubmitTicket}
           reset={resetTicket}

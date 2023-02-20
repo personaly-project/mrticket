@@ -9,33 +9,26 @@ interface IProps {
   onSubmit: (ticket: INewTicketSrcData) => void;
   eventId: string;
   reset: () => void;
+  onImageUploaded: (file: File) => void
 }
 
-const CreateTicketForm: FC<IProps> = ({ onSubmit, eventId }) => {
+const CreateTicketForm: FC<IProps> = ({ onSubmit, eventId, onImageUploaded }) => {
   const { user } = useContext(authCtx);
   const [loading, setIsLoading] = useState<boolean>(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { price, updatePrice, title, updateTitle, getTicketSrcData } =
     useCreateTicket(eventId, user!.id);
+
+  const onImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.item(0)
+    if (file) onImageUploaded(file)
+  }
 
   const onTicketSrcSubmitted = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const src = getTicketSrcData();
     if (src) {
       setIsLoading(true);
-      if (fileInputRef.current?.files?.length) {
-        const data = new FormData();
-        const target: File = fileInputRef.current?.files[0];
-        data.append("image", target);
-        data.append("ticketId", "this-is-the-ticketId");
-        fetch(`/api/user/${user?.id}/ticket/images`, {
-          method: "POST",
-          body: data,
-        });
-      } else {
-        console.error("not file submitted");
-      }
     }
   };
 
@@ -70,11 +63,11 @@ const CreateTicketForm: FC<IProps> = ({ onSubmit, eventId }) => {
       <div>
         <input
           required
-          ref={fileInputRef}
+          onChange={onImage}
           type="file"
           name="file"
           placeholder="Upload your ticket Bar Code or QR Code"
-          accept="image/png, image/jpeg, image/svg"
+          accept="image/png"
         />
       </div>
 

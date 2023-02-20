@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react"
-import { IEvent } from "@/lib/types"
-import { useCreateEvent } from "@/lib/hooks/"
-import Input from "@/components/ui/Input"
-import { BiCalendarEvent } from "react-icons/bi"
+import React, { useEffect, useState } from "react";
+import { IEvent } from "@/lib/types";
+import { useCreateEvent } from "@/lib/hooks/";
+import Input from "@/components/ui/Input";
+import { BiCalendarEvent } from "react-icons/bi";
 
 interface IProps {
-  onSubmit: (event: IEvent, venueID: string) => void
-  venueId: string
+  onSubmit: (event: IEvent, venueID: string) => void;
+  venueId: string;
 }
 
 const CreateEventFrom: React.FC<IProps> = ({ onSubmit, venueId }) => {
-  const [loading, setIsLoading] = useState<boolean>(false)
+  const [loading, setIsLoading] = useState<boolean>(false);
   const {
     eventType,
     updateEventType,
@@ -24,18 +24,18 @@ const CreateEventFrom: React.FC<IProps> = ({ onSubmit, venueId }) => {
     eventSpecs,
     updateEventSpecs,
     getEvent,
-  } = useCreateEvent(venueId)
+  } = useCreateEvent(venueId);
 
   const onEventSubmitted = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const eventSrc = getEvent()
+    e.preventDefault();
+    const eventSrc = getEvent();
     if (eventSrc) {
-      setIsLoading(true)
+      setIsLoading(true);
     }
-  }
+  };
 
   useEffect(() => {
-    const eventSrc = getEvent()
+    const eventSrc = getEvent();
     if (loading && eventSrc && venueId) {
       fetch("/api/events", {
         method: "POST",
@@ -46,27 +46,27 @@ const CreateEventFrom: React.FC<IProps> = ({ onSubmit, venueId }) => {
       })
         .then((resp) => {
           if (resp.ok) {
-            return resp.json()
+            return resp.json();
           }
         })
         .then((parsed) => {
-          onSubmit(parsed.data, venueId)
-          setIsLoading(false)
+          onSubmit(parsed.data, venueId);
+          setIsLoading(false);
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }
-    setIsLoading(false)
+    setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading])
+  }, [loading]);
 
-  const [performers, setPerformers] = useState<string[]>([])
-  const [newPerformer, setNewPerformer] = useState<string>("")
+  const [performers, setPerformers] = useState<string[]>([]);
+  const [newPerformer, setNewPerformer] = useState<string>("");
 
   const handleAddPerformer = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setPerformers([...performers, newPerformer])
-    setNewPerformer("")
-  }
+    e.preventDefault();
+    setPerformers([...performers, newPerformer]);
+    setNewPerformer("");
+  };
 
   return (
     <div className="shadow rounded-2xl p-3 ">
@@ -84,7 +84,7 @@ const CreateEventFrom: React.FC<IProps> = ({ onSubmit, venueId }) => {
             updateEventType(e.target.value)
           }
         >
-          <h2>event type</h2>
+          <div>event type</div>
           <option value={"concert"}>concert</option>
           <option value={"show"}>show</option>
           <option value={"stand-up"}>stand-up</option>
@@ -138,7 +138,7 @@ const CreateEventFrom: React.FC<IProps> = ({ onSubmit, venueId }) => {
         )}
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default CreateEventFrom
+export default CreateEventFrom;

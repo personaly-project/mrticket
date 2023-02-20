@@ -1,43 +1,43 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { Venue } from "@prisma/client"
-import { useSelector } from "@/lib/hooks"
-import CreateVenueForm from "./CreateVenueForm"
-import VenuesList from "./VenuesList"
+import React, { useCallback, useEffect, useState } from "react";
+import { Venue } from "@prisma/client";
+import { useSelector } from "@/lib/hooks";
+import CreateVenueForm from "./CreateVenueForm";
+import VenuesList from "./VenuesList";
 
 interface IProps {
-  venuesSrc: Venue[]
-  onSubmitVenue: (venue: Venue) => void
-  reset: () => void
+  venuesSrc: Venue[];
+  onSubmitVenue: (venue: Venue) => void;
+  reset: () => void;
 }
 
 const VenueSelector: React.FC<IProps> = ({ venuesSrc, onSubmitVenue }) => {
   const [venue, selectFromExisting, makeNew, toggleMakeNew] =
-    useSelector(venuesSrc)
-  const [confirmed, setConfirmed] = useState<boolean>(false)
+    useSelector(venuesSrc);
+  const [confirmed, setConfirmed] = useState<boolean>(false);
 
   useEffect(() => {
     if (!venue) {
-      setConfirmed(false)
+      setConfirmed(false);
     }
-  }, [venue])
+  }, [venue]);
 
   const onExistingConfirmed = useCallback(() => {
     if (venue) {
-      setConfirmed(true)
-      onSubmitVenue(venue)
+      setConfirmed(true);
+      onSubmitVenue(venue);
     }
-  }, [venue, onSubmitVenue])
+  }, [venue, onSubmitVenue]);
 
   return (
     <div className="mx-10 font-latoSans">
       <br />
-      <h2
+      <div
         className="font-bold
               text-2xl
               text-purple-dark"
       >
         Please, choose a venue!
-      </h2>
+      </div>
       <br />
       {venue ? (
         <>
@@ -89,7 +89,7 @@ const VenueSelector: React.FC<IProps> = ({ venuesSrc, onSubmitVenue }) => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default VenueSelector
+export default VenueSelector;

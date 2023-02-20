@@ -72,9 +72,9 @@ export default function Results({
             <AiOutlineMenu size={15} />
           </button>
         </div>
-        <h2 className="text-white text-center font-light text-xs">
+        <div className="text-white text-center font-light text-xs">
           SEARCH RESULTS
-        </h2>
+        </div>
       </div>
 
       {/* list */}

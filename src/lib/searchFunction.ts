@@ -70,21 +70,26 @@ export const filterEventsBasedOnDate = (
       id: element.id,
     });
   });
+  console.log(res);
   let filteredVenues = res.filter((element) => {
+    if (element.year > fromArray[0] && element.year < toArray[0]) {
+      return element;
+    }
     if (
-      element.year >= fromArray[0] &&
-      element.year <= toArray[0] &&
-      element.month >= fromArray[1] &&
-      element.month <= toArray[1]
+      element.year === fromArray[0] &&
+      element.year === toArray[0] &&
+      element.month > fromArray[1] &&
+      element.month < toArray[1]
     ) {
-      if (
-        fromArray[1] === element.month ||
-        (toArray[1] === element.month &&
-          element.date >= fromArray[2] &&
-          element.date <= toArray[2])
-      ) {
-        return element;
-      }
+      return element;
+    }
+
+    if (
+      fromArray[1] === element.month ||
+      (toArray[1] === element.month &&
+        element.date > fromArray[2] &&
+        element.date < toArray[2])
+    ) {
       return element;
     }
   });

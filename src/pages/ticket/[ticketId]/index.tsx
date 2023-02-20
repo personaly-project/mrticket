@@ -96,7 +96,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // Pass data to the page via props
     return { props: { ticketData, eventData, venueData } };
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return {
       notFound: true,
     };

@@ -12,10 +12,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
     }
     const { Authorization } = req.cookies
 
-    console.log('Authorization', Authorization)
-    console.log('Authorization', Authorization && true)
-    console.log('req.body', req.body)
-    
     if (req.body) {
         const { email, psw } = JSON.parse(req.body) as { email: string, psw: string }
 
@@ -33,12 +29,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
 
             res.setHeader('set-cookie', `Authorization=Bearer ${token}; path=/;`)
 
-
-
             return res.status(200).json({
                 data: targetUser
             })
+
         } catch (err) {
+            res.setHeader('set-cookie', 'Authorization=;  path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT')
             return res.status(404).json({
                 error: "user not found"
             })
@@ -54,6 +50,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IApiResponse<IU
             })
         } catch (err) {
             console.error(err)
+            res.setHeader('set-cookie', 'Authorization=;  path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT')
             return res.status(400).json({})
         }
     }

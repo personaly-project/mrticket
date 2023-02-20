@@ -30,7 +30,7 @@ const Input: React.FC<IProps> = ({
       <input
         required={required}
         placeholder={placeholder}
-        className="border rounded border-slate-300"
+        className=" p-1 border-b-2 border-[#e5e5e5]"
         type={type ? type : "text"}
         value={value}
         onChange={onChange}

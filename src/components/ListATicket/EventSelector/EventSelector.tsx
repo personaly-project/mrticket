@@ -35,8 +35,14 @@ const EventSelector: React.FC<IProps> = ({
   }, [event])
 
   return (
-    <div className="mx-10">
-      <h2>Select the event</h2>
+    <div className="mx-10 font-latoSans">
+      <h2
+        className="font-bold 
+              text-2xl
+              text-purple-dark"
+      >
+        Please, select the event!
+      </h2>
 
       {event ? (
         <>
@@ -44,16 +50,22 @@ const EventSelector: React.FC<IProps> = ({
             {" "}
             Selected: {event.title} {confirmed ? "Confirmed" : null}{" "}
           </h3>
-          <div className="flex flex-row justify-between gap-4 pt-4">
+          <div className="flex flex-row justify-between gap-4 p-4">
             <button
               onClick={toggleMakeNew}
-              className=" px-4 py-2 rounded-md shadow bg-lightblue text-black hover:text-danger"
+              className="border-0 py-2 px-4 
+                rounded-md shadow w-32 self-end  
+                bg-purple-dark font-semibold text-white
+                hover:bg-lightblue hover:text-danger"
             >
               Reset
             </button>
             <button
               onClick={onExistingConfirmed}
-              className="px-4 py-2 rounded-md shadow  bg-purple-light text-black hover:bg-yellow"
+              className="border-0 py-2 px-4 
+                rounded-md shadow w-50 
+                bg-purple-medium  font-semibold text-white  
+                hover:bg-yellow"
             >
               Confirm
             </button>
@@ -71,9 +83,12 @@ const EventSelector: React.FC<IProps> = ({
           )}
           <button
             onClick={toggleMakeNew}
-            className="my-4 px-4 py-2 rounded-md shadow bg-purple-light  text-black hover:bg-yellow"
+            className="border-0 py-2 px-4 
+                rounded-md shadow w-50 mt-6 
+                bg-purple-medium  font-semibold text-white  
+                hover:bg-yellow"
           >
-            {makeNew ? "Use existing" : "Make new"}
+            {makeNew ? "Use existing" : "Make a New Event"}
           </button>
         </>
       )}

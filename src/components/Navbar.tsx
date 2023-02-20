@@ -1,21 +1,21 @@
 /** @format */
 
-import React, { useContext, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import logo2 from "../../public/logo2.jpg";
-import { authCtx } from "@/lib/context/Auth/authContext";
-import { AiOutlineMenu, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
-import { GiTicket } from "react-icons/gi";
-import { FiLogIn } from "react-icons/fi";
-import Input from "./ui/Input";
+import React, { useContext, useState } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import logo2 from "../../public/logo2.jpg"
+import { authCtx } from "@/lib/context/Auth/authContext"
+import { AiOutlineMenu, AiOutlineClose, AiOutlineSearch } from "react-icons/ai"
+import { GiTicket } from "react-icons/gi"
+import { FiLogIn } from "react-icons/fi"
+import Input from "./ui/Input"
 
 export default function Navbar() {
-  const { user, logout } = useContext(authCtx);
-  const [nav, setNav] = useState(false);
-  const [search, setSearch] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const { user, logout } = useContext(authCtx)
+  const [nav, setNav] = useState(false)
+  const [search, setSearch] = useState("")
+  const [from, setFrom] = useState("")
+  const [to, setTo] = useState("")
   return (
     <div className="max-w-[1640px] mx-auto flex items-center p-4 justify-between shadow-md ">
       {/* Left side */}
@@ -38,6 +38,7 @@ export default function Navbar() {
             setSearch(e.target.value)
           }
         />
+
         <input
           className="px-2 w-[80px] sm:w-[80px] lg:w-[110px] text-center text-[#9187F4]  placeholder-[#9187F4]  focus:outline-none border-2 border-x-[#9187F4]  font-medium border-y-0"
           type="date"
@@ -129,8 +130,8 @@ export default function Navbar() {
             </li>
             <li
               onClick={() => {
-                setNav((prev) => !prev);
-                logout();
+                setNav((prev) => !prev)
+                logout()
               }}
               className="text-xl py-4 flex cursor-pointer"
             >
@@ -140,5 +141,5 @@ export default function Navbar() {
         </nav>
       </div>
     </div>
-  );
+  )
 }

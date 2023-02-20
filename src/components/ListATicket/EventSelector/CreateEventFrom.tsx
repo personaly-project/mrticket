@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { IEvent } from "@/lib/types"
 import { useCreateEvent } from "@/lib/hooks/"
 import Input from "@/components/ui/Input"
+import { BiCalendarEvent } from "react-icons/bi"
 
 interface IProps {
   onSubmit: (event: IEvent, venueID: string) => void
@@ -68,12 +69,14 @@ const CreateEventFrom: React.FC<IProps> = ({ onSubmit, venueId }) => {
   }
 
   return (
-    <div className="flex flex-col w-fit shadow rounded p-10">
-      <h2 className="text-xxl font-semibold my-2 border-b border-b-slate-200">
-        {" "}
-        Create an event{" "}
-      </h2>
-      <form className="space-y-5 text-med p-10" onSubmit={onEventSubmitted}>
+    <div className="shadow rounded-2xl p-3 ">
+      <div className="flex flex-row gap-2 items-center justify-center border-b mx-4">
+        <h3 className="text-center text-lg font-semibold my-2 ">
+          Create an event{" "}
+        </h3>
+        <BiCalendarEvent size={20} />
+      </div>
+      <form className="space-y-5 text-med p-6" onSubmit={onEventSubmitted}>
         <select
           className=" "
           value={eventType}
@@ -115,13 +118,19 @@ const CreateEventFrom: React.FC<IProps> = ({ onSubmit, venueId }) => {
           <div className="flex flex-row justify-between gap-4 pt-4">
             <button
               type="reset"
-              className="py-2 px-4 bg-lightblue rounded-md shadow text-black w-32 self-end hover:text-danger"
+              className="border-0 py-2 px-4 
+                rounded-md shadow w-32 self-end  
+                bg-purple-dark font-semibold text-white
+                hover:bg-lightblue hover:text-danger"
             >
               Reset
             </button>
             <button
               type="submit"
-              className="py-2 px-4 bg-purple-light rounded-md shadow text-black w-32 self-end hover:bg-yellow"
+              className="border-0 py-2 px-4 
+                rounded-md shadow w-32 self-end  
+                bg-purple-medium  font-semibold text-white  
+                hover:bg-yellow"
             >
               Submit
             </button>

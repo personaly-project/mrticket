@@ -54,16 +54,22 @@ const CreateTicketForm: FC<IProps> = ({ onSubmit, eventId }) => {
         value={price}
         required
       />
-      <div className="flex flex-row items-center justify-center gap-4 pt-4">
+      <div className="flex flex-row justify-between gap-4 pt-4">
         <button
           type="reset"
-          className="py-2 px-4 bg-lightblue rounded-md shadow text-black w-32 self-end hover:text-danger"
+          className="border-0 py-2 px-4 
+                rounded-md shadow w-32 self-end  
+                bg-purple-dark font-semibold text-white
+                hover:bg-lightblue hover:text-danger"
         >
           Reset
         </button>
         <button
           type="submit"
-          className="py-2 px-4 bg-purple-light rounded-md shadow text-black w-32 self-end hover:bg-yellow"
+          className="border-0 py-2 px-4 
+                rounded-md shadow w-32 self-end  
+                bg-purple-medium  font-semibold text-white  
+                hover:bg-yellow"
         >
           Submit
         </button>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Venue } from "@prisma/client"
 import { useCreateVenue } from "@/lib/hooks"
 import Input from "@/components/ui/Input"
+import { TbBuildingPavilon, TbLoader } from "react-icons/tb"
 
 interface IProps {
   onSubmit: (venue: Venue) => void
@@ -57,12 +58,14 @@ const CreateVenueForm: React.FC<IProps> = ({ onSubmit }) => {
   }, [loading])
 
   return (
-    <div className="shadow rounded">
-      <h3 className="text-center text-lg font-semibold my-2 border-b">
-        {" "}
-        Create a venue{" "}
-      </h3>
-      <form className="space-y-2 " onSubmit={onVenueSubmitted}>
+    <div className="shadow rounded-2xl p-3 ">
+      <div className="flex flex-row gap-2 items-center justify-center border-b mx-4 ">
+        <h3 className="text-center text-lg font-semibold my-2  ">
+          Create a venue{" "}
+        </h3>
+        <TbBuildingPavilon size={20} />
+      </div>
+      <form className="space-y-3 " onSubmit={onVenueSubmitted}>
         <Input
           title="Name"
           placeholder="Venue name"
@@ -106,18 +109,27 @@ const CreateVenueForm: React.FC<IProps> = ({ onSubmit }) => {
           value={placeType}
         />
         {loading ? (
-          <p> Loading </p>
+          <div className="flex flex-row gap 2">
+            <TbLoader />
+            Loading...
+          </div>
         ) : (
           <div className="flex flex-row justify-between gap-4 pt-4">
             <button
               type="reset"
-              className="py-2 px-4 rounded-md shadow w-32 self-end  bg-lightblue  text-black hover:text-danger"
+              className="border-0 py-2 px-4 
+                rounded-md shadow w-32 self-end  
+                bg-purple-dark font-semibold text-white
+                hover:bg-lightblue hover:text-danger"
             >
               Reset
             </button>
             <button
               type="submit"
-              className="py-2 px-4 rounded-md shadow w-32 self-end  bg-purple-light  text-black hover:bg-yellow"
+              className="border-0 py-2 px-4 
+                rounded-md shadow w-32 self-end  
+                bg-purple-medium  font-semibold text-white  
+                hover:bg-yellow"
             >
               Submit
             </button>

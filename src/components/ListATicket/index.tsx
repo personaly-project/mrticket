@@ -114,7 +114,7 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
   return (
     <>
       <div
-        className=" bg-purple-dark font-anekbangla"
+        className=" bg-purple-dark font-latoSans"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -132,15 +132,20 @@ const ListATicket: React.FC<IProps> = ({ venues }) => {
             overflow: "auto",
           }}
         >
-          <h1
-            className="
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl">
+              <h1
+                className="
               font-extrabold
               text-3xl
               text-purple-dark"
-          >
-            {" "}
-            Sell a Ticket{" "}
-          </h1>
+              >
+                {" "}
+                Sell a Ticket{" "}
+              </h1>
+            </div>
+          </div>
+
           <NavigationCircles
             currentStepIndex={stepNumber}
             numberOfSteps={steps.length}

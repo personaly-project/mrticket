@@ -17,7 +17,7 @@ export default function Navbar() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   return (
-    <div className="max-w-[1640px] mx-auto flex items-center p-4 justify-between shadow-md  ">
+    <div className="max-w-[1640px] mx-auto flex items-center p-4 justify-between shadow-md ">
       {/* Left side */}
       <div className="flex items-center">
         <Link href="/">

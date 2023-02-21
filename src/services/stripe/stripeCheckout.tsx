@@ -1,18 +1,18 @@
 /** @format */
 
-import Head from "next/head";
-import Image from "next/image";
-import { loadStripe } from "@stripe/stripe-js";
-import { useEffect, useState } from "react";
 import { ITicket } from "@/lib/types";
-import { useRouter } from "next/router";
-
 import {
+  CardElement,
   Elements,
   useElements,
   useStripe,
-  CardElement,
 } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import Head from "next/head";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { IoIosLock } from "react-icons/io";
 
 interface IPageProps {
   ticketId: string | undefined;
@@ -59,7 +59,7 @@ export const CheckoutForm: React.FC<checkoutProps> = ({
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     const getPaymentData = async () => {
@@ -144,104 +144,77 @@ export const CheckoutForm: React.FC<checkoutProps> = ({
       // The payment has been processed!
       confirmCardPayment.paymentIntent.status;
 
-      return router.push(`/ticket/${ticketid}/success`)
+      return router.push(`/ticket/${ticketid}/success`);
     }
   };
 
   return (
-    <>
-      {paymentIntent && (
-        <div
-          style={{
-            marginTop: "100px",
-            padding: "60px",
-            display: "flex",
-            flexDirection: "column",
-            width: "500px",
-            margin: "0 auto",
-            border: "1px solid black",
-            gap: "20px",
-            height: "max-content",
-          }}
-        >
-          <p>Amount: ${paymentIntent.amount}</p>
-          <p
-            style={{
-              wordBreak: "break-all",
-
-              width: "500px",
-            }}
+    <div className="min-h-screen bg-purple-dark text-white flex flex-row justify-center">
+      {/* container */}
+      <div className="flex flex-row justify-center m-auto  min-w-full gap-1">
+        {/* payment box */}
+        <div className="bg-white border-2 border-white rounded-xl w-96">
+          <div className="text-2xl font-light text-purple-dark text-center p-6">
+            Finish your payment
+          </div>
+          <form
+            onSubmit={handleSubmit}
+            className="mt-4 p-10 flex flex-col m-auto gap-6"
           >
-            Payment Method: {paymentIntent.payment_method_types}
-          </p>
-        </div>
-      )}
-      <form
-        style={{
-          marginTop: "100px",
-          padding: "60px",
-          display: "flex",
-          flexDirection: "column",
-          width: "500px",
-          margin: "0 auto",
-          border: "1px solid black",
-
-          gap: "20px",
-          height: "max-content",
-        }}
-        onSubmit={handleSubmit}
-      >
-        <input
-          type="email"
-          placeholder="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{
-            padding: "10px",
-            border: "1px solid black",
-            fontSize: "16px",
-            borderRadius: "5px",
-          }}
-        />
-        <CardElement
-          options={{
-            style: {
-              base: {
-                padding: "10px",
-                fontSize: "16px",
-
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
+            {" "}
+            <input
+              type="email"
+              placeholder="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className=" p-1 border-b-2 border-[#e5e5e5]  text-black"
+            />
+            <CardElement
+              options={{
+                style: {
+                  base: {
+                    padding: "6rem",
+                    fontSize: "16px",
+                    color: "#424770",
+                    "::placeholder": {
+                      color: "#aab7c4",
+                    },
+                  },
+                  invalid: {
+                    color: "#9e2146",
+                  },
                 },
-              },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-        />
-        <button
-          type="submit"
-          style={{
-            backgroundColor: "blue",
-            color: "white",
-            padding: "10px",
-          }}
-          disabled={!stripe}
-        >
-          Pay
-        </button>
-        <Image
-          width={100}
-          height={100}
-          src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg"
-          alt="visa"
-          style={{
-            objectFit: "contain",
-          }}
-        />
-      </form>
-    </>
+              }}
+            />
+            <button
+              type="submit"
+              className="bg-purple-medium text-white p-3 border-0 rounded-full text-lg w-100% flex flex-row items-center gap-1 justify-center"
+              disabled={!stripe}
+            >
+              <IoIosLock size={20} />
+              Pay
+            </button>
+            <Image
+              width={100}
+              height={100}
+              src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg"
+              alt="visa"
+            />
+          </form>
+        </div>
+
+        {/* total box */}
+        <div className="bg-white border-0 rounded-xl text-start text-black p-8 h-32 w-42 flex flex-col gap-4 justify-center">
+          <div className="flex flex-col justify-center text-start">
+            <h2 className="font-bold text-xs text-black ">TOTAL</h2>
+            <div className="font-light text-3xl text-purple-medium">
+              <p className="font-light text-3xl">
+                $ {paymentIntent?.amount},00
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -55,7 +55,7 @@ export default function Results({
   }, [allEvents, allTickets]);
 
   return (
-    <div className="h-100%">
+    <div className="h-100% p-10">
       {/* small banner */}
       <div className="flex flex-col text-center place-items-center mt-10 mb-6 gap-3 ">
         <Image src={logoWhite} alt="" width={90} />

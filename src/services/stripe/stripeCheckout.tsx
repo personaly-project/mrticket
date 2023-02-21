@@ -208,7 +208,9 @@ export const CheckoutForm: React.FC<checkoutProps> = ({
           <div className="flex flex-col justify-center text-start">
             <h2 className="font-bold text-xs text-black ">TOTAL</h2>
             <div className="font-light text-3xl text-purple-medium">
-              <p className="font-light text-3xl">$ {paymentIntent.amount},00</p>
+              <p className="font-light text-3xl">
+                $ {paymentIntent?.amount},00
+              </p>
             </div>
           </div>
         </div>
